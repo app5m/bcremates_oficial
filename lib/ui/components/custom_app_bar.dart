@@ -29,15 +29,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 10,
       title: Row(
         children: [
-          Visibility(
-              visible: isVisibleIcon,
-              child: Container(
-                margin: EdgeInsets.only(left: Dimens.minMarginApplication),
-                child: Image.asset(
-                  'images/main_logo_1.png',
-                  height: AppBar().preferredSize.height * 0.60,
-                ),
-              )),
+          // Visibility(
+          //     visible: isVisibleIcon,
+          //     child: Container(
+          //       margin: EdgeInsets.only(left: Dimens.minMarginApplication),
+          //       child: Image.asset(
+          //         'images/main_logo_1.png',
+          //         height: AppBar().preferredSize.height * 0.60,
+          //       ),
+          //     )),
           Container(
             margin: EdgeInsets.only(left: Dimens.minMarginApplication),
             child: Text(
@@ -60,8 +60,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           margin: EdgeInsets.only(left: 10),
           child: IconButton(
             icon: Icon(
-              Icons.arrow_back_outlined,
-              color: OwnerColors.colorPrimary,
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black54,
               size: 20,
             ),
             onPressed: () {

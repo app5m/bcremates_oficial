@@ -16,7 +16,6 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 2), () async {
-
       await Preferences.init();
 
       if (await Preferences.getLogin()) {
@@ -30,66 +29,25 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Align( alignment: Alignment.topRight ,child:
-             Container(
-                    height: MediaQuery.of(context).size.height *
-                        0.30,
-                    width: MediaQuery.of(context).size.height *
-                        0.15,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(MediaQuery.of(context).size.height *
-                          0.30), bottomLeft: Radius.circular(MediaQuery.of(context).size.height *
-                          0.30)
-                      ),
-                      color: OwnerColors.splashCircleColor
-                      // gradient: LinearGradient(
-                      //   begin: Alignment.topRight,
-                      //   end: Alignment.bottomRight,
-                      //   colors: [
-                      //     Colors.purple,
-                      //     Colors.pink,
-                      //     Colors.orange,
-                      //   ],
-                      // ),
-                    ),
-                  )),
-              Expanded(child:
-              Center(
-                child: Image.asset(
-                  'images/main_logo_1.png',
-                  height: 60,
-                ),
-              )),
-              Align( alignment: Alignment.topLeft ,child:
-              Container(
-                height: MediaQuery.of(context).size.height *
-                    0.30,
-                width: MediaQuery.of(context).size.height *
-                    0.15,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(MediaQuery.of(context).size.height *
-                        0.30), bottomRight: Radius.circular(MediaQuery.of(context).size.height *
-                        0.30)
-                    ),
-                    color: OwnerColors.splashCircleColor
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.topRight,
-                  //   end: Alignment.bottomRight,
-                  //   colors: [
-                  //     Colors.purple,
-                  //     Colors.pink,
-                  //     Colors.orange,
-                  //   ],
-                  // ),
-                ),
-              )),
-            ],
-          )),
+      body: Stack(fit: StackFit.expand, children: [
+        Expanded(
+          child: Image.asset(
+            'images/bg_splash.png',
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'images/main_logo_1.png',
+              height: 90,
+            ),
+            SizedBox(height: 120)
+          ],
+        )
+      ]),
     );
   }
 }
