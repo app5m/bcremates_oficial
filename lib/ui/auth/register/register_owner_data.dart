@@ -180,7 +180,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: CustomAppBar(isVisibleIcon: true, isVisibleBackButton: true),
+      // appBar: CustomAppBar(isVisibleIcon: true, isVisibleBackButton: true),
       body: Stack(fit: StackFit.expand, children: [
         Expanded(
           child: Image.asset(
@@ -188,8 +188,8 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
             fit: BoxFit.fitWidth,
           ),
         ),
-        Expanded(
-          child: Column(
+    Container(
+    child: SafeArea( child: Column(
             children: [
               Container(
                   margin: EdgeInsets.all(Dimens.marginApplication),
@@ -223,7 +223,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                   child: PageView.builder(
                 itemCount: 2,
                 controller: _pageController,
-                physics: NeverScrollableScrollPhysics(),
+                // physics: NeverScrollableScrollPhysics(),
                 onPageChanged: (index) {
                   setState(() {
                     _pageIndex = index;
@@ -680,7 +680,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                       2,
                       (index) => DotIndicator(
                         isActive: index == _pageIndex,
-                        color: Colors.white,
+                        color: OwnerColors.colorPrimary,
                       ),
                     ),
                   ],
@@ -764,22 +764,24 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black54,
                           fontSize: Dimens.textSize5,
                           fontFamily: 'Inter',
                         ),
                         children: <TextSpan>[
                           TextSpan(text: 'Já possui uma conta? '),
                           TextSpan(
-                              text: 'Entre aqui',
+                              text: 'Faça login',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: Dimens.textSize5,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.bold),
+                                color: OwnerColors.colorPrimary,
+                                fontSize: Dimens.textSize5,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushReplacementNamed(context, '/ui/login');
+                                  Navigator.pushNamed(context, "/ui/login");
                                 }),
                         ],
                       ),
@@ -787,7 +789,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                   ]))
             ],
           ),
-        ),
+        )),
       ]),
     );
   }

@@ -94,7 +94,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: CustomAppBar(isVisibleIcon: true),
         body: Stack(fit: StackFit.expand, children: [
           Expanded(
             child: Image.asset(
@@ -137,8 +136,8 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 32),
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(
-                          bottom: Dimens.minMarginApplication),
+                      margin:
+                          EdgeInsets.only(bottom: Dimens.minMarginApplication),
                       child: Text(
                         "E-mail",
                         textAlign: TextAlign.start,
@@ -154,24 +153,23 @@ class _LoginState extends State<Login> {
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: OwnerColors.colorPrimary,
-                              width: 1.5),
+                              color: OwnerColors.colorPrimary, width: 1.5),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.grey, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         hintText: 'exemplo@email.com',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              Dimens.radiusApplication),
+                          borderRadius:
+                              BorderRadius.circular(Dimens.radiusApplication),
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsets.all(
-                            Dimens.textFieldPaddingApplication),
+                        contentPadding:
+                            EdgeInsets.all(Dimens.textFieldPaddingApplication),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       style: TextStyle(
@@ -182,8 +180,8 @@ class _LoginState extends State<Login> {
                     SizedBox(height: Dimens.marginApplication),
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(
-                          bottom: Dimens.minMarginApplication),
+                      margin:
+                          EdgeInsets.only(bottom: Dimens.minMarginApplication),
                       child: Text(
                         "Senha",
                         textAlign: TextAlign.start,
@@ -252,14 +250,16 @@ class _LoginState extends State<Login> {
                               fontFamily: 'Inter',
                             ),
                             children: <TextSpan>[
-                              TextSpan(text: 'Esqueceu sua senha? '),
+                              TextSpan(text: ''),
                               TextSpan(
-                                  text: 'Entre aqui',
+                                  text: 'Esqueci minha senha',
                                   style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: Dimens.textSize5,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.bold),
+                                    color: OwnerColors.colorPrimary,
+                                    fontSize: Dimens.textSize5,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.pushNamed(
@@ -269,13 +269,13 @@ class _LoginState extends State<Login> {
                           ),
                         )),
                     SizedBox(height: 48),
+                    Spacer(),
                     Container(
                       margin: EdgeInsets.only(top: Dimens.marginApplication),
                       width: double.infinity,
                       child: ElevatedButton(
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
-
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(builder: (context) => Home()),
@@ -308,7 +308,6 @@ class _LoginState extends State<Login> {
                                 style: Styles().styleDefaultTextButton),
                       ),
                     ),
-                    Spacer(),
                     SizedBox(height: Dimens.marginApplication),
                     RichText(
                       text: TextSpan(
@@ -318,17 +317,19 @@ class _LoginState extends State<Login> {
                           fontFamily: 'Inter',
                         ),
                         children: <TextSpan>[
-                          TextSpan(text: 'Ainda não possui uma conta? '),
+                          TextSpan(text: 'Não possui uma conta? '),
                           TextSpan(
-                              text: 'Entre aqui',
+                              text: 'Cadastre-se',
                               style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: Dimens.textSize5,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.bold),
+                                color: OwnerColors.colorPrimary,
+                                fontSize: Dimens.textSize5,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushNamed(context, "/ui/register");
+                                  Navigator.pop(context);
                                 }),
                         ],
                       ),
