@@ -80,7 +80,7 @@ void main() async {
       colorScheme: ColorScheme.fromSwatch(primarySwatch: Useful().getMaterialColor(OwnerColors.colorPrimary)),
     ),
     debugShowCheckedModeBanner: false,
-    title: "IControl",
+    title: "BC Remates",
     initialRoute:'/ui/splash',
     color: OwnerColors.colorPrimary,
     routes: {

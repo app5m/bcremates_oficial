@@ -20,10 +20,26 @@ class Styles {
     backgroundColor: MaterialStateProperty.all(Colors.black),
   );
 
+  var styleOutlinedButton = ButtonStyle(
+    padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.all(Dimens.buttonPaddingApplication)),
+    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.minRadiusApplication))),
+      side: MaterialStateProperty.all(BorderSide(
+          color: Colors.red,
+          width: 1.0,
+          style: BorderStyle.solid)),
+    backgroundColor: MaterialStateProperty.all(Colors.white),
+  );
+
   var styleDefaultTextButton = TextStyle(
       fontFamily: 'Inter',
       fontSize: Dimens.textSize7,
       color: Colors.white);
+
+  var styleOutlinedTextButton = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: Dimens.textSize6,
+      color: Colors.red);
 
   var styleTitleText = TextStyle(
     fontFamily: 'Inter',

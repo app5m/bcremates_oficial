@@ -94,94 +94,157 @@ class _MainMenu extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            CustomAppBar(title: "Perfil", isVisibleBackButton: false),
+        appBar: CustomAppBar(title: "Perfil", isVisibleBackButton: false),
         resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-          child: Container(
+        body: SafeArea(
+            child: Container(
+                child: CustomScrollView(slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: Column(
               children: [
                 // Expanded(
-                FutureBuilder<List<Map<String, dynamic>>>(
+/*                FutureBuilder<List<Map<String, dynamic>>>(
                   future: loadProfileRequest(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final response = User.fromJson(snapshot.data![0]);
 
-                      return Material(
-                          elevation: Dimens.elevationApplication,
-                          child: Container(
-                            padding: EdgeInsets.all(Dimens.paddingApplication),
-                            color: OwnerColors.lightGrey,
-                            child: Row(
+                      return */
+                Material(
+                    elevation: Dimens.elevationApplication,
+                    child: Container(
+                      padding: EdgeInsets.all(Dimens.maxPaddingApplication),
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                right: Dimens.marginApplication),
+                            child: ClipOval(
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(42),
+                                // Image radius
+                                child: Image.network(
+                                    ApplicationConstant
+                                        .URL_AVATAR /*+
+                                              response.avatar.toString()*/
+                                    ,
+                                    fit: BoxFit.cover,
+                                    /*fit: BoxFit.cover*/
+                                    errorBuilder:
+                                        (context, exception, stackTrack) =>
+                                            Image.asset(
+                                              'images/person.jpg',
+                                            )),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: Dimens.marginApplication),
-                                  child: ClipOval(
-                                    child: SizedBox.fromSize(
-                                      size: Size.fromRadius(32), // Image radius
-                                      child: Image.network(
-                                          ApplicationConstant.URL_AVATAR +
-                                              response.avatar.toString(),
-                                          fit: BoxFit.cover,
-                                          /*fit: BoxFit.cover*/
-                                          errorBuilder: (context, exception,
-                                                  stackTrack) =>
-                                              Image.asset(
-                                                'images/main_logo_1.png',
-                                              )),
-                                    ),
+                                Text(
+                                  /*response.nome*/
+                                  "Nome teste",
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: Dimens.textSize6,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        response.nome,
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: Dimens.textSize6,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                          height: Dimens.minMarginApplication),
-                                      Text(
-                                        response.email,
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: Dimens.textSize5,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
+                                SizedBox(height: Dimens.minMarginApplication),
+                                Text(
+                                  /*response.email*/
+                                  "email@email.com",
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: Dimens.textSize5,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward_ios,
-                                      color: Colors.black38),
-                                  onPressed: () => {
-                                    Navigator.pushNamed(context, "/ui/profile")
-                                  },
-                                )
                               ],
                             ),
-                          ));
+                          ),
+                          IconButton(
+                            icon: Image.asset('images/edit.png'),
+                            onPressed: () =>
+                                {Navigator.pushNamed(context, "/ui/profile")},
+                          )
+                        ],
+                      ),
+                    )),
+                /*;
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     }
                     return Center(child: CircularProgressIndicator());
                   },
-                ),
-                Styles().div_horizontal,
+                ),*/
+
+                // Styles().div_horizontal,
 
                 InkWell(
                     child: Container(
-                      padding: EdgeInsets.all(Dimens.maxPaddingApplication),
+                      padding: EdgeInsets.all(Dimens.paddingApplication),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Suporte",
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: Dimens.textSize5,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Image.asset('images/zap.png', height: 22, width: 22,),
+
+                        ],
+                      ),
+                    ),
+                    onTap: () {}),
+
+                InkWell(
+                    child: Container(
+                      padding: EdgeInsets.all(Dimens.paddingApplication),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Dúvidas frequentes",
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: Dimens.textSize5,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            size: 20,
+                            Icons.arrow_forward_ios,
+                            color: OwnerColors.colorPrimary,
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {}),
+
+                InkWell(
+                    child: Container(
+                      padding: EdgeInsets.all(Dimens.paddingApplication),
                       child: Row(
                         children: [
                           Expanded(
@@ -193,22 +256,17 @@ class _MainMenu extends State<MainMenu> {
                                   style: TextStyle(
                                     fontFamily: 'Inter',
                                     fontSize: Dimens.textSize5,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: Dimens.minMarginApplication),
-                                Text(
-                                  "Desative completamente todas as funções da sua conta",
-                                  style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: Dimens.textSize4,
                                     color: Colors.black,
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          Icon(
+                            size: 20,
+                            Icons.arrow_forward_ios,
+                            color: OwnerColors.colorPrimary,
+                          )
                         ],
                       ),
                     ),
@@ -240,42 +298,14 @@ class _MainMenu extends State<MainMenu> {
                       );
                     }),
 
-                Styles().div_horizontal,
+                Spacer(),
 
-                InkWell(
-                    child: Container(
-                      padding: EdgeInsets.all(Dimens.maxPaddingApplication),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Sair",
-                                  style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: Dimens.textSize5,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: Dimens.minMarginApplication),
-                                Text(
-                                  "Deslogar desta conta",
-                                  style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: Dimens.textSize4,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
+                Container(
+                  margin: EdgeInsets.all(Dimens.marginApplication),
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    style: Styles().styleOutlinedButton,
+                    onPressed: () async {
                       showModalBottomSheet<dynamic>(
                         isScrollControlled: true,
                         context: context,
@@ -310,12 +340,16 @@ class _MainMenu extends State<MainMenu> {
                                   }));
                         },
                       );
-                    }),
-
-                Styles().div_horizontal,
+                    },
+                    child: Text(
+                      "Sair",
+                      style: Styles().styleOutlinedTextButton,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-        ));
+        ]))));
   }
 }
