@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:bc_remates/ui/auth/register/success.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -274,6 +275,7 @@ class _LoginState extends State<Login> {
                       child: ElevatedButton(
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
+
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(builder: (context) => Home()),

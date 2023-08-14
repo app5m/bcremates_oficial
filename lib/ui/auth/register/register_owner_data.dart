@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:bc_remates/ui/auth/register/success.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -695,6 +696,12 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                       child: ElevatedButton(
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
+
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => SucessRegister()),
+                              ModalRoute.withName("/ui/success"));
+
                           var _document = "";
                           var _typePerson = "";
                           var _socialReason = "";
