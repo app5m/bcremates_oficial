@@ -81,15 +81,15 @@ class BottomNavBar extends StatelessWidget {
     var bottomNavigationBarItems = <BottomNavigationBarItem>[];
 
     bottomNavigationBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.home_outlined),
+      icon: Image.asset('images/house.png', height: 24, width: 24,),
       label: Strings.home,
     ));
     bottomNavigationBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.list_alt),
+      icon: Image.asset('images/receipt_item.png', height: 24, width: 24,),
       label: Strings.orders,
     ));
     bottomNavigationBarItems.add(BottomNavigationBarItem(
-      icon: Icon(Icons.menu),
+      icon: Image.asset('images/profile_circle.png', height: 24, width: 24,),
       label: Strings.menu,
     ));
     return BottomNavigationBar(
@@ -99,7 +99,7 @@ class BottomNavBar extends StatelessWidget {
         onTap: onTap,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        selectedItemColor: OwnerColors.colorPrimary,
+        selectedItemColor: OwnerColors.colorPrimaryDark,
         unselectedItemColor: OwnerColors.colorAccent,
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -107,16 +107,11 @@ class BottomNavBar extends StatelessWidget {
   }
 }
 
-enum SampleItem { itemOne, itemTwo, itemThree }
-
-enum SampleItemTask { itemDetails, itemDelete }
-
 class _ContainerHomeState extends State<ContainerHome> {
   bool _isLoading = false;
   bool _isLoadingDialog = false;
 
   int _pageIndex = 0;
-  SampleItem? selectedMenu;
 
   late Validator validator;
   final postRequest = PostRequest();

@@ -17,7 +17,7 @@ class Styles {
   var styleAlternativeButton = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(
         EdgeInsets.all(Dimens.buttonPaddingApplication)),
-    backgroundColor: MaterialStateProperty.all(Colors.black),
+    backgroundColor: MaterialStateProperty.all(OwnerColors.colorAccent),
   );
 
   var styleOutlinedButton = ButtonStyle(
@@ -33,7 +33,7 @@ class Styles {
 
   var styleDefaultTextButton = TextStyle(
       fontFamily: 'Inter',
-      fontSize: Dimens.textSize7,
+      fontSize: Dimens.textSize6,
       color: Colors.white);
 
   var styleOutlinedTextButton = TextStyle(

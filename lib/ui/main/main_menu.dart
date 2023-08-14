@@ -341,10 +341,14 @@ class _MainMenu extends State<MainMenu> {
                         },
                       );
                     },
-                    child: Text(
-                      "Sair",
-                      style: Styles().styleOutlinedTextButton,
-                    ),
+                    child: Row (mainAxisAlignment: MainAxisAlignment.center ,children: [
+                      Icon(Icons.login_outlined, color: Colors.red),
+                      SizedBox(width: 10),
+                      Text(
+                        "Sair",
+                        style: Styles().styleOutlinedTextButton,
+                      ),
+                    ],)
                   ),
                 ),
               ],
