@@ -23,6 +23,7 @@ import '../../web_service/service_response.dart';
 import '../components/alert_dialog_generic.dart';
 import '../components/custom_app_bar.dart';
 import '../components/dot_indicator.dart';
+import 'bids.dart';
 import 'main_menu.dart';
 
 class Home extends StatefulWidget {
@@ -47,7 +48,7 @@ class _HomeState extends State<Home> {
     var widgetItems = <Widget>[];
 
     widgetItems.add(ContainerHome());
-    widgetItems.add(ContainerHome());
+    widgetItems.add(Bids());
     widgetItems.add(MainMenu());
 
     List<Widget> _widgetOptions = widgetItems;
@@ -67,7 +68,7 @@ class ContainerHome extends StatefulWidget {
   State<ContainerHome> createState() => _ContainerHomeState();
 }
 
-GlobalKey globalKey = new GlobalKey(debugLabel: 'btm_app_bar');
+GlobalKey globalKey = GlobalKey(debugLabel: 'btm_app_bar');
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -99,9 +100,9 @@ class BottomNavBar extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         selectedItemColor: OwnerColors.colorPrimary,
-        unselectedItemColor: OwnerColors.darkGrey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
+        unselectedItemColor: OwnerColors.colorAccent,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: bottomNavigationBarItems);
   }
 }
@@ -225,10 +226,10 @@ class _ContainerHomeState extends State<ContainerHome> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: CustomAppBar(
-          isVisibleIcon: true,
           isVisibleBackButton: false,
           isVisibleNotificationsButton: true,
           // isVisibleTaskAddButton: true,
+          title: "Início",
         ),
         body: Container(
             height: double.infinity,

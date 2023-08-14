@@ -95,7 +95,7 @@ class _MainMenu extends State<MainMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            CustomAppBar(title: "Menu Principal", isVisibleBackButton: false),
+            CustomAppBar(title: "Perfil", isVisibleBackButton: false),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(

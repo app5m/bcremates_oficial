@@ -3,9 +3,9 @@ import 'dart:ui';
 abstract class OwnerColors {
 
 
-  static const Color colorPrimary = Color(0xFFFF9900);
-  static const Color colorPrimaryDark = Color(0xFF3C3C3C);
-  static const Color colorAccent = Color(0xFFFFFFFF);
+  static const Color colorPrimary = Color(0xFF016136);
+  static const Color colorPrimaryDark = Color(0xFFF5884E);
+  static const Color colorAccent = Color(0xFFA2A2A2);
 
 
   static const Color darkGrey = Color(0xFF969696);
@@ -16,8 +16,6 @@ abstract class OwnerColors {
   static const Color gradientSecondaryColor = Color(0xFFFCA11A);
   static const Color gradientThirdColor = Color(0xFFFCAB33);
 
-
-  static const Color splashCircleColor = Color(0x66F39237);
   static const Color transparent = Color(0x0);
 
 }
