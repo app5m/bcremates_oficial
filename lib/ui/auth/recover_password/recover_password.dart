@@ -77,79 +77,103 @@ class _RecoverPasswordState extends State<RecoverPassword> {
       throw Exception('HTTP_ERROR: $e');
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: CustomAppBar(
-          isVisibleBackButton: true,
-          isVisibleIcon: true,
-        ),
-        body: Container(
-            margin: EdgeInsets.all(Dimens.minMarginApplication),
-            child: Column(
-              children: [ Container(
-                        padding: EdgeInsets.all(Dimens.paddingApplication),
-                        child: Column(children: [
-                          Text(
-                            "É necessário inserir seu e-mail para poder iníciar o processo de recuperação de senha.",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: Dimens.textSize5,
-                              fontFamily: 'Inter',
-                            ),
-                          ),
-                          SizedBox(height: Dimens.marginApplication),
-                          TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: OwnerColors.colorPrimary,
-                                    width: 1.5),
+        appBar: CustomAppBar(isVisibleBackButton: true),
+        body: Stack(fit: StackFit.expand, children: [
+          Expanded(
+            child: Image.asset(
+              'images/bg_main.png',
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          Container(
+              child: SafeArea(
+                  child: Container(
+                    margin: EdgeInsets.all(Dimens.marginApplication),
+                    child: CustomScrollView(slivers: [
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              child: Text(
+                                "Recuperar senha",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: Dimens.textSize8,
+                                  color: Colors.black87,
+                                ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                              ),
-                              hintText: 'E-mail',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                    Dimens.radiusApplication),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: EdgeInsets.all(
-                                  Dimens.textFieldPaddingApplication),
                             ),
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: Dimens.textSize5,
+                            SizedBox(height: Dimens.minMarginApplication),
+                            Container(
+                              width: double.infinity,
+                              child: Text(
+                                "Digite seu e-mail para iniciar o processo de recuperação." /*? "Insira seus dados pessoais." : "Cadastre seu e-mail e senha."*/,
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: Dimens.textSize5,
+                                  color: Colors.black54,
+                                ),
+                              ),
                             ),
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(
-                                  top: Dimens.marginApplication),
+                            SizedBox(height: 32),
+                            Container(
+                              width: double.infinity,
+                              margin:
+                              EdgeInsets.only(bottom: Dimens.minMarginApplication),
+                              child: Text(
+                                "E-mail",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: Dimens.textSize5,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            TextField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: OwnerColors.colorPrimary, width: 1.5),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                                ),
+                                hintText: 'exemplo@email.com',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(Dimens.radiusApplication),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding:
+                                EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: Dimens.textSize5,
+                              ),
+                            ),
+                            SizedBox(height: 48),
+                            Spacer(),
+                            Container(
+                              margin: EdgeInsets.only(top: Dimens.marginApplication),
                               width: double.infinity,
                               child: ElevatedButton(
                                 style: Styles().styleDefaultButton,
                                 onPressed: () async {
-                                  if (!validator.validateEmail(
-                                      emailController.text)) return;
 
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-
-                                  await recoverPasswordByEmail(emailController.text);
-
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
                                 },
                                 child: (_isLoading)
                                     ? const SizedBox(
@@ -161,12 +185,16 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                     ))
                                     : Text("Enviar",
                                     style: Styles().styleDefaultTextButton),
-                              )),
-                        ]))
-              ],
-            ),
-          ),
+                              ),
+                            ),
+                            SizedBox(height: Dimens.marginApplication),
 
-    );
+                          ],
+                        ),
+                      ),
+                    ]),
+                  )))
+        ]));
   }
 }
+
