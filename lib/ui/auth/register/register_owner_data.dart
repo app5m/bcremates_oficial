@@ -670,22 +670,21 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                   }
                 },
               )),
-            Padding(
-                  padding: EdgeInsets.only(bottom: Dimens.paddingApplication),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ...List.generate(
-                        2,
-                            (index) => DotIndicator(
-                          isActive: index == _pageIndex,
-                          color: Colors.white,
-                        ),
+              Padding(
+                padding: EdgeInsets.only(bottom: Dimens.paddingApplication),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ...List.generate(
+                      2,
+                      (index) => DotIndicator(
+                        isActive: index == _pageIndex,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-
+              ),
               SizedBox(height: Dimens.marginApplication),
               Container(
                   margin: EdgeInsets.all(Dimens.marginApplication),
@@ -773,7 +772,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                   fontWeight: FontWeight.bold),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.of(context).pop();
+                                  Navigator.pushReplacementNamed(context, '/ui/login');
                                 }),
                         ],
                       ),
