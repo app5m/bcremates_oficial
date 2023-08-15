@@ -20,10 +20,10 @@ class Styles {
     backgroundColor: MaterialStateProperty.all(OwnerColors.colorAccent),
   );
 
-  var styleOutlinedButton = ButtonStyle(
+  var styleOutlinedRedButton = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(
         EdgeInsets.all(Dimens.buttonPaddingApplication)),
-    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.minRadiusApplication))),
+    // shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.minRadiusApplication))),
       side: MaterialStateProperty.all(BorderSide(
           color: Colors.red,
           width: 1.0,
@@ -31,12 +31,28 @@ class Styles {
     backgroundColor: MaterialStateProperty.all(Colors.white),
   );
 
+  var styleOutlinedButton = ButtonStyle(
+    padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.all(Dimens.buttonPaddingApplication)),
+    // shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.minRadiusApplication))),
+    side: MaterialStateProperty.all(BorderSide(
+        color: Colors.black87,
+        width: 1.0,
+        style: BorderStyle.solid)),
+    backgroundColor: MaterialStateProperty.all(Colors.white),
+  );
+
+  var styleBlackTextButton = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: Dimens.textSize6,
+      color: Colors.black87);
+
   var styleDefaultTextButton = TextStyle(
       fontFamily: 'Inter',
       fontSize: Dimens.textSize6,
       color: Colors.white);
 
-  var styleOutlinedTextButton = TextStyle(
+  var styleOutlinedRedTextButton = TextStyle(
       fontFamily: 'Inter',
       fontSize: Dimens.textSize6,
       color: Colors.red);

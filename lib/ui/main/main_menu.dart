@@ -304,7 +304,7 @@ class _MainMenu extends State<MainMenu> {
                   margin: EdgeInsets.all(Dimens.marginApplication),
                   width: double.infinity,
                   child: OutlinedButton(
-                    style: Styles().styleOutlinedButton,
+                    style: Styles().styleOutlinedRedButton,
                     onPressed: () async {
                       showModalBottomSheet<dynamic>(
                         isScrollControlled: true,
@@ -346,7 +346,7 @@ class _MainMenu extends State<MainMenu> {
                       SizedBox(width: 10),
                       Text(
                         "Sair",
-                        style: Styles().styleOutlinedTextButton,
+                        style: Styles().styleOutlinedRedTextButton,
                       ),
                     ],)
                   ),

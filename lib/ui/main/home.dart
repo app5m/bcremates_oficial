@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bc_remates/ui/components/alert_dialog_filter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -304,7 +305,28 @@ class _ContainerHomeState extends State<ContainerHome> {
                                     endIndent: 6,
                                   ),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        final result =
+                                            await showModalBottomSheet<dynamic>(
+                                                isScrollControlled: true,
+                                                context: context,
+                                                shape: Styles()
+                                                    .styleShapeBottomSheet,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return FilterAlertDialog();
+                                                });
+                                        // if (result == true) {
+                                        //   Navigator.popUntil(
+                                        //     context,
+                                        //     ModalRoute.withName('/ui/home'),
+                                        //   );
+                                        //   Navigator.pushNamed(
+                                        //       context, "/ui/user_addresses");
+                                        // }
+                                      },
                                       icon: Image.asset('images/filter.png',
                                           width: 24, height: 24)),
                                 ],
@@ -360,7 +382,9 @@ class _ContainerHomeState extends State<ContainerHome> {
                       ],
                     ),
                   ),
-                  SizedBox(height: Dimens.marginApplication,),
+                  SizedBox(
+                    height: Dimens.marginApplication,
+                  ),
                   FutureBuilder<List<Map<String, dynamic>>>(
                       future: listProducts(),
                       builder: (context, snapshot) {
@@ -380,26 +404,34 @@ class _ContainerHomeState extends State<ContainerHome> {
                                       //     })
                                     },
                                 child: Container(
-                                  margin: EdgeInsets.all(Dimens.minMarginApplication),
+                                    margin: EdgeInsets.all(
+                                        Dimens.minMarginApplication),
                                     decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1, color: OwnerColors.lightGrey),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(36)),
-                                ),
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.center ,children: [
-                                  Text(
-                                    "Teste",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      fontSize: Dimens.textSize5,
+                                      border: Border.all(
+                                          width: 1,
+                                          color: OwnerColors.lightGrey),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(36)),
                                     ),
-                                  ),
-                                    SizedBox(width: Dimens.minMarginApplication,),
-                                    Image.asset('images/cow.png', width: 24, height: 24)
-                                ]))));
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Teste",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: Dimens.textSize5,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: Dimens.minMarginApplication,
+                                          ),
+                                          Image.asset('images/cow.png',
+                                              width: 24, height: 24)
+                                        ]))));
                           }
 
                           return Container(
