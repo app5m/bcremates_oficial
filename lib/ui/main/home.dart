@@ -259,66 +259,78 @@ class _ContainerHomeState extends State<ContainerHome> {
                 onRefresh: _pullRefresh,
                 child: SingleChildScrollView(
                     child: Column(children: [
-                  Container(
-                      margin: EdgeInsets.all(Dimens.marginApplication),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: OwnerColors.colorPrimary,
-                                      width: 1.5),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey, width: 1.0),
-                                ),
-                                hintText: 'Pesquisar...',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      Dimens.radiusApplication),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.all(
-                                    Dimens.textFieldPaddingApplication),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1, color: OwnerColors.lightGrey),
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    Dimens.minRadiusApplication)),
                               ),
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: Dimens.textSize5,
-                              ),
+                              margin: EdgeInsets.all(Dimens.marginApplication),
+                              child: IntrinsicHeight(
+                                  child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset('images/search.png',
+                                          width: 24, height: 24)),
+                                  Expanded(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText: 'Pesquisar...',
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        filled: false,
+                                        border: InputBorder.none,
+                                        fillColor: Colors.white,
+                                        contentPadding: EdgeInsets.all(
+                                            Dimens.textFieldPaddingApplication),
+                                      ),
+                                      keyboardType: TextInputType.text,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: Dimens.textSize5,
+                                      ),
+                                    ),
+                                  ),
+                                  VerticalDivider(
+                                    color: Colors.black12,
+                                    width: 2,
+                                    thickness: 1.5,
+                                    indent: 6,
+                                    endIndent: 6,
+                                  ),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset('images/filter.png',
+                                          width: 24, height: 24)),
+                                ],
+                              )))),
+                      Expanded(
+                          flex: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1, color: OwnerColors.lightGrey),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(Dimens.minRadiusApplication)),
                             ),
-                          ),
-                          SizedBox(width: Dimens.marginApplication),
-                          Expanded(
-                            flex: 0,
-                            child: Container(
-                                margin: EdgeInsets.all(2),
-                                child: InkWell(
-                                    onTap: () {},
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            Dimens.minRadiusApplication),
-                                      ),
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(
-                                            Dimens.minPaddingApplication),
-                                        child: Icon(Icons.search,
-                                            size: 30,
-                                            color:
-                                                OwnerColors.colorPrimaryDark),
-                                      ),
-                                    ))),
-                          ),
-                        ],
-                      )),
+                            padding: EdgeInsets.all(4),
+                            margin: EdgeInsets.only(
+                                right: Dimens.marginApplication),
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, "/ui/notifications");
+                                },
+                                icon: Image.asset('images/notification.png',
+                                    width: 24, height: 24)),
+                          ))
+                    ],
+                  ),
                   SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
@@ -429,17 +441,134 @@ class _ContainerHomeState extends State<ContainerHome> {
                               },
                           child: Card(
                             elevation: 0,
-                            color: OwnerColors.lightGrey,
                             margin: EdgeInsets.all(Dimens.minMarginApplication),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  Dimens.minRadiusApplication),
-                            ),
+                                borderRadius: BorderRadius.circular(
+                                    Dimens.minRadiusApplication),
+                                side: BorderSide(
+                                    color: OwnerColors.lightGrey, width: 1.0)),
                             child: Container(
                               padding:
                                   EdgeInsets.all(Dimens.minPaddingApplication),
                               child: Column(
-                                children: [],
+                                children: [
+                                  Image.network(
+                                    "",
+                                    height: 140,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, exception, stackTrack) =>
+                                            Image.asset(
+                                      'images/main_logo_1.png',
+                                      width: double.infinity,
+                                      height: 140,
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Container(
+                                      //     margin: EdgeInsets.only(
+                                      //         right: Dimens.minMarginApplication),
+                                      //     child: ClipRRect(
+                                      //         borderRadius: BorderRadius.circular(
+                                      //             Dimens.minRadiusApplication),
+                                      //         child: Image.asset(
+                                      //           'images/person.jpg',
+                                      //           height: 90,
+                                      //           width: 90,
+                                      //         ))),
+                                      SizedBox(
+                                          height: Dimens
+                                              .minMarginApplication),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+
+                                                    Text(
+                                                      "Nome teste",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Inter',
+                                                        fontSize:
+                                                            Dimens.textSize5,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: Dimens
+                                                            .minMarginApplication),
+                                                    Row(children: [
+                                                      Text(
+                                                        "Data de entrega: ",
+                                                        style: TextStyle(
+                                                          fontFamily: 'Inter',
+                                                          fontSize:
+                                                              Dimens.textSize4,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ]),
+                                                    Text(
+                                                      "Nome teste",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Inter',
+                                                        fontSize:
+                                                        Dimens.textSize5,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+
+                                      Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Nome teste",
+                                                  style: TextStyle(
+                                                    fontFamily: 'Inter',
+                                                    fontSize:
+                                                    Dimens.textSize5,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height: Dimens
+                                                    .minMarginApplication),
+                                            
+                                            Icon(Icons.access_time, color: OwnerColors.darkGrey,)
+                                          ])
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ));

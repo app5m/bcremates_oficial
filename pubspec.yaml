@@ -107,6 +107,12 @@ flutter:
     - images/profile_circle.png
     - images/receipt_item.png
     - images/zap.png
+    - images/cow.png
+    - images/filter.png
+    - images/gavel.png
+    - images/map.png
+    - images/notification.png
+    - images/search.png
   #    - images/default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
