@@ -360,6 +360,65 @@ class _ContainerHomeState extends State<ContainerHome> {
                       ],
                     ),
                   ),
+                  SizedBox(height: Dimens.marginApplication,),
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                      future: listProducts(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var gridItems = <Widget>[];
+
+                          for (var i = 0; i < 3; i++) {
+                            final response =
+                                Product.fromJson(snapshot.data![i]);
+
+                            gridItems.add(InkWell(
+                                onTap: () => {
+                                      // Navigator.pushNamed(
+                                      //     context, "/ui/subcategories",
+                                      //     arguments: {
+                                      //       "id_category": response.id,
+                                      //     })
+                                    },
+                                child: Container(
+                                  margin: EdgeInsets.all(Dimens.minMarginApplication),
+                                    decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: OwnerColors.lightGrey),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(36)),
+                                ),
+                                    child: Row(mainAxisAlignment: MainAxisAlignment.center ,children: [
+                                  Text(
+                                    "Teste",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: Dimens.textSize5,
+                                    ),
+                                  ),
+                                    SizedBox(width: Dimens.minMarginApplication,),
+                                    Image.asset('images/cow.png', width: 24, height: 24)
+                                ]))));
+                          }
+
+                          return Container(
+                            // margin: EdgeInsets.only(left: 10, right: 10),
+                            child: GridView.count(
+                              childAspectRatio: 2.0,
+                              primary: false,
+                              shrinkWrap: true,
+                              crossAxisCount: 3,
+                              children: gridItems,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        return Center(
+                            /*child: CircularProgressIndicator()*/
+                            );
+                      }),
                   SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
@@ -389,6 +448,204 @@ class _ContainerHomeState extends State<ContainerHome> {
                       ],
                     ),
                   ),
+                  /*FutureBuilder<List<Map<String, dynamic>>>(
+                          future: listProducts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return */
+                  ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      // final response =
+                      // Product.fromJson(snapshot.data![index]);
+
+                      return InkWell(
+                          onTap: () => {
+                                // Navigator.pushNamed(
+                                //     context, "/ui/product_detail",
+                                //     arguments: {
+                                //       "id_product": response.id,
+                                //     })
+                              },
+                          child: Card(
+                            elevation: 0,
+                            margin: EdgeInsets.all(Dimens.minMarginApplication),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    Dimens.minRadiusApplication),
+                                side: BorderSide(
+                                    color: OwnerColors.lightGrey, width: 1.0)),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Image.network(
+                                    "",
+                                    height: 140,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, exception, stackTrack) =>
+                                            Image.asset(
+                                      'images/main_logo_1.png',
+                                      width: double.infinity,
+                                      height: 140,
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.all(
+                                          Dimens.paddingApplication),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Container(
+                                          //     margin: EdgeInsets.only(
+                                          //         right: Dimens.minMarginApplication),
+                                          //     child: ClipRRect(
+                                          //         borderRadius: BorderRadius.circular(
+                                          //             Dimens.minRadiusApplication),
+                                          //         child: Image.asset(
+                                          //           'images/person.jpg',
+                                          //           height: 90,
+                                          //           width: 90,
+                                          //         ))),
+                                          SizedBox(
+                                              height:
+                                                  Dimens.minMarginApplication),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 5),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Nome teste",
+                                                          style: TextStyle(
+                                                            fontFamily: 'Inter',
+                                                            fontSize: Dimens
+                                                                .textSize6,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Data: ",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "00/00/0000",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Quantidade de lotes: ",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "3",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                      ],
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+
+                                          Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Cuiabá - MT",
+                                                      style: TextStyle(
+                                                        fontFamily: 'Inter',
+                                                        fontSize:
+                                                            Dimens.textSize5,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                    height: Dimens
+                                                        .marginApplication),
+                                                Icon(
+                                                  Icons.access_time,
+                                                  color: OwnerColors.darkGrey,
+                                                )
+                                              ])
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ));
+                    },
+                  ) /*;
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return Center(*/ /*child: CircularProgressIndicator()*/ /*);
+                          }),*/
+                  ,
                   SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
@@ -448,8 +705,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                 side: BorderSide(
                                     color: OwnerColors.lightGrey, width: 1.0)),
                             child: Container(
-                              padding:
-                                  EdgeInsets.all(Dimens.minPaddingApplication),
                               child: Column(
                                 children: [
                                   Image.network(
@@ -465,109 +720,147 @@ class _ContainerHomeState extends State<ContainerHome> {
                                       height: 140,
                                     ),
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Container(
-                                      //     margin: EdgeInsets.only(
-                                      //         right: Dimens.minMarginApplication),
-                                      //     child: ClipRRect(
-                                      //         borderRadius: BorderRadius.circular(
-                                      //             Dimens.minRadiusApplication),
-                                      //         child: Image.asset(
-                                      //           'images/person.jpg',
-                                      //           height: 90,
-                                      //           width: 90,
-                                      //         ))),
-                                      SizedBox(
-                                          height: Dimens
-                                              .minMarginApplication),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
+                                  Container(
+                                      padding: EdgeInsets.all(
+                                          Dimens.paddingApplication),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Container(
+                                          //     margin: EdgeInsets.only(
+                                          //         right: Dimens.minMarginApplication),
+                                          //     child: ClipRRect(
+                                          //         borderRadius: BorderRadius.circular(
+                                          //             Dimens.minRadiusApplication),
+                                          //         child: Image.asset(
+                                          //           'images/person.jpg',
+                                          //           height: 90,
+                                          //           width: 90,
+                                          //         ))),
+                                          SizedBox(
+                                              height:
+                                                  Dimens.minMarginApplication),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 5),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Nome teste",
+                                                          style: TextStyle(
+                                                            fontFamily: 'Inter',
+                                                            fontSize: Dimens
+                                                                .textSize6,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Data: ",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "00/00/0000",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Quantidade de lotes: ",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "3",
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                      ],
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
 
+                                          Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
                                                     Text(
-                                                      "Nome teste",
+                                                      "Cuiabá - MT",
                                                       style: TextStyle(
                                                         fontFamily: 'Inter',
                                                         fontSize:
                                                             Dimens.textSize5,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                        height: Dimens
-                                                            .minMarginApplication),
-                                                    Row(children: [
-                                                      Text(
-                                                        "Data de entrega: ",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Inter',
-                                                          fontSize:
-                                                              Dimens.textSize4,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ]),
-                                                    Text(
-                                                      "Nome teste",
-                                                      style: TextStyle(
-                                                        fontFamily: 'Inter',
-                                                        fontSize:
-                                                        Dimens.textSize5,
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        color: Colors.black,
                                                       ),
                                                     ),
                                                   ],
-                                                ))
-                                          ],
-                                        ),
-                                      ),
-
-                                      Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Nome teste",
-                                                  style: TextStyle(
-                                                    fontFamily: 'Inter',
-                                                    fontSize:
-                                                    Dimens.textSize5,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                                height: Dimens
-                                                    .minMarginApplication),
-                                            
-                                            Icon(Icons.access_time, color: OwnerColors.darkGrey,)
-                                          ])
-                                    ],
-                                  ),
+                                                SizedBox(
+                                                    height: Dimens
+                                                        .marginApplication),
+                                                Icon(
+                                                  Icons.access_time,
+                                                  color: OwnerColors.darkGrey,
+                                                )
+                                              ])
+                                        ],
+                                      )),
                                 ],
                               ),
                             ),
