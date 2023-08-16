@@ -25,7 +25,14 @@ class Bids extends StatefulWidget {
 }
 
 class _BidsState extends State<Bids> {
+  bool _isLoading = false;
+  bool _isLoadingDialog = false;
+
+  int _pageIndex = 0;
+
+  late Validator validator;
   final postRequest = PostRequest();
+
   User? _profileResponse;
 
   @override
@@ -33,73 +40,518 @@ class _BidsState extends State<Bids> {
     super.initState();
   }
 
-  Future<List<Map<String, dynamic>>> loadProfileRequest() async {
-    try {
-      final body = {
-        "id_usuario": await Preferences.getUserData()!.id,
-        "token": ApplicationConstant.TOKEN
-      };
-
-      print('HTTP_BODY: $body');
-
-      final json = await postRequest.sendPostRequest(Links.LOAD_PROFILE, body);
-      List<Map<String, dynamic>> _map = [];
-      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
-
-      print('HTTP_RESPONSE: $_map');
-
-      final response = User.fromJson(_map[0]);
-
-      return _map;
-    } catch (e) {
-      throw Exception('HTTP_ERROR: $e');
-    }
-  }
-
-  Future<void> disableAccount() async {
-    try {
-      final body = {
-        "id": await Preferences.getUserData()!.id,
-        "token": ApplicationConstant.TOKEN
-      };
-
-      print('HTTP_BODY: $body');
-
-      final json =
-      await postRequest.sendPostRequest(Links.DISABLE_ACCOUNT, body);
-
-      List<Map<String, dynamic>> _map = [];
-      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
-
-      print('HTTP_RESPONSE: $_map');
-
-      final response = User.fromJson(_map[0]);
-
-      if (response.status == "01") {
-        await Preferences.init();
-        Preferences.clearUserData();
-
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => Login()),
-            ModalRoute.withName("/ui/login"));
-      } else {}
-      ApplicationMessages(context: context)
-          .showMessage(response.msg + "\n\n" + Strings.enable_account);
-    } catch (e) {
-      throw Exception('HTTP_ERROR: $e');
-    }
+  Future<void> _pullRefresh() async {
+    setState(() {
+      _isLoading = true;
+      // listHighlightsRequest();
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-        CustomAppBar(
-            title: "Meus Lances", isVisibleBackButton: false),
+        appBar: CustomAppBar(title: "Meus Lances", isVisibleBackButton: false),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: Container()
-        ));
+            child: Container(
+                child: RefreshIndicator(
+                    onRefresh: _pullRefresh,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: Dimens.marginApplication,
+                                left: Dimens.marginApplication,
+                                right: Dimens.marginApplication),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    "Histórico",
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: Dimens.textSize6,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                // Text(
+                                //   "Ver mais",
+                                //   style: TextStyle(
+                                //     fontFamily: 'Inter',
+                                //     fontSize: Dimens.textSize5,
+                                //     color: OwnerColors.colorPrimaryDark,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  top: Dimens.minMarginApplication,
+                                  left: Dimens.marginApplication,
+                                  right: Dimens.marginApplication),
+                              child: Text(
+                                "Acompanhe seu histórico de lances",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: Dimens.textSize5,
+                                  color: Colors.black54,
+                                ),
+                              )),
+                          /*FutureBuilder<List<Map<String, dynamic>>>(
+                          future: listProducts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return */
+                          ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: 2,
+                            itemBuilder: (context, index) {
+                              // final response =
+                              // Product.fromJson(snapshot.data![index]);
+
+                              return InkWell(
+                                  onTap: () => {
+                                        // Navigator.pushNamed(
+                                        //     context, "/ui/product_detail",
+                                        //     arguments: {
+                                        //       "id_product": response.id,
+                                        //     })
+                                      },
+                                  child: Card(
+                                    elevation: 0,
+                                    margin: EdgeInsets.all(
+                                        Dimens.minMarginApplication),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            Dimens.minRadiusApplication),
+                                        side: BorderSide(
+                                            color: OwnerColors.lightGrey,
+                                            width: 1.0)),
+                                    child: Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              padding: EdgeInsets.only(
+                                                  top:
+                                                      Dimens.paddingApplication,
+                                                  left:
+                                                      Dimens.paddingApplication,
+                                                  right: Dimens
+                                                      .paddingApplication),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  // Container(
+                                                  //     margin: EdgeInsets.only(
+                                                  //         right: Dimens.minMarginApplication),
+                                                  //     child: ClipRRect(
+                                                  //         borderRadius: BorderRadius.circular(
+                                                  //             Dimens.minRadiusApplication),
+                                                  //         child: Image.asset(
+                                                  //           'images/person.jpg',
+                                                  //           height: 90,
+                                                  //           width: 90,
+                                                  //         ))),
+                                                  SizedBox(
+                                                      height: Dimens
+                                                          .minMarginApplication),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                            child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "Nome teste",
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                fontSize: Dimens
+                                                                    .textSize6,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                                height: Dimens
+                                                                    .marginApplication),
+                                                            Row(children: [
+                                                              Text(
+                                                                "Data: ",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "00/00/0000",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                        ))
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "Cuiabá - MT",
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                fontSize: Dimens
+                                                                    .textSize5,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ])
+                                                ],
+                                              )),
+                                          SizedBox(
+                                              height: Dimens.marginApplication),
+                                          Container(
+                                            color: OwnerColors.colorPrimaryDark,
+                                            padding: EdgeInsets.only(
+                                                left: 16,
+                                                top: 4,
+                                                bottom: 4,
+                                                right: 6),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    "Lote 20 | ganhou",
+                                                    style: TextStyle(
+                                                      fontFamily: 'Inter',
+                                                      fontSize:
+                                                          Dimens.textSize6,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons
+                                                          .keyboard_arrow_down_sharp,
+                                                      color: Colors.white,
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 1),
+                                          Container(
+                                            height: 140,
+                                            child: Row(children: [
+                                              Expanded(
+                                                  child: Image.network(
+                                                "",
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (context,
+                                                        exception,
+                                                        stackTrack) =>
+                                                    Image.asset(
+                                                  'images/main_logo_1.png',
+                                                ),
+                                              )),
+                                              SizedBox(width: Dimens.marginApplication,),
+                                              Expanded(
+                                                  child: Container (margin: EdgeInsets.only(left: Dimens.marginApplication),
+                                                      child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+
+                                                      Text("Dados",
+                                                      style:
+                                                      TextStyle(
+                                                        fontFamily:
+                                                        'Inter',
+                                                        fontSize: Dimens
+                                                            .textSize6,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .bold,
+                                                        color: Colors
+                                                            .black,
+                                                      )),
+                                                  SizedBox(height: 2),
+                                                  Text(
+                                                    "teste",
+                                                    style:
+                                                    TextStyle(
+                                                      fontFamily:
+                                                      'Inter',
+                                                      fontSize: Dimens
+                                                          .textSize6,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .bold,
+                                                      color: OwnerColors.colorPrimaryDark,
+                                                    )),
+
+                                                  SizedBox(height: Dimens.marginApplication),
+                                                      Text("Dados",
+                                                          style:
+                                                          TextStyle(
+                                                            fontFamily:
+                                                            'Inter',
+                                                            fontSize: Dimens
+                                                                .textSize6,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .bold,
+                                                            color: Colors
+                                                                .black,
+                                                          )),
+                                                  SizedBox(height: 2),
+                                                      Text(
+                                                        "teste",
+                                                        style:
+                                                        TextStyle(
+                                                          fontFamily:
+                                                          'Inter',
+                                                          fontSize: Dimens
+                                                              .textSize5,
+                                                          color: Colors
+                                                              .black54,
+                                                        )),
+                                                ],
+                                              )),
+
+                                          ),])),
+                                          Styles().div_horizontal,
+                                          Container(
+                                              padding: EdgeInsets.only(
+                                                  left:
+                                                      Dimens.paddingApplication,
+                                                  right:
+                                                      Dimens.paddingApplication,
+                                                  top: Dimens
+                                                      .minPaddingApplication),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: Container(
+                                                          padding: EdgeInsets
+                                                              .all(Dimens
+                                                                  .minPaddingApplication),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text("Dados",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontSize: Dimens
+                                                                        .textSize6,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  )),
+                                                              Text(
+                                                                "teste",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ))),
+                                                  Expanded(
+                                                      child: Container(
+                                                          padding: EdgeInsets
+                                                              .all(Dimens
+                                                                  .minPaddingApplication),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text("Dados",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontSize: Dimens
+                                                                        .textSize6,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  )),
+                                                              Text(
+                                                                "teste",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )))
+                                                ],
+                                              )),
+                                          Container(
+                                              padding: EdgeInsets.only(
+                                                  left:
+                                                  Dimens.paddingApplication,
+                                                  right:
+                                                  Dimens.paddingApplication,
+                                                  top: Dimens
+                                                      .minPaddingApplication,
+                                                  bottom: Dimens
+                                                      .minPaddingApplication),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: Container(
+                                                          padding: EdgeInsets
+                                                              .all(Dimens
+                                                                  .minPaddingApplication),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text("Dados",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontSize: Dimens
+                                                                        .textSize6,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  )),
+                                                              Text(
+                                                                "teste",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ))),
+                                                  Expanded(
+                                                      child: Container(
+                                                          padding: EdgeInsets
+                                                              .all(Dimens
+                                                                  .minPaddingApplication),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text("Dados",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontSize: Dimens
+                                                                        .textSize6,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black,
+                                                                  )),
+                                                              Text(
+                                                                "teste",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Inter',
+                                                                  fontSize: Dimens
+                                                                      .textSize5,
+                                                                  color: Colors
+                                                                      .black54,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )))
+                                                ],
+                                              ))
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                            },
+                          ) /*;
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return Center(*/ /*child: CircularProgressIndicator()*/ /*);
+                          }),*/
+                        ])))));
   }
 }
