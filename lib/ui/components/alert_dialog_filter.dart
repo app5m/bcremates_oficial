@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 import '../../config/application_messages.dart';
 import '../../config/masks.dart';
@@ -167,8 +169,38 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                             ),
                           ),
                         ),
+                        InkWell( onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            dateFormat:
+                            'dd MMMM yyyy HH:mm',
+                            initialDateTime:
+                            DateTime.now(),
+                            minDateTime: DateTime(2000),
+                            maxDateTime: DateTime(3000),
+                            onMonthChangeStartWithFirstDate:
+                            true,
+                            onConfirm: (dateTime,
+                                List<int> index) {
+                              DateTime selectdate =
+                                  dateTime;
+                              final selIOS = DateFormat(
+                                  'dd/MM/yyyy HH:mm')
+                                  .format(selectdate);
+                              print(selIOS);
+
+                              // updateTask(
+                              //     idTask:
+                              //     _id.toString(),
+                              //     idFleet: _idFleet
+                              //         .toString(),
+                              //     dateOut: selIOS);
+                            },
+                          );
+                        }, child:
                         TextField(
                           // controller: cityController,
+                          readOnly: true,
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -195,7 +227,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                             color: Colors.grey,
                             fontSize: Dimens.textSize5,
                           ),
-                        ),
+                        )),
                       ],
                     )),
                     SizedBox(width: Dimens.minMarginApplication),
@@ -231,8 +263,37 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           ),
                         ),
                       ),
+                      InkWell(onTap: () {
+                        DatePicker.showDatePicker(
+                          context,
+                          dateFormat:
+                          'dd MMMM yyyy HH:mm',
+                          initialDateTime:
+                          DateTime.now(),
+                          minDateTime: DateTime(2000),
+                          maxDateTime: DateTime(3000),
+                          onMonthChangeStartWithFirstDate:
+                          true,
+                          onConfirm: (dateTime,
+                              List<int> index) {
+                            DateTime selectdate =
+                                dateTime;
+                            final selIOS = DateFormat(
+                                'dd/MM/yyyy HH:mm')
+                                .format(selectdate);
+                            print(selIOS);
+
+                            // updateTask(
+                            //     idTask:
+                            //     _id.toString(),
+                            //     idFleet: _idFleet
+                            //         .toString(),
+                            //     dateOut: selIOS);
+                          },
+                        );
+                      } ,child:
                       TextField(
-                        // controller: stateController,
+                        readOnly: true,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -259,7 +320,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           color: Colors.grey,
                           fontSize: Dimens.textSize5,
                         ),
-                      ),
+                      )),
                     ])),
                   ],
                 ),

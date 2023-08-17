@@ -76,42 +76,94 @@ class _Notifications extends State<Notifications> {
                       final response = User.fromJson(snapshot.data![index]);
 
                       return Card(
+                        elevation: 0,
+                        color:
+                        OwnerColors.lightGrey,
+                        margin: EdgeInsets.all(
+                            Dimens.minMarginApplication),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              Dimens.minRadiusApplication),
+                          borderRadius:
+                          BorderRadius.circular(Dimens
+                              .minRadiusApplication),
                         ),
-                        margin: EdgeInsets.all(Dimens.minMarginApplication),
                         child: Container(
-                          padding: EdgeInsets.all(Dimens.paddingApplication),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          padding: EdgeInsets.all(
+                              Dimens.minPaddingApplication),
+                          child: Row(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.center,
                             children: [
-
-                              Text(
-                                response.titulo.toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: Dimens.textSize6,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: Dimens.marginApplication),
-                              Text(
-                                response.descricao.toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: Dimens.textSize5,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(height: Dimens.marginApplication),
-                              Text(
-                                response.data.toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: Dimens.textSize4,
-                                  color: Colors.black,
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      right: Dimens
+                                          .minMarginApplication),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius
+                                          .circular(Dimens
+                                          .minRadiusApplication),
+                                      child: Image.network(
+                                        ApplicationConstant
+                                            .URL_PRODUCT,
+                                        height: 90,
+                                        width: 90,
+                                        errorBuilder: (context,
+                                            exception,
+                                            stackTrack) =>
+                                            Image.asset(
+                                              'images/main_logo_1.png',
+                                              height: 90,
+                                              width: 90,
+                                            ),
+                                      ))),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment
+                                      .start,
+                                  children: [
+                                    Text(
+                                      response.titulo.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow
+                                          .ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: Dimens
+                                            .textSize5,
+                                        fontWeight:
+                                        FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: Dimens
+                                            .minMarginApplication),
+                                    Text(response
+                                            .descricao.toString(),
+                                      maxLines: 2,
+                                      overflow: TextOverflow
+                                          .ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: Dimens
+                                            .textSize4,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height: Dimens
+                                            .marginApplication),
+                                    Text(
+                                      "",
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: Dimens
+                                            .textSize6,
+                                        color: OwnerColors
+                                            .darkGreen,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
