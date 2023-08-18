@@ -110,9 +110,10 @@ class _Notifications extends State<Notifications> {
                                             exception,
                                             stackTrack) =>
                                             Image.asset(
-                                              'images/main_logo_1.png',
+                                              'images/leilao.png',
                                               height: 90,
                                               width: 90,
+                                              fit: BoxFit.cover,
                                             ),
                                       ))),
                               Expanded(
