@@ -512,7 +512,9 @@ class _ContainerHomeState extends State<ContainerHome> {
                             child: Container(
                               child: Column(
                                 children: [
-                                  Image.network(
+                              ClipRRect(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimens.minRadiusApplication), topRight: Radius.circular(Dimens.minRadiusApplication)),
+                            child: Image.network(
                                     "",
                                     height: 140,
                                     width: double.infinity,
@@ -520,11 +522,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                                     errorBuilder:
                                         (context, exception, stackTrack) =>
                                             Image.asset(
-                                      'images/main_logo_1.png',
+                                      'images/leilao.png',
                                       width: double.infinity,
+                                              fit: BoxFit.cover,
                                       height: 140,
                                     ),
-                                  ),
+                                  )),
                                   Container(
                                       padding: EdgeInsets.all(
                                           Dimens.paddingApplication),
@@ -739,7 +742,9 @@ class _ContainerHomeState extends State<ContainerHome> {
                             child: Container(
                               child: Column(
                                 children: [
-                                  Image.network(
+                              ClipRRect(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimens.minRadiusApplication), topRight: Radius.circular(Dimens.minRadiusApplication)),
+                              child: Image.network(
                                     "",
                                     height: 140,
                                     width: double.infinity,
@@ -747,11 +752,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                                     errorBuilder:
                                         (context, exception, stackTrack) =>
                                             Image.asset(
-                                      'images/main_logo_1.png',
+                                              'images/leilao2.png',
                                       width: double.infinity,
+                                              fit: BoxFit.cover,
                                       height: 140,
                                     ),
-                                  ),
+                                  )),
                                   Container(
                                       padding: EdgeInsets.all(
                                           Dimens.paddingApplication),

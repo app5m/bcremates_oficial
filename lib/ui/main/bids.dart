@@ -288,10 +288,9 @@ class _BidsState extends State<Bids> {
                                             ),
                                           ),
                                           SizedBox(height: 1),
-                                          Container(
-                                            height: 140,
-                                            child: Row(children: [
+                                      Row(children: [
                                               Expanded(
+
                                                   child: Image.network(
                                                 "",
                                                 fit: BoxFit.cover,
@@ -299,7 +298,9 @@ class _BidsState extends State<Bids> {
                                                         exception,
                                                         stackTrack) =>
                                                     Image.asset(
-                                                  'images/main_logo_1.png',
+                                                  'images/leilao.png',
+                                                      fit: BoxFit.cover,
+                                                      height: 140,
                                                 ),
                                               )),
                                               SizedBox(width: Dimens.marginApplication,),
@@ -366,7 +367,7 @@ class _BidsState extends State<Bids> {
                                                 ],
                                               )),
 
-                                          ),])),
+                                          ),]),
                                           Styles().div_horizontal,
                                           Container(
                                               padding: EdgeInsets.only(

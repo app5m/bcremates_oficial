@@ -113,6 +113,8 @@ flutter:
     - images/map.png
     - images/notification.png
     - images/search.png
+    - images/leilao.png
+    - images/leilao2.png
   #    - images/default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

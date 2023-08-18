@@ -71,8 +71,9 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                 errorBuilder:
                                     (context, exception, stackTrack) =>
                                         Image.asset(
-                                  'images/main_logo_1.png',
+                                  'images/leilao2.png',
                                   width: double.infinity,
+                                          fit: BoxFit.cover,
                                   height: 200,
                                 ),
                               ),
@@ -97,6 +98,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                               ),
                             ],
                           ),
+                          SizedBox(height: Dimens.marginApplication,),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -223,9 +225,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                     ),
                                   ),
                                   SizedBox(height: 1),
-                                  Container(
-                                      height: 140,
-                                      child: Row(children: [
+                                 Row(children: [
                                         Expanded(
                                             child: Image.network(
                                           "",
@@ -233,7 +233,9 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                           errorBuilder: (context, exception,
                                                   stackTrack) =>
                                               Image.asset(
-                                            'images/main_logo_1.png',
+                                            'images/leilao.png',
+                                                fit: BoxFit.cover,
+                                                height: 140,
                                           ),
                                         )),
                                         SizedBox(
@@ -274,7 +276,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                 ],
                                               )),
                                         ),
-                                      ])),
+                                      ]),
                                   Styles().div_horizontal,
                                   Container(
                                       padding: EdgeInsets.only(
@@ -419,114 +421,143 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                               ),
                             ),
                           ),
-
-                Row(
-                  children: [
-                    Expanded(
-                        child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(
-                                  Dimens.minRadiusApplication)),
-                              color: OwnerColors.colorPrimaryDark
-                            ),
-                            margin: EdgeInsets.all(Dimens.marginApplication),
-                            child: IntrinsicHeight(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          hintText: 'Digitar',
-                                          hintStyle:
-                                          TextStyle(color: Colors.white60),
-                                          filled: false,
-                                          border: InputBorder.none,
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.all(
-                                              Dimens.textFieldPaddingApplication),
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: Dimens.textSize5,
-                                        ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  Dimens.minRadiusApplication)),
+                                          color: OwnerColors.colorPrimaryDark),
+                                      margin: EdgeInsets.all(
+                                          Dimens.marginApplication),
+                                      child: IntrinsicHeight(
+                                          child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                hintText: 'Digitar',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white60),
+                                                filled: false,
+                                                border: InputBorder.none,
+                                                fillColor: Colors.white,
+                                                contentPadding: EdgeInsets.all(
+                                                    Dimens
+                                                        .textFieldPaddingApplication),
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: Dimens.textSize5,
+                                              ),
+                                            ),
+                                          ),
+                                          VerticalDivider(
+                                            color: Colors.white,
+                                            width: 2,
+                                            thickness: 1.5,
+                                            indent: 6,
+                                            endIndent: 6,
+                                          ),
+                                          IconButton(
+                                              onPressed: () async {},
+                                              icon: Image.asset(
+                                                  'images/gavel.png',
+                                                  width: 24,
+                                                  height: 24)),
+                                        ],
+                                      ))),
+                                  Text(
+                                    "Lance atual: R\$700,00",
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: Dimens.textSize5,
+                                      color: Colors.black45,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                              Expanded(
+                                  flex: 0,
+                                  child: Container(
+                                    child: Text(
+                                      "ou",
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: Dimens.textSize5,
+                                        color: Colors.black45,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
-                                    VerticalDivider(
-                                      color: Colors.white,
-                                      width: 2,
-                                      thickness: 1.5,
-                                      indent: 6,
-                                      endIndent: 6,
+                                  )),
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  Dimens.minRadiusApplication)),
+                                          color: OwnerColors.colorPrimaryDark),
+                                      margin: EdgeInsets.all(
+                                          Dimens.marginApplication),
+                                      child: IntrinsicHeight(
+                                          child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                hintText: 'Digitar',
+                                                hintStyle: TextStyle(
+                                                    color: Colors.white60),
+                                                filled: false,
+                                                border: InputBorder.none,
+                                                fillColor: Colors.white,
+                                                contentPadding: EdgeInsets.all(
+                                                    Dimens
+                                                        .textFieldPaddingApplication),
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: Dimens.textSize5,
+                                              ),
+                                            ),
+                                          ),
+                                          VerticalDivider(
+                                            color: Colors.white,
+                                            width: 2,
+                                            thickness: 1.5,
+                                            indent: 6,
+                                            endIndent: 6,
+                                          ),
+                                          IconButton(
+                                              onPressed: () async {},
+                                              icon: Image.asset(
+                                                  'images/gavel.png',
+                                                  width: 24,
+                                                  height: 24)),
+                                        ],
+                                      ))),
+                                  Text(
+                                    "Lance atual: R\$700,00",
+                                    style: TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: Dimens.textSize5,
+                                      color: Colors.black45,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    IconButton(
-                                        onPressed: () async {
-
-                                        },
-                                        icon: Image.asset('images/gavel.png',
-                                            width: 24, height: 24)),
-                                  ],
-                                )))),
-                    Expanded(
-                        flex: 0,
-                        child: Container(
-                          child: Text(
-                            "ou",
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: Dimens.textSize5,
-                              color: Colors.black45,
-                              fontWeight: FontWeight.w400,
-                            ),
+                                  ),
+                                ],
+                              )),
+                            ],
                           ),
-                        )),
-                    Expanded(
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                    Dimens.minRadiusApplication)),
-                                color: OwnerColors.colorPrimaryDark
-                            ),
-                            margin: EdgeInsets.all(Dimens.marginApplication),
-                            child: IntrinsicHeight(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          hintText: 'Digitar',
-                                          hintStyle:
-                                          TextStyle(color: Colors.white60),
-                                          filled: false,
-                                          border: InputBorder.none,
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.all(
-                                              Dimens.textFieldPaddingApplication),
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: Dimens.textSize5,
-                                        ),
-                                      ),
-                                    ),
-                                    VerticalDivider(
-                                      color: Colors.white,
-                                      width: 2,
-                                      thickness: 1.5,
-                                      indent: 6,
-                                      endIndent: 6,
-                                    ),
-                                    IconButton(
-                                        onPressed: () async {
-
-                                        },
-                                        icon: Image.asset('images/gavel.png',
-                                            width: 24, height: 24)),
-                                  ],
-                                )))),
-                  ],
-                ),
 
                           /*FutureBuilder<List<Map<String, dynamic>>>(
                           future: listProducts(),
@@ -534,67 +565,65 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                             if (snapshot.hasData) {
                               return */
                           Container(
-                              margin: EdgeInsets.all(Dimens.marginApplication) ,child:
-                          ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: 7,
-                            itemBuilder: (context, index) {
-                              // final response =
-                              // Product.fromJson(snapshot.data![index]);
+                              margin: EdgeInsets.all(Dimens.marginApplication),
+                              child: ListView.builder(
+                                primary: false,
+                                shrinkWrap: true,
+                                itemCount: 7,
+                                itemBuilder: (context, index) {
+                                  // final response =
+                                  // Product.fromJson(snapshot.data![index]);
 
-                              return InkWell(
-                                onTap: () => {
-                                  // Navigator.pushNamed(
-                                  //     context, "/ui/product_detail",
-                                  //     arguments: {
-                                  //       "id_product": response.id,
-                                  //     })
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(
-                                              Dimens.minRadiusApplication)),
-                                      color: OwnerColors.colorAccent),
-                                  padding: EdgeInsets.only(
-                                      left: Dimens.paddingApplication,
-                                      right: Dimens.paddingApplication),
-                                  margin: EdgeInsets.only(top: Dimens.minMarginApplication, bottom: Dimens.minMarginApplication),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          "Lote 20 | ganhou",
-                                          style: TextStyle(
-                                            fontFamily: 'Inter',
-                                            fontSize: Dimens.textSize6,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                  return InkWell(
+                                    onTap: () => {
+                                      // Navigator.pushNamed(
+                                      //     context, "/ui/product_detail",
+                                      //     arguments: {
+                                      //       "id_product": response.id,
+                                      //     })
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  Dimens.minRadiusApplication)),
+                                          color: OwnerColors.colorAccent),
+                                      padding: EdgeInsets.only(
+                                          left: Dimens.paddingApplication,
+                                          right: Dimens.paddingApplication),
+                                      margin: EdgeInsets.only(
+                                          top: Dimens.minMarginApplication,
+                                          bottom: Dimens.minMarginApplication),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              "Lote 20 | ganhou",
+                                              style: TextStyle(
+                                                fontFamily: 'Inter',
+                                                fontSize: Dimens.textSize6,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.keyboard_arrow_down_sharp,
+                                                color: Colors.white,
+                                              ))
+                                        ],
                                       ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_sharp,
-                                            color: Colors.white,
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          )) /*;
+                                    ),
+                                  );
+                                },
+                              )) /*;
                             } else if (snapshot.hasError) {
                               return Text('${snapshot.error}');
                             }
                             return Center(*/ /*child: CircularProgressIndicator()*/ /*);
                           }),*/
-                        ])
-                )
-            )
-        )
-    );
+                        ])))));
   }
 }
