@@ -169,37 +169,37 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                             ),
                           ),
                         ),
-                        InkWell( onTap: () {
-                          DatePicker.showDatePicker(
-                            context,
-                            dateFormat:
-                            'dd MMMM yyyy HH:mm',
-                            initialDateTime:
-                            DateTime.now(),
-                            minDateTime: DateTime(2000),
-                            maxDateTime: DateTime(3000),
-                            onMonthChangeStartWithFirstDate:
-                            true,
-                            onConfirm: (dateTime,
-                                List<int> index) {
-                              DateTime selectdate =
-                                  dateTime;
-                              final selIOS = DateFormat(
-                                  'dd/MM/yyyy HH:mm')
-                                  .format(selectdate);
-                              print(selIOS);
-
-                              // updateTask(
-                              //     idTask:
-                              //     _id.toString(),
-                              //     idFleet: _idFleet
-                              //         .toString(),
-                              //     dateOut: selIOS);
-                            },
-                          );
-                        }, child:
                         TextField(
                           // controller: cityController,
+                          onTap: () {
+                            DatePicker.showDatePicker(
+                              context,
+                              dateFormat:
+                              'dd MMMM yyyy HH:mm',
+                              initialDateTime:
+                              DateTime.now(),
+                              minDateTime: DateTime(2000),
+                              maxDateTime: DateTime(3000),
+                              onMonthChangeStartWithFirstDate:
+                              true,
+                              onConfirm: (dateTime,
+                                  List<int> index) {
+                                DateTime selectdate =
+                                    dateTime;
+                                final selIOS = DateFormat(
+                                    'dd/MM/yyyy HH:mm')
+                                    .format(selectdate);
+                                print(selIOS);
+
+                                // updateTask(
+                                //     idTask:
+                                //     _id.toString(),
+                                //     idFleet: _idFleet
+                                //         .toString(),
+                                //     dateOut: selIOS);
+                              },
+                            );
+                          },
                           readOnly: true,
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
@@ -227,7 +227,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                             color: Colors.grey,
                             fontSize: Dimens.textSize5,
                           ),
-                        )),
+                        ),
                       ],
                     )),
                     SizedBox(width: Dimens.minMarginApplication),
@@ -263,36 +263,36 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           ),
                         ),
                       ),
-                      InkWell(onTap: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          dateFormat:
-                          'dd MMMM yyyy HH:mm',
-                          initialDateTime:
-                          DateTime.now(),
-                          minDateTime: DateTime(2000),
-                          maxDateTime: DateTime(3000),
-                          onMonthChangeStartWithFirstDate:
-                          true,
-                          onConfirm: (dateTime,
-                              List<int> index) {
-                            DateTime selectdate =
-                                dateTime;
-                            final selIOS = DateFormat(
-                                'dd/MM/yyyy HH:mm')
-                                .format(selectdate);
-                            print(selIOS);
-
-                            // updateTask(
-                            //     idTask:
-                            //     _id.toString(),
-                            //     idFleet: _idFleet
-                            //         .toString(),
-                            //     dateOut: selIOS);
-                          },
-                        );
-                      } ,child:
                       TextField(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            dateFormat:
+                            'dd MMMM yyyy HH:mm',
+                            initialDateTime:
+                            DateTime.now(),
+                            minDateTime: DateTime(2000),
+                            maxDateTime: DateTime(3000),
+                            onMonthChangeStartWithFirstDate:
+                            true,
+                            onConfirm: (dateTime,
+                                List<int> index) {
+                              DateTime selectdate =
+                                  dateTime;
+                              final selIOS = DateFormat(
+                                  'dd/MM/yyyy HH:mm')
+                                  .format(selectdate);
+                              print(selIOS);
+
+                              // updateTask(
+                              //     idTask:
+                              //     _id.toString(),
+                              //     idFleet: _idFleet
+                              //         .toString(),
+                              //     dateOut: selIOS);
+                            },
+                          );
+                        },
                         readOnly: true,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
@@ -320,7 +320,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           color: Colors.grey,
                           fontSize: Dimens.textSize5,
                         ),
-                      )),
+                      ),
                     ])),
                   ],
                 ),

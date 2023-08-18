@@ -722,11 +722,11 @@ class _ContainerHomeState extends State<ContainerHome> {
 
                       return InkWell(
                           onTap: () => {
-                                // Navigator.pushNamed(
-                                //     context, "/ui/product_detail",
-                                //     arguments: {
-                                //       "id_product": response.id,
-                                //     })
+                                Navigator.pushNamed(
+                                    context, "/ui/auction_details",
+                                 /*   arguments: {
+                                      "id_product": response.id,
+                                    }*/)
                               },
                           child: Card(
                             elevation: 0,

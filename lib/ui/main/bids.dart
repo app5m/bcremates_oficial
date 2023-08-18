@@ -102,6 +102,7 @@ class _BidsState extends State<Bids> {
                                   color: Colors.black54,
                                 ),
                               )),
+                          SizedBox(height: Dimens.marginApplication,),
                           /*FutureBuilder<List<Map<String, dynamic>>>(
                           future: listProducts(),
                           builder: (context, snapshot) {
