@@ -277,7 +277,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                   IconButton(
                                       onPressed: () {},
                                       icon: Image.asset('images/search.png',
-                                          width: 24, height: 24)),
+                                          width: 20, height: 20)),
                                   Expanded(
                                     child: TextField(
                                       decoration: InputDecoration(
@@ -328,7 +328,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         // }
                                       },
                                       icon: Image.asset('images/filter.png',
-                                          width: 24, height: 24)),
+                                          width: 20, height: 20)),
                                 ],
                               )))),
                       Expanded(
@@ -349,7 +349,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                       context, "/ui/notifications");
                                 },
                                 icon: Image.asset('images/notification.png',
-                                    width: 24, height: 24)),
+                                    width: 20, height: 20)),
                           ))
                     ],
                   ),
@@ -448,7 +448,24 @@ class _ContainerHomeState extends State<ContainerHome> {
                             /*child: CircularProgressIndicator()*/
                             );
                       }),
+
+                      SizedBox(height: Dimens.marginApplication),
                   SizedBox(height: Dimens.marginApplication),
+                      CarouselSlider(
+                        items: carouselItems,
+                        options: CarouselOptions(
+                          height: 100,
+                          autoPlay: false,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _pageIndex = index;
+                            });
+                          },
+                        ),
+                      ),
+
+                      SizedBox(height: Dimens.marginApplication),
+                      SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
                         left: Dimens.marginApplication,
@@ -598,7 +615,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                                 .marginApplication),
                                                         Row(children: [
                                                           Text(
-                                                            "Quantidade de lotes: ",
+                                                            "Lotes: ",
                                                             style: TextStyle(
                                                               fontSize: Dimens
                                                                   .textSize5,
@@ -816,7 +833,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                                 .marginApplication),
                                                         Row(children: [
                                                           Text(
-                                                            "Quantidade de lotes: ",
+                                                            "Lotes: ",
                                                             style: TextStyle(
                                                               fontSize: Dimens
                                                                   .textSize5,
@@ -884,5 +901,39 @@ class _ContainerHomeState extends State<ContainerHome> {
                             return Center(*/ /*child: CircularProgressIndicator()*/ /*);
                           }),*/
                 ])))));
+  }
+}
+
+final List<Widget> carouselItems = [
+  CarouselItemBuilder(image: 'images/generic.png'),
+  CarouselItemBuilder(image: 'images/generic.png'),
+];
+
+class CarouselItemBuilder extends StatelessWidget {
+  final String image;
+
+  const CarouselItemBuilder({Key? key, required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.all(23),
+        margin: EdgeInsets.only(right: 6, left: 6),
+        width: double.infinity,
+        height: 100,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [OwnerColors.gradientFirstColor, OwnerColors.gradientSecondaryColor, OwnerColors.gradientThirdColor],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight),
+            borderRadius:  BorderRadius.circular(Dimens.minRadiusApplication)
+          ),
+          /*width: MediaQuery.of(context).size.width * 0.90,*/
+          child: Image.asset(
+            image,
+          ),
+        ),
+    );
   }
 }

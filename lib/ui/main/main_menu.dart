@@ -236,7 +236,9 @@ class _MainMenu extends State<MainMenu> {
                         ],
                       ),
                     ),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.pushNamed(context, "/ui/questions_answers");
+                    }),
 
                 InkWell(
                     child: Container(

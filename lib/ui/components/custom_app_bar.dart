@@ -26,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: _returnBackIcon(this.isVisibleBackButton, context),
       backgroundColor: Colors.white,
       elevation: Dimens.minElevationApplication,
-      titleSpacing: 10,
+      titleSpacing: 0,
       title: Row(
         children: [
           // Visibility(
@@ -45,7 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               style: TextStyle(
                 fontSize: Dimens.textSize7,
                 color: Colors.black,
-                fontWeight: FontWeight.w600
+                fontWeight: FontWeight.w900
               ),
             ),
           )

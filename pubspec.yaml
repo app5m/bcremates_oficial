@@ -115,6 +115,7 @@ flutter:
     - images/search.png
     - images/leilao.png
     - images/leilao2.png
+    - images/generic.png
   #    - images/default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
