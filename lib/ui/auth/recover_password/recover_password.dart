@@ -103,7 +103,6 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                               child: Text(
                                 "Recuperar senha",
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize8,
                                   color: Colors.black87,
                                 ),
@@ -115,7 +114,6 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                               child: Text(
                                 "Digite seu e-mail para iniciar o processo de recuperação." /*? "Insira seus dados pessoais." : "Cadastre seu e-mail e senha."*/,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black54,
                                 ),
@@ -130,7 +128,6 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                 "E-mail",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),

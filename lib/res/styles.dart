@@ -43,22 +43,18 @@ class Styles {
   );
 
   var styleBlackTextButton = TextStyle(
-      fontFamily: 'Inter',
       fontSize: Dimens.textSize6,
       color: Colors.black87);
 
   var styleDefaultTextButton = TextStyle(
-      fontFamily: 'Inter',
       fontSize: Dimens.textSize6,
       color: Colors.white);
 
   var styleOutlinedRedTextButton = TextStyle(
-      fontFamily: 'Inter',
       fontSize: Dimens.textSize6,
       color: Colors.red);
 
   var styleTitleText = TextStyle(
-    fontFamily: 'Inter',
     fontSize: Dimens.textSize7,
     fontWeight: FontWeight.w600,
     color: Colors.white,
@@ -71,7 +67,6 @@ class Styles {
   );
 
   var styleDescriptionText = TextStyle(
-    fontFamily: 'Inter',
     fontSize: Dimens.textSize5,
     color: Colors.white,
     letterSpacing: 0.5

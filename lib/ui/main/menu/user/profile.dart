@@ -354,7 +354,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       /*response.nome*/
                                       "Nome teste",
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         fontSize: Dimens.textSize6,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -366,7 +365,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       /*response.email*/
                                       "email@email.com",
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         fontSize: Dimens.textSize5,
                                         color: Colors.black,
                                       ),
@@ -392,7 +390,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             child: Text(
                               "Pessoal",
                               style: TextStyle(
-                                fontFamily: 'Inter',
                                 fontSize: Dimens.textSize6,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -402,7 +399,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               child: Text(
                             "Endereço",
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize6,
                               fontWeight: FontWeight.w500,
                             ),
@@ -446,7 +442,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                         "Nome completo",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                          fontFamily: 'Inter',
                                           fontSize: Dimens.textSize5,
                                           color: Colors.black87,
                                         ),
@@ -492,7 +487,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                         "CPF",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                          fontFamily: 'Inter',
                                           fontSize: Dimens.textSize5,
                                           color: Colors.black87,
                                         ),
@@ -539,7 +533,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                         "Telefone",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                          fontFamily: 'Inter',
                                           fontSize: Dimens.textSize5,
                                           color: Colors.black87,
                                         ),
@@ -588,7 +581,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                         "E-mail",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                          fontFamily: 'Inter',
                                           fontSize: Dimens.textSize5,
                                           color: Colors.black87,
                                         ),
@@ -719,7 +711,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     "CEP",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize5,
                                       color: Colors.black87,
                                     ),
@@ -775,7 +766,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             "Cidade",
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
-                                              fontFamily: 'Inter',
                                               fontSize: Dimens.textSize5,
                                               color: Colors.black87,
                                             ),
@@ -829,7 +819,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           "Estado",
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                            fontFamily: 'Inter',
                                             fontSize: Dimens.textSize5,
                                             color: Colors.black87,
                                           ),
@@ -879,7 +868,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     "Endereço",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize5,
                                       color: Colors.black87,
                                     ),
@@ -929,7 +917,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           "Bairro",
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                            fontFamily: 'Inter',
                                             fontSize: Dimens.textSize5,
                                             color: Colors.black87,
                                           ),
@@ -979,7 +966,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           "Número",
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
-                                            fontFamily: 'Inter',
                                             fontSize: Dimens.textSize5,
                                             color: Colors.black87,
                                           ),
@@ -1028,7 +1014,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     "Complemento",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize5,
                                       color: Colors.black87,
                                     ),
@@ -1141,7 +1126,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     //     "Meus dados",
                     //     textAlign: TextAlign.start,
                     //     style: TextStyle(
-                    //       fontFamily: 'Inter',
                     //       fontSize: Dimens.textSize6,
                     //       color: Colors.black,
                     //     ),
@@ -1351,7 +1335,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     //     "Alterar Senha",
                     //     textAlign: TextAlign.start,
                     //     style: TextStyle(
-                    //       fontFamily: 'Inter',
                     //       fontSize: Dimens.textSize6,
                     //       color: Colors.black,
                     //     ),

@@ -148,7 +148,6 @@ class _MainMenu extends State<MainMenu> {
                                   /*response.nome*/
                                   "Nome teste",
                                   style: TextStyle(
-                                    fontFamily: 'Inter',
                                     fontSize: Dimens.textSize6,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -159,7 +158,6 @@ class _MainMenu extends State<MainMenu> {
                                   /*response.email*/
                                   "email@email.com",
                                   style: TextStyle(
-                                    fontFamily: 'Inter',
                                     fontSize: Dimens.textSize5,
                                     color: Colors.black,
                                   ),
@@ -197,7 +195,6 @@ class _MainMenu extends State<MainMenu> {
                                 Text(
                                   "Suporte",
                                   style: TextStyle(
-                                    fontFamily: 'Inter',
                                     fontSize: Dimens.textSize5,
                                     color: Colors.black,
                                   ),
@@ -224,7 +221,6 @@ class _MainMenu extends State<MainMenu> {
                                 Text(
                                   "Dúvidas frequentes",
                                   style: TextStyle(
-                                    fontFamily: 'Inter',
                                     fontSize: Dimens.textSize5,
                                     color: Colors.black,
                                   ),
@@ -254,7 +250,6 @@ class _MainMenu extends State<MainMenu> {
                                 Text(
                                   "Desativar conta",
                                   style: TextStyle(
-                                    fontFamily: 'Inter',
                                     fontSize: Dimens.textSize5,
                                     color: Colors.black,
                                   ),
@@ -283,7 +278,6 @@ class _MainMenu extends State<MainMenu> {
                               btnBack: TextButton(
                                   child: Text(Strings.no,
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         color: Colors.black54,
                                       )),
                                   onPressed: () {
@@ -319,7 +313,6 @@ class _MainMenu extends State<MainMenu> {
                                   child: Text(
                                     Strings.no,
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       color: Colors.black54,
                                     ),
                                   ),

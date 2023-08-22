@@ -45,7 +45,6 @@ class _SucessRegisterState extends State<SucessRegister> {
                           textAlign: TextAlign.center,
                           "Cadastro Finalizado",
                           style: TextStyle(
-                            fontFamily: 'Inter',
                             fontSize: Dimens.textSize8,
                             color: Colors.black87,
                           ),
@@ -58,7 +57,6 @@ class _SucessRegisterState extends State<SucessRegister> {
                           textAlign: TextAlign.center,
                           "Uma notificação será enviada no seu e-mail quando o cadastro for aprovado pelo administrador.",
                           style: TextStyle(
-                            fontFamily: 'Inter',
                             fontSize: Dimens.textSize5,
                             color: Colors.black54,
                           ),

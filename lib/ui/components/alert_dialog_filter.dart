@@ -58,7 +58,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                 Text(
                   "Filtro Avançado",
                   style: TextStyle(
-                    fontFamily: 'Inter',
                     fontSize: Dimens.textSize6,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -72,7 +71,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                     "Nome completo",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontFamily: 'Inter',
                       fontSize: Dimens.textSize5,
                       color: Colors.black87,
                     ),
@@ -114,7 +112,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                     "Cidade / Estado",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontFamily: 'Inter',
                       fontSize: Dimens.textSize5,
                       color: Colors.black87,
                     ),
@@ -163,7 +160,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                             "Data",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize5,
                               color: Colors.black87,
                             ),
@@ -239,7 +235,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           child: Text(
                             "Até",
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize4,
                               color: Colors.black87,
                               fontWeight: FontWeight.w400,
@@ -257,7 +252,6 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           "",
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontFamily: 'Inter',
                             fontSize: Dimens.textSize5,
                             color: Colors.black87,
                           ),

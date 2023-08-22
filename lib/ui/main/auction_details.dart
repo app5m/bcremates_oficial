@@ -117,7 +117,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                               child: Text(
                                                 "Nome do leilão",
                                                 style: TextStyle(
-                                                  fontFamily: 'Inter',
                                                   fontSize: Dimens.textSize7,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -127,7 +126,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                             // Text(
                                             //   "Ver mais",
                                             //   style: TextStyle(
-                                            //     fontFamily: 'Inter',
                                             //     fontSize: Dimens.textSize5,
                                             //     color: OwnerColors.colorPrimaryDark,
                                             //   ),
@@ -143,7 +141,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                           child: Text(
                                             "Cuiabá - MT",
                                             style: TextStyle(
-                                              fontFamily: 'Inter',
                                               fontSize: Dimens.textSize4,
                                               color: Colors.black54,
                                             ),
@@ -165,7 +162,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                           Text(
                                             "00/00 ás 00:00",
                                             style: TextStyle(
-                                              fontFamily: 'Inter',
                                               fontSize: Dimens.textSize4,
                                               color: Colors.black87,
                                             ),
@@ -214,7 +210,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                           child: Text(
                                             "Lote 20 | ganhou",
                                             style: TextStyle(
-                                              fontFamily: 'Inter',
                                               fontSize: Dimens.textSize6,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
@@ -254,7 +249,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                 children: [
                                                   Text("Lance atual",
                                                       style: TextStyle(
-                                                        fontFamily: 'Inter',
                                                         fontSize:
                                                             Dimens.textSize6,
                                                         fontWeight:
@@ -265,7 +259,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                   SizedBox(height: 2),
                                                   Text("R\$ 700,00",
                                                       style: TextStyle(
-                                                        fontFamily: 'Inter',
                                                         fontSize:
                                                             Dimens.textSize6,
                                                         fontWeight:
@@ -296,7 +289,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                     children: [
                                                       Text("Dados",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -306,7 +298,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                       Text(
                                                         "teste",
                                                         style: TextStyle(
-                                                          fontFamily: 'Inter',
                                                           fontSize:
                                                               Dimens.textSize5,
                                                           color: OwnerColors
@@ -326,7 +317,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                     children: [
                                                       Text("Dados",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -336,7 +326,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                       Text(
                                                         "teste",
                                                         style: TextStyle(
-                                                          fontFamily: 'Inter',
                                                           fontSize:
                                                               Dimens.textSize5,
                                                           color: OwnerColors
@@ -366,7 +355,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                     children: [
                                                       Text("Dados",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -376,7 +364,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                       Text(
                                                         "teste",
                                                         style: TextStyle(
-                                                          fontFamily: 'Inter',
                                                           fontSize:
                                                               Dimens.textSize5,
                                                           color: OwnerColors
@@ -396,7 +383,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                     children: [
                                                       Text("Dados",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -406,7 +392,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                       Text(
                                                         "teste",
                                                         style: TextStyle(
-                                                          fontFamily: 'Inter',
                                                           fontSize:
                                                               Dimens.textSize5,
                                                           color: OwnerColors
@@ -475,7 +460,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                   Text(
                                     "Lance atual: R\$700,00",
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize5,
                                       color: Colors.black45,
                                       fontWeight: FontWeight.w400,
@@ -489,7 +473,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                     child: Text(
                                       "ou",
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         fontSize: Dimens.textSize5,
                                         color: Colors.black45,
                                         fontWeight: FontWeight.w400,
@@ -548,7 +531,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                   Text(
                                     "Lance atual: R\$700,00",
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize5,
                                       color: Colors.black45,
                                       fontWeight: FontWeight.w400,
@@ -600,7 +582,6 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                             child: Text(
                                               "Lote 20 | ganhou",
                                               style: TextStyle(
-                                                fontFamily: 'Inter',
                                                 fontSize: Dimens.textSize6,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,

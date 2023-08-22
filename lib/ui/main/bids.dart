@@ -71,7 +71,6 @@ class _BidsState extends State<Bids> {
                                   child: Text(
                                     "Histórico",
                                     style: TextStyle(
-                                      fontFamily: 'Inter',
                                       fontSize: Dimens.textSize6,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black,
@@ -81,7 +80,6 @@ class _BidsState extends State<Bids> {
                                 // Text(
                                 //   "Ver mais",
                                 //   style: TextStyle(
-                                //     fontFamily: 'Inter',
                                 //     fontSize: Dimens.textSize5,
                                 //     color: OwnerColors.colorPrimaryDark,
                                 //   ),
@@ -97,7 +95,6 @@ class _BidsState extends State<Bids> {
                               child: Text(
                                 "Acompanhe seu histórico de lances",
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black54,
                                 ),
@@ -178,8 +175,6 @@ class _BidsState extends State<Bids> {
                                                             Text(
                                                               "Nome teste",
                                                               style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
                                                                 fontSize: Dimens
                                                                     .textSize6,
                                                                 fontWeight:
@@ -197,8 +192,6 @@ class _BidsState extends State<Bids> {
                                                                 "Data: ",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors
@@ -212,8 +205,6 @@ class _BidsState extends State<Bids> {
                                                                 "00/00/0000",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors
@@ -242,8 +233,6 @@ class _BidsState extends State<Bids> {
                                                             Text(
                                                               "Cuiabá - MT",
                                                               style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
                                                                 fontSize: Dimens
                                                                     .textSize5,
                                                               ),
@@ -268,7 +257,6 @@ class _BidsState extends State<Bids> {
                                                   child: Text(
                                                     "Lote 20 | ganhou",
                                                     style: TextStyle(
-                                                      fontFamily: 'Inter',
                                                       fontSize:
                                                           Dimens.textSize6,
                                                       fontWeight:
@@ -313,8 +301,6 @@ class _BidsState extends State<Bids> {
                                                       Text("Dados",
                                                       style:
                                                       TextStyle(
-                                                        fontFamily:
-                                                        'Inter',
                                                         fontSize: Dimens
                                                             .textSize6,
                                                         fontWeight:
@@ -328,8 +314,6 @@ class _BidsState extends State<Bids> {
                                                     "teste",
                                                     style:
                                                     TextStyle(
-                                                      fontFamily:
-                                                      'Inter',
                                                       fontSize: Dimens
                                                           .textSize6,
                                                       fontWeight:
@@ -342,8 +326,6 @@ class _BidsState extends State<Bids> {
                                                       Text("Dados",
                                                           style:
                                                           TextStyle(
-                                                            fontFamily:
-                                                            'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -357,8 +339,6 @@ class _BidsState extends State<Bids> {
                                                         "teste",
                                                         style:
                                                         TextStyle(
-                                                          fontFamily:
-                                                          'Inter',
                                                           fontSize: Dimens
                                                               .textSize5,
                                                           color: Colors
@@ -392,8 +372,6 @@ class _BidsState extends State<Bids> {
                                                               Text("Dados",
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
                                                                     fontSize: Dimens
                                                                         .textSize6,
                                                                     fontWeight:
@@ -406,8 +384,6 @@ class _BidsState extends State<Bids> {
                                                                 "teste",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors
@@ -429,8 +405,6 @@ class _BidsState extends State<Bids> {
                                                               Text("Dados",
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
                                                                     fontSize: Dimens
                                                                         .textSize6,
                                                                     fontWeight:
@@ -443,8 +417,6 @@ class _BidsState extends State<Bids> {
                                                                 "teste",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors
@@ -480,8 +452,6 @@ class _BidsState extends State<Bids> {
                                                               Text("Dados",
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
                                                                     fontSize: Dimens
                                                                         .textSize6,
                                                                     fontWeight:
@@ -494,8 +464,6 @@ class _BidsState extends State<Bids> {
                                                                 "teste",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors
@@ -517,8 +485,6 @@ class _BidsState extends State<Bids> {
                                                               Text("Dados",
                                                                   style:
                                                                       TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
                                                                     fontSize: Dimens
                                                                         .textSize6,
                                                                     fontWeight:
@@ -531,8 +497,6 @@ class _BidsState extends State<Bids> {
                                                                 "teste",
                                                                 style:
                                                                     TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
                                                                   fontSize: Dimens
                                                                       .textSize5,
                                                                   color: Colors

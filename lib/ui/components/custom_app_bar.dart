@@ -43,7 +43,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               title,
               style: TextStyle(
-                fontFamily: 'Inter',
                 fontSize: Dimens.textSize7,
                 color: Colors.black,
                 fontWeight: FontWeight.w600
@@ -61,9 +60,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           margin: EdgeInsets.only(left: 10),
           child: IconButton(
             icon: Icon(
-              Icons.arrow_back_ios_outlined,
-              color: Colors.black54,
-              size: 20,
+              Icons.arrow_back,
+              color: OwnerColors.colorPrimaryDark,
             ),
             onPressed: () {
               if (Navigator.of(context).canPop()) {

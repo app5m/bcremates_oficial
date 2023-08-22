@@ -38,7 +38,6 @@ class _GenericAlertDialogState extends State<GenericAlertDialog> {
                   widget.title!,
                   style: TextStyle(
                       fontSize: Dimens.textSize7,
-                      fontFamily: 'Inter',
                       color: Colors.black),
                 ),
                 SizedBox(height: Dimens.marginApplication),
@@ -47,7 +46,6 @@ class _GenericAlertDialogState extends State<GenericAlertDialog> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: Dimens.textSize5,
-                      fontFamily: 'Inter',
                       color: Colors.black),
                 ),
                 SizedBox(height: Dimens.marginApplication),

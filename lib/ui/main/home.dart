@@ -364,7 +364,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Categorias",
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize6,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -374,7 +373,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                         // Text(
                         //   "Ver mais",
                         //   style: TextStyle(
-                        //     fontFamily: 'Inter',
                         //     fontSize: Dimens.textSize5,
                         //     color: OwnerColors.colorPrimaryDark,
                         //   ),
@@ -422,7 +420,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              fontFamily: 'Inter',
                                               fontSize: Dimens.textSize5,
                                             ),
                                           ),
@@ -462,7 +459,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Assista agora!",
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize6,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -472,7 +468,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                         // Text(
                         //   "Ver mais",
                         //   style: TextStyle(
-                        //     fontFamily: 'Inter',
                         //     fontSize: Dimens.textSize5,
                         //     color: OwnerColors.colorPrimaryDark,
                         //   ),
@@ -565,7 +560,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                         Text(
                                                           "Nome teste",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -580,8 +574,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "Data: ",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -594,8 +586,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "00/00/0000",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -610,8 +600,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "Quantidade de lotes: ",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -624,8 +612,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "3",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -652,7 +638,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                     Text(
                                                       "Cuiabá - MT",
                                                       style: TextStyle(
-                                                        fontFamily: 'Inter',
                                                         fontSize:
                                                             Dimens.textSize5,
                                                       ),
@@ -692,7 +677,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Leilão atual",
                             style: TextStyle(
-                              fontFamily: 'Inter',
                               fontSize: Dimens.textSize6,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -702,7 +686,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                         // Text(
                         //   "Ver mais",
                         //   style: TextStyle(
-                        //     fontFamily: 'Inter',
                         //     fontSize: Dimens.textSize5,
                         //     color: OwnerColors.colorPrimaryDark,
                         //   ),
@@ -795,7 +778,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                         Text(
                                                           "Nome teste",
                                                           style: TextStyle(
-                                                            fontFamily: 'Inter',
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
@@ -810,8 +792,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "Data: ",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -824,8 +804,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "00/00/0000",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -840,8 +818,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "Quantidade de lotes: ",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -854,8 +830,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                           Text(
                                                             "3",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
                                                               fontSize: Dimens
                                                                   .textSize5,
                                                               color:
@@ -882,7 +856,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                     Text(
                                                       "Cuiabá - MT",
                                                       style: TextStyle(
-                                                        fontFamily: 'Inter',
                                                         fontSize:
                                                             Dimens.textSize5,
                                                       ),

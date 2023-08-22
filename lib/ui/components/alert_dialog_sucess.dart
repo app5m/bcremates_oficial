@@ -42,7 +42,6 @@ class _SucessAlertDialogState extends State<SucessAlertDialog> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: Dimens.textSize5,
-                      fontFamily: 'Inter',
                       color: Colors.black),
                 ),
                 widget.btnConfirm,

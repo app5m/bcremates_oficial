@@ -54,7 +54,6 @@ class _OptionsAlertDialog extends State<OptionsAlertDialog> {
                     Text(
                       "Frotas",
                       style: TextStyle(
-                        fontFamily: 'Inter',
                         fontSize: Dimens.textSize6,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -74,7 +73,6 @@ class _OptionsAlertDialog extends State<OptionsAlertDialog> {
                     Text(
                       "Marcas",
                       style: TextStyle(
-                        fontFamily: 'Inter',
                         fontSize: Dimens.textSize6,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -92,7 +90,6 @@ class _OptionsAlertDialog extends State<OptionsAlertDialog> {
                   child: Text(
                     "Cancelar",
                     style: TextStyle(
-                      fontFamily: 'Inter',
                       fontSize: Dimens.textSize5,
                       fontWeight: FontWeight.bold,
                       color: Colors.red,

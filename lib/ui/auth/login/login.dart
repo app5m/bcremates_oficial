@@ -115,7 +115,6 @@ class _LoginState extends State<Login> {
                       child: Text(
                         "Entrar",
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize8,
                           color: Colors.black87,
                         ),
@@ -127,7 +126,6 @@ class _LoginState extends State<Login> {
                       child: Text(
                         "Insira seus dados para login." /*? "Insira seus dados pessoais." : "Cadastre seu e-mail e senha."*/,
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize5,
                           color: Colors.black54,
                         ),
@@ -142,7 +140,6 @@ class _LoginState extends State<Login> {
                         "E-mail",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize5,
                           color: Colors.black87,
                         ),
@@ -186,7 +183,6 @@ class _LoginState extends State<Login> {
                         "Senha",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize5,
                           color: Colors.black87,
                         ),
@@ -247,7 +243,6 @@ class _LoginState extends State<Login> {
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: Dimens.textSize5,
-                              fontFamily: 'Inter',
                             ),
                             children: <TextSpan>[
                               TextSpan(text: ''),
@@ -256,7 +251,6 @@ class _LoginState extends State<Login> {
                                   style: TextStyle(
                                     color: OwnerColors.colorPrimary,
                                     fontSize: Dimens.textSize5,
-                                    fontFamily: 'Inter',
                                     fontWeight: FontWeight.w500,
                                     decoration: TextDecoration.underline,
                                   ),
@@ -314,7 +308,6 @@ class _LoginState extends State<Login> {
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: Dimens.textSize5,
-                          fontFamily: 'Inter',
                         ),
                         children: <TextSpan>[
                           TextSpan(text: 'Não possui uma conta? '),
@@ -323,7 +316,6 @@ class _LoginState extends State<Login> {
                               style: TextStyle(
                                 color: OwnerColors.colorPrimary,
                                 fontSize: Dimens.textSize5,
-                                fontFamily: 'Inter',
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,
                               ),

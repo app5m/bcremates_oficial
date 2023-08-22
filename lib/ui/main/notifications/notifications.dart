@@ -77,18 +77,15 @@ class _Notifications extends State<Notifications> {
 
                       return Card(
                         elevation: 0,
-                        color:
-                        OwnerColors.lightGrey,
                         margin: EdgeInsets.all(
                             Dimens.minMarginApplication),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                           BorderRadius.circular(Dimens
                               .minRadiusApplication),
+                          side: BorderSide(width: 1.0, color: OwnerColors.lightGrey)
                         ),
                         child: Container(
-                          padding: EdgeInsets.all(
-                              Dimens.minPaddingApplication),
                           child: Row(
                             crossAxisAlignment:
                             CrossAxisAlignment.center,
@@ -98,21 +95,20 @@ class _Notifications extends State<Notifications> {
                                       right: Dimens
                                           .minMarginApplication),
                                   child: ClipRRect(
-                                      borderRadius: BorderRadius
-                                          .circular(Dimens
-                                          .minRadiusApplication),
+
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimens.minRadiusApplication), bottomLeft: Radius.circular(Dimens.minRadiusApplication)),
                                       child: Image.network(
                                         ApplicationConstant
                                             .URL_PRODUCT,
-                                        height: 90,
-                                        width: 90,
+                                        height: 100,
+                                        width: 100,
                                         errorBuilder: (context,
                                             exception,
                                             stackTrack) =>
                                             Image.asset(
                                               'images/leilao.png',
-                                              height: 90,
-                                              width: 90,
+                                              height: 100,
+                                              width: 100,
                                               fit: BoxFit.cover,
                                             ),
                                       ))),
@@ -128,7 +124,6 @@ class _Notifications extends State<Notifications> {
                                       overflow: TextOverflow
                                           .ellipsis,
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         fontSize: Dimens
                                             .textSize5,
                                         fontWeight:
@@ -145,7 +140,6 @@ class _Notifications extends State<Notifications> {
                                       overflow: TextOverflow
                                           .ellipsis,
                                       style: TextStyle(
-                                        fontFamily: 'Inter',
                                         fontSize: Dimens
                                             .textSize4,
                                         color: Colors.black54,
@@ -161,7 +155,6 @@ class _Notifications extends State<Notifications> {
                                       Text(
                                         "00/00 ás 00:00",
                                         style: TextStyle(
-                                          fontFamily: 'Inter',
                                           fontSize: Dimens
                                               .textSize4,
                                           color: Colors.black87,
@@ -199,7 +192,6 @@ class _Notifications extends State<Notifications> {
                             Text(
                               Strings.empty_list,
                               style: TextStyle(
-                                fontFamily: 'Inter',
                                 fontSize: Dimens.textSize5,
                                 color: Colors.black,
                               ),

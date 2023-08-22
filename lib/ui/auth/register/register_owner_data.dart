@@ -199,7 +199,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                       child: Text(
                         "Cadastro",
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize8,
                           color: Colors.black87,
                         ),
@@ -211,7 +210,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                       child: Text(
                         "Insira seus dados pessoais" /*? "Insira seus dados pessoais." : "Cadastre seu e-mail e senha."*/,
                         style: TextStyle(
-                          fontFamily: 'Inter',
                           fontSize: Dimens.textSize5,
                           color: Colors.black54,
                         ),
@@ -243,7 +241,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "Nome completo",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -288,7 +285,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "CPF",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -334,7 +330,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "Telefone",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -386,7 +381,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "E-mail",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -431,7 +425,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "Senha",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -550,7 +543,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 "Confirmar Senha",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontFamily: 'Inter',
                                   fontSize: Dimens.textSize5,
                                   color: Colors.black87,
                                 ),
@@ -644,7 +636,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontSize: Dimens.textSize5,
-                                  fontFamily: 'Inter',
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
@@ -655,7 +646,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                       style: TextStyle(
                                           color: Colors.black54,
                                           fontSize: Dimens.textSize5,
-                                          fontFamily: 'Inter',
                                           fontWeight: FontWeight.bold),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
@@ -766,7 +756,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: Dimens.textSize5,
-                          fontFamily: 'Inter',
                         ),
                         children: <TextSpan>[
                           TextSpan(text: 'Já possui uma conta? '),
@@ -775,7 +764,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                               style: TextStyle(
                                 color: OwnerColors.colorPrimary,
                                 fontSize: Dimens.textSize5,
-                                fontFamily: 'Inter',
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,
                               ),

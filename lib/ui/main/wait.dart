@@ -44,7 +44,6 @@ class _WaitAdminState extends State<WaitAdmin> {
                           textAlign: TextAlign.center,
                           "Aguarde...",
                           style: TextStyle(
-                            fontFamily: 'Inter',
                             fontSize: Dimens.textSize8,
                             color: Colors.black87,
                           ),
@@ -57,7 +56,6 @@ class _WaitAdminState extends State<WaitAdmin> {
                           textAlign: TextAlign.center,
                           "Aguardando aceitaão do administrador.",
                           style: TextStyle(
-                            fontFamily: 'Inter',
                             fontSize: Dimens.textSize5,
                             color: Colors.black54,
                           ),
