@@ -391,7 +391,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               "Pessoal",
                               style: TextStyle(
                                 fontSize: Dimens.textSize6,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
                           ),
@@ -400,7 +400,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             "Endereço",
                             style: TextStyle(
                               fontSize: Dimens.textSize6,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w900,
                             ),
                           ))
                         ],

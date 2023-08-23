@@ -11,6 +11,7 @@ import 'package:bc_remates/ui/main/home.dart';
 import 'package:bc_remates/ui/main/menu/user/profile.dart';
 import 'package:bc_remates/ui/main/notifications/notifications.dart';
 import 'package:bc_remates/ui/main/questions_answers.dart';
+import 'package:bc_remates/ui/main/wait.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,7 @@ void main() async {
       '/ui/notifications': (context) => Notifications(),
       '/ui/recover_password': (context) => RecoverPassword(),
       '/ui/questions_answers': (context) => QuestionsAnswers(),
+      '/ui/wait': (context) => WaitAdmin(),
 
 
     },

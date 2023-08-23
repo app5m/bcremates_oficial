@@ -415,7 +415,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-
                                           Image.asset('images/cow.png',
                                               width: 24, height: 24),
                                           SizedBox(
@@ -449,24 +448,22 @@ class _ContainerHomeState extends State<ContainerHome> {
                             /*child: CircularProgressIndicator()*/
                             );
                       }),
-
-                      SizedBox(height: Dimens.marginApplication),
                   SizedBox(height: Dimens.marginApplication),
-                      CarouselSlider(
-                        items: carouselItems,
-                        options: CarouselOptions(
-                          height: 100,
-                          autoPlay: false,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _pageIndex = index;
-                            });
-                          },
-                        ),
-                      ),
-
-                      SizedBox(height: Dimens.marginApplication),
-                      SizedBox(height: Dimens.marginApplication),
+                  SizedBox(height: Dimens.marginApplication),
+                  CarouselSlider(
+                    items: carouselItems,
+                    options: CarouselOptions(
+                      height: 100,
+                      autoPlay: false,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _pageIndex = index;
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(height: Dimens.marginApplication),
+                  SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
                         left: Dimens.marginApplication,
@@ -498,7 +495,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return */
-                  ListView.builder(
+                  /*ListView.builder(
                     primary: false,
                     shrinkWrap: true,
                     itemCount: 1,
@@ -677,13 +674,37 @@ class _ContainerHomeState extends State<ContainerHome> {
                             ),
                           ));
                     },
-                  ) /*;
+                  )*/ /*;
                             } else if (snapshot.hasError) {
                               return Text('${snapshot.error}');
                             }
                             return Center(*/ /*child: CircularProgressIndicator()*/ /*);
                           }),*/
-                  ,
+                  SizedBox(height: Dimens.marginApplication),
+                  InkWell( onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      "/ui/wait",
+                      /*   arguments: {
+                                      "id_product": response.id,
+                                    }*/
+                    );
+                  } ,child:
+                  Container( margin: EdgeInsets.all(Dimens.marginApplication) ,child:
+                  ClipRRect(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(Dimens.minRadiusApplication)),
+                      child: Image.network(
+                        "",
+                        height: 200,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, exception, stackTrack) =>
+                            Image.asset(
+                          'images/leilo.png',
+                          fit: BoxFit.cover,
+                          height: 200,
+                        ),
+                      )))),
                   SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
@@ -727,10 +748,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                       return InkWell(
                           onTap: () => {
                                 Navigator.pushNamed(
-                                    context, "/ui/auction_details",
-                                 /*   arguments: {
+                                  context,
+                                  "/ui/auction_details",
+                                  /*   arguments: {
                                       "id_product": response.id,
-                                    }*/)
+                                    }*/
+                                )
                               },
                           child: Card(
                             elevation: 0,
@@ -743,22 +766,26 @@ class _ContainerHomeState extends State<ContainerHome> {
                             child: Container(
                               child: Column(
                                 children: [
-                              ClipRRect(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimens.minRadiusApplication), topRight: Radius.circular(Dimens.minRadiusApplication)),
-                              child: Image.network(
-                                    "",
-                                    height: 140,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, exception, stackTrack) =>
-                                            Image.asset(
-                                              'images/leilao2.png',
-                                      width: double.infinity,
-                                              fit: BoxFit.cover,
-                                      height: 140,
-                                    ),
-                                  )),
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(
+                                              Dimens.minRadiusApplication),
+                                          topRight: Radius.circular(
+                                              Dimens.minRadiusApplication)),
+                                      child: Image.network(
+                                        "",
+                                        height: 140,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, exception, stackTrack) =>
+                                                Image.asset(
+                                          'images/leilao2.png',
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          height: 140,
+                                        ),
+                                      )),
                                   Container(
                                       padding: EdgeInsets.all(
                                           Dimens.paddingApplication),
@@ -799,7 +826,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                             fontSize: Dimens
                                                                 .textSize6,
                                                             fontWeight:
-                                                                FontWeight.w500,
+                                                                FontWeight.w900,
                                                             color: Colors.black,
                                                           ),
                                                         ),
@@ -875,7 +902,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                       "Cuiabá - MT",
                                                       style: TextStyle(
                                                         fontSize:
-                                                            Dimens.textSize5,
+                                                            Dimens.textSize4,
                                                       ),
                                                     ),
                                                   ],
@@ -923,18 +950,18 @@ class CarouselItemBuilder extends StatelessWidget {
         margin: EdgeInsets.only(right: 6, left: 6),
         width: double.infinity,
         height: 100,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [OwnerColors.gradientFirstColor, OwnerColors.gradientSecondaryColor, OwnerColors.gradientThirdColor],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight),
-            borderRadius:  BorderRadius.circular(Dimens.minRadiusApplication)
-          ),
-          /*width: MediaQuery.of(context).size.width * 0.90,*/
-          child: Image.asset(
-            image,
-          ),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              OwnerColors.gradientFirstColor,
+              OwnerColors.gradientSecondaryColor,
+              OwnerColors.gradientThirdColor
+            ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+            borderRadius: BorderRadius.circular(Dimens.minRadiusApplication)),
+        /*width: MediaQuery.of(context).size.width * 0.90,*/
+        child: Image.asset(
+          image,
         ),
+      ),
     );
   }
 }

@@ -13,6 +13,16 @@ class WaitAdmin extends StatefulWidget {
 }
 
 class _WaitAdminState extends State<WaitAdmin> {
+
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () async {
+
+        Navigator.pushReplacementNamed(context, '/ui/auction_details');
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +64,7 @@ class _WaitAdminState extends State<WaitAdmin> {
                         width: double.infinity,
                         child: Text(
                           textAlign: TextAlign.center,
-                          "Aguardando aceitaão do administrador.",
+                          "Aguardando aceitação do administrador.",
                           style: TextStyle(
                             fontSize: Dimens.textSize5,
                             color: Colors.black54,

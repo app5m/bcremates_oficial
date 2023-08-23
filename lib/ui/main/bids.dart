@@ -185,7 +185,7 @@ class _BidsState extends State<Bids> {
                                                                     .textSize6,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500,
+                                                                        .w900,
                                                                 color: Colors
                                                                     .black,
                                                               ),
@@ -199,7 +199,7 @@ class _BidsState extends State<Bids> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: Dimens
-                                                                      .textSize5,
+                                                                      .textSize4,
                                                                   color: Colors
                                                                       .black,
                                                                   fontWeight:
@@ -212,7 +212,7 @@ class _BidsState extends State<Bids> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: Dimens
-                                                                      .textSize5,
+                                                                      .textSize4,
                                                                   color: Colors
                                                                       .black,
                                                                 ),
@@ -331,20 +331,20 @@ class _BidsState extends State<Bids> {
                                                       crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
 
-                                                        Text("Dados",
+                                                        Text("Resultado",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
                                                                   .textSize6,
                                                               fontWeight:
                                                               FontWeight
-                                                                  .bold,
+                                                                  .w900,
                                                               color: Colors
                                                                   .black,
                                                             )),
                                                         SizedBox(height: 2),
                                                         Text(
-                                                            "teste",
+                                                            "Ganhou",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
@@ -356,7 +356,7 @@ class _BidsState extends State<Bids> {
                                                             )),
 
                                                         SizedBox(height: Dimens.marginApplication),
-                                                        Text("Dados",
+                                                        Text("Lance",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
@@ -369,7 +369,7 @@ class _BidsState extends State<Bids> {
                                                             )),
                                                         SizedBox(height: 2),
                                                         Text(
-                                                            "teste",
+                                                            "R\$ 700,00",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
@@ -402,7 +402,7 @@ class _BidsState extends State<Bids> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                               children: [
-                                                                Text("Dados",
+                                                                Text("Lotes",
                                                                     style:
                                                                     TextStyle(
                                                                       fontSize: Dimens
@@ -414,7 +414,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "teste",
+                                                                  "20",
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -435,7 +435,7 @@ class _BidsState extends State<Bids> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                               children: [
-                                                                Text("Dados",
+                                                                Text("Categoria",
                                                                     style:
                                                                     TextStyle(
                                                                       fontSize: Dimens
@@ -447,7 +447,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "teste",
+                                                                  "Lorem",
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -482,7 +482,7 @@ class _BidsState extends State<Bids> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                               children: [
-                                                                Text("Dados",
+                                                                Text("Peso",
                                                                     style:
                                                                     TextStyle(
                                                                       fontSize: Dimens
@@ -494,7 +494,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "teste",
+                                                                  "10 kg",
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -515,7 +515,7 @@ class _BidsState extends State<Bids> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                               children: [
-                                                                Text("Dados",
+                                                                Text("Raça",
                                                                     style:
                                                                     TextStyle(
                                                                       fontSize: Dimens
