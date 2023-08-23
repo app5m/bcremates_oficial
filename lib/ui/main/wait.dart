@@ -64,7 +64,7 @@ class _WaitAdminState extends State<WaitAdmin> {
                         width: double.infinity,
                         child: Text(
                           textAlign: TextAlign.center,
-                          "Aguardando aceitação do administrador.",
+                          "Aguardando aceitação do administrador...",
                           style: TextStyle(
                             fontSize: Dimens.textSize5,
                             color: Colors.black54,

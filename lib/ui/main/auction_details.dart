@@ -145,7 +145,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                             "Cuiabá - MT",
                                             style: TextStyle(
                                               fontSize: Dimens.textSize4,
-                                              color: Colors.black54,
+                                              color: Colors.black87,
                                             ),
                                           ))
                                     ]),
@@ -211,7 +211,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            "Lote 20 | ganhou",
+                                            "Lote atual (20)",
                                             style: TextStyle(
                                               fontSize: Dimens.textSize6,
                                               fontWeight: FontWeight.bold,
@@ -285,7 +285,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("Dados",
+                                                      Text("Número",
                                                           style: TextStyle(
                                                             fontSize: Dimens
                                                                 .textSize6,
@@ -313,7 +313,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("Dados",
+                                                      Text("Categoria",
                                                           style: TextStyle(
                                                             fontSize: Dimens
                                                                 .textSize6,
@@ -351,7 +351,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("Dados",
+                                                      Text("Peso",
                                                           style: TextStyle(
                                                             fontSize: Dimens
                                                                 .textSize6,
@@ -379,7 +379,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text("Dados",
+                                                      Text("Raça",
                                                           style: TextStyle(
                                                             fontSize: Dimens
                                                                 .textSize6,
@@ -590,10 +590,10 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      "Lote 20 | ganhou",
+                                                      "Lote 20",
                                                       style: TextStyle(
                                                         fontSize:
-                                                            Dimens.textSize6,
+                                                            Dimens.textSize5,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: Colors.white,

@@ -156,8 +156,8 @@ class _Notifications extends State<Notifications> {
                                         "00/00 ás 00:00",
                                         style: TextStyle(
                                           fontSize: Dimens
-                                              .textSize4,
-                                          color: Colors.black87,
+                                              .textSize3,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],)
