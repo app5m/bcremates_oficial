@@ -364,7 +364,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Categorias",
                             style: TextStyle(
-                              fontSize: Dimens.textSize6,
+                              fontSize: Dimens.textSize5,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -415,6 +415,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
+
+                                          Image.asset('images/cow.png',
+                                              width: 24, height: 24),
+                                          SizedBox(
+                                            width: Dimens.minMarginApplication,
+                                          ),
                                           Text(
                                             "Teste",
                                             maxLines: 1,
@@ -423,11 +429,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                                               fontSize: Dimens.textSize5,
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: Dimens.minMarginApplication,
-                                          ),
-                                          Image.asset('images/cow.png',
-                                              width: 24, height: 24)
                                         ]))));
                           }
 
@@ -476,7 +477,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Assista agora!",
                             style: TextStyle(
-                              fontSize: Dimens.textSize6,
+                              fontSize: Dimens.textSize5,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -694,7 +695,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           child: Text(
                             "Leilão atual",
                             style: TextStyle(
-                              fontSize: Dimens.textSize6,
+                              fontSize: Dimens.textSize5,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),

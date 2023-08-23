@@ -435,7 +435,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                               ),
                                               keyboardType: TextInputType.text,
                                               style: TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.white,
                                                 fontSize: Dimens.textSize5,
                                               ),
                                             ),
@@ -506,7 +506,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                               ),
                                               keyboardType: TextInputType.text,
                                               style: TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.white,
                                                 fontSize: Dimens.textSize5,
                                               ),
                                             ),
