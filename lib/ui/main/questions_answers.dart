@@ -15,6 +15,10 @@ class QuestionsAnswers extends StatefulWidget {
 }
 
 class _QuestionsAnswersState extends State<QuestionsAnswers> {
+
+  var isVisible = false;
+  var oldIndex = 99999999999;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +34,7 @@ class _QuestionsAnswersState extends State<QuestionsAnswers> {
 
           return InkWell(
               child: Container(
-                child: Column (children: [
+                child: Column ( crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Container(padding: EdgeInsets.all(Dimens.paddingApplication), child:
                   Row(
                     children: [
@@ -42,7 +46,7 @@ class _QuestionsAnswersState extends State<QuestionsAnswers> {
                               Strings.littleLoremIpsum,
                               style: TextStyle(
                                   fontSize: Dimens.textSize5,
-                                  color: Colors.black,
+                                  color: !isVisible || oldIndex != index ? Colors.black : OwnerColors.colorPrimary,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.5
                               ),
@@ -52,19 +56,52 @@ class _QuestionsAnswersState extends State<QuestionsAnswers> {
                         ),
                       ),
                       Icon(
-                        size: 36,
+                        size: 32,
                         Icons.keyboard_arrow_down,
-                        color: Colors.black54,
+                        color: !isVisible || oldIndex != index ?  Colors.black54 : OwnerColors.colorPrimary,
                       ),
 
                     ],
                   )),
 
+                  Visibility(visible: isVisible && oldIndex == index, child: Column(children: [
+                  Container(margin: EdgeInsets.only(left: Dimens.marginApplication), width: MediaQuery.of(context).size.width * 0.70, child:
+                  Text(
+                    Strings.shortLoremIpsum,
+                    style: TextStyle(
+                        fontSize: Dimens.textSize4,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5
+                    ),
+                  ),
+                  ),
+                    SizedBox(height: Dimens.marginApplication,)
+                  ],)),
                   Styles().div_horizontal
                 ],)
               ),
               onTap: () {
+                setState(() {
 
+                  if (!isVisible) {
+                    isVisible = true;
+
+                    oldIndex = index;
+                  } else {
+
+                    if (index != oldIndex) {
+
+                      oldIndex = index;
+
+                    } else {
+
+                      isVisible = false;
+                    }
+
+
+                  }
+                });
               });
         },
       )
