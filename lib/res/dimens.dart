@@ -11,6 +11,7 @@ class Dimens {
   static const double textSize4 = 12.0;
   static const double textSize5 = 14.0;
   static const double textSize6 = 16.0;
+  static const double textSize6_5 = 18.0;
   static const double textSize7 = 20.0;
   static const double textSize8 = 24.0;
   static const double textSize9 = 28.0;

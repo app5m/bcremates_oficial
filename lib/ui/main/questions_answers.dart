@@ -41,7 +41,7 @@ class _QuestionsAnswersState extends State<QuestionsAnswers> {
                             Text(
                               Strings.littleLoremIpsum,
                               style: TextStyle(
-                                  fontSize: Dimens.textSize6,
+                                  fontSize: Dimens.textSize5,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.5
