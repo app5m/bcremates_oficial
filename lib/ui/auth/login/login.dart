@@ -95,12 +95,12 @@ class _LoginState extends State<Login> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: Stack(fit: StackFit.expand, children: [
-          Expanded(
-            child: Image.asset(
-              'images/bg_main.png',
-              fit: BoxFit.fitWidth,
-            ),
+          /*Expanded(
+          child: */Image.asset(
+            'images/bg_main.png',
+            fit: BoxFit.fitWidth,
           ),
+          // ),
           Container(
               child: SafeArea(
                   child: Container(

@@ -6,8 +6,8 @@ class ApplicationMessages {
   ApplicationMessages({Key? key, required this.context});
 
   void showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: Text(message),
+    // ));
   }
 }

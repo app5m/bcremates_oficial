@@ -27,12 +27,12 @@ class _WaitAdminState extends State<WaitAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: [
-        Expanded(
-          child: Image.asset(
-            'images/bg_main.png',
-            fit: BoxFit.fitWidth,
-          ),
+        /*Expanded(
+          child: */Image.asset(
+          'images/bg_main.png',
+          fit: BoxFit.fitWidth,
         ),
+        // ),
         Container(
             padding: EdgeInsets.all(Dimens.paddingApplication),
             child: Column(

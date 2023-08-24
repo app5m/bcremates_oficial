@@ -182,12 +182,12 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
       resizeToAvoidBottomInset: true,
       // appBar: CustomAppBar(isVisibleIcon: true, isVisibleBackButton: true),
       body: Stack(fit: StackFit.expand, children: [
-        Expanded(
-          child: Image.asset(
+        /*Expanded(
+          child: */Image.asset(
             'images/bg_main.png',
             fit: BoxFit.fitWidth,
           ),
-        ),
+        // ),
     Container(
     child: SafeArea( child: Column(
             children: [

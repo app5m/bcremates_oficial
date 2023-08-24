@@ -30,12 +30,12 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: [
-        Expanded(
-          child: Image.asset(
+        /*Expanded(
+          child: */Image.asset(
             'images/bg_splash.png',
             fit: BoxFit.fitWidth,
           ),
-        ),
+        // ),
         Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
