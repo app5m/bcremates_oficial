@@ -22,6 +22,7 @@ import '../../res/styles.dart';
 import '../../web_service/links.dart';
 import '../../web_service/service_response.dart';
 import '../components/alert_dialog_generic.dart';
+import '../components/alert_dialog_get_out.dart';
 import '../components/custom_app_bar.dart';
 import '../components/dot_indicator.dart';
 import 'bids.dart';
@@ -393,6 +394,22 @@ class _ContainerHomeState extends State<ContainerHome> {
                             final response =
                                 Product.fromJson(snapshot.data![i]);
 
+                            var source = 'images/cow.png';
+                            var source2 = 'images/cow.png';
+
+                            if (i == 0) {
+                              source = 'images/cow.png';
+                              source2 = 'Gado';
+                            } else if (i == 1){
+
+                              source = 'images/map.png';
+                              source2 = 'Terras';
+                            } else {
+
+                              source = 'images/gavel.png';
+                              source2 = 'Outros';
+                            }
+
                             gridItems.add(InkWell(
                                 onTap: () => {
                                       // Navigator.pushNamed(
@@ -415,13 +432,13 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Image.asset('images/cow.png',
-                                              width: 24, height: 24),
+                                          Image.asset(source,
+                                              width: 24, height: 24, color: OwnerColors.colorPrimary,),
                                           SizedBox(
                                             width: Dimens.minMarginApplication,
                                           ),
                                           Text(
-                                            "Teste",
+                                            source2,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -681,30 +698,43 @@ class _ContainerHomeState extends State<ContainerHome> {
                             return Center(*/ /*child: CircularProgressIndicator()*/ /*);
                           }),*/
                   SizedBox(height: Dimens.marginApplication),
-                  InkWell( onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      "/ui/wait",
-                      /*   arguments: {
+                  InkWell(
+                      onTap: () async {
+                        final result = await showModalBottomSheet<dynamic>(
+                            isScrollControlled: true,
+                            context: context,
+                            shape: Styles().styleShapeBottomSheet,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            builder: (BuildContext context) {
+                              return GetOutAlertDialog();
+                            });
+                        if (result == true) {
+                          Navigator.pushNamed(
+                            context,
+                            "/ui/wait",
+                            /*   arguments: {
                                       "id_product": response.id,
                                     }*/
-                    );
-                  } ,child:
-                  Container( margin: EdgeInsets.all(Dimens.marginApplication) ,child:
-                  ClipRRect(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(Dimens.minRadiusApplication)),
-                      child: Image.network(
-                        "",
-                        height: 200,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, exception, stackTrack) =>
-                            Image.asset(
-                          'images/leilo.png',
-                          fit: BoxFit.cover,
-                          height: 200,
-                        ),
-                      )))),
+                          );
+                        }
+                      },
+                      child: Container(
+                          margin: EdgeInsets.all(Dimens.marginApplication),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(Dimens.minRadiusApplication)),
+                              child: Image.network(
+                                "",
+                                height: 200,
+                                fit: BoxFit.cover,
+                                errorBuilder:
+                                    (context, exception, stackTrack) =>
+                                        Image.asset(
+                                  'images/leilo.png',
+                                  fit: BoxFit.cover,
+                                  height: 200,
+                                ),
+                              )))),
                   SizedBox(height: Dimens.marginApplication),
                   Container(
                     margin: EdgeInsets.only(
@@ -740,7 +770,232 @@ class _ContainerHomeState extends State<ContainerHome> {
                   ListView.builder(
                     primary: false,
                     shrinkWrap: true,
-                    itemCount: 3,
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      // final response =
+                      // Product.fromJson(snapshot.data![index]);
+
+                      return InkWell(
+                          onTap: () => {
+                                Navigator.pushNamed(
+                                  context,
+                                  "/ui/auction_details",
+                                  /*   arguments: {
+                                      "id_product": response.id,
+                                    }*/
+                                )
+                              },
+                          child: Card(
+                            elevation: 0,
+                            margin: EdgeInsets.all(Dimens.minMarginApplication),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    Dimens.minRadiusApplication),
+                                side: BorderSide(
+                                    color: OwnerColors.lightGrey, width: 1.0)),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(
+                                              Dimens.minRadiusApplication),
+                                          topRight: Radius.circular(
+                                              Dimens.minRadiusApplication)),
+                                      child: Image.network(
+                                        "",
+                                        height: 140,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, exception, stackTrack) =>
+                                                Image.asset(
+                                          'images/leilao2.png',
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                          height: 140,
+                                        ),
+                                      )),
+                                  Container(
+                                      padding: EdgeInsets.all(
+                                          Dimens.paddingApplication),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Container(
+                                          //     margin: EdgeInsets.only(
+                                          //         right: Dimens.minMarginApplication),
+                                          //     child: ClipRRect(
+                                          //         borderRadius: BorderRadius.circular(
+                                          //             Dimens.minRadiusApplication),
+                                          //         child: Image.asset(
+                                          //           'images/person.jpg',
+                                          //           height: 90,
+                                          //           width: 90,
+                                          //         ))),
+                                          SizedBox(
+                                              height:
+                                                  Dimens.minMarginApplication),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 5),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Nome teste",
+                                                          style: TextStyle(
+                                                            fontSize: Dimens
+                                                                .textSize6,
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Data: ",
+                                                            style: TextStyle(
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "00/00/0000",
+                                                            style: TextStyle(
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                        SizedBox(
+                                                            height: Dimens
+                                                                .marginApplication),
+                                                        Row(children: [
+                                                          Text(
+                                                            "Lotes: ",
+                                                            style: TextStyle(
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "3",
+                                                            style: TextStyle(
+                                                              fontSize: Dimens
+                                                                  .textSize5,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                      ],
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+
+                                          Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Cuiabá - MT",
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            Dimens.textSize4,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                    height: Dimens
+                                                        .marginApplication),
+                                                Icon(
+                                                  Icons.access_time,
+                                                  color: OwnerColors.darkGrey,
+                                                )
+                                              ])
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ));
+                    },
+                  ),
+                  /*;
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return Center(*/ /*child: CircularProgressIndicator()*/ /*);
+                          }),*/
+
+                  /*FutureBuilder<List<Map<String, dynamic>>>(
+                          future: listProducts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return */
+                  SizedBox(height: Dimens.marginApplication),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: Dimens.marginApplication,
+                        right: Dimens.marginApplication),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Próximos leilões",
+                            style: TextStyle(
+                              fontSize: Dimens.textSize5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        // Text(
+                        //   "Ver mais",
+                        //   style: TextStyle(
+                        //     fontSize: Dimens.textSize5,
+                        //     color: OwnerColors.colorPrimaryDark,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       // final response =
                       // Product.fromJson(snapshot.data![index]);

@@ -117,6 +117,10 @@ flutter:
     - images/leilao2.png
     - images/generic.png
     - images/leilo.png
+    - images/notification_important.png
+    - images/gado.png
+    - images/terra.png
+    - images/arrow_square_right.png
   #    - images/default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

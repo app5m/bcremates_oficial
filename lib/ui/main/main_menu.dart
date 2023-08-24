@@ -117,6 +117,7 @@ class _MainMenu extends State<MainMenu> {
                       padding: EdgeInsets.all(Dimens.maxPaddingApplication),
                       color: Colors.white,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
                             margin: EdgeInsets.only(
@@ -144,6 +145,7 @@ class _MainMenu extends State<MainMenu> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: 20,),
                                 Text(
                                   /*response.nome*/
                                   "Nome teste",
@@ -153,7 +155,7 @@ class _MainMenu extends State<MainMenu> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(height: Dimens.minMarginApplication),
+                                SizedBox(height: 2),
                                 Text(
                                   /*response.email*/
                                   "email@email.com",
@@ -165,8 +167,9 @@ class _MainMenu extends State<MainMenu> {
                               ],
                             ),
                           ),
+
                           IconButton(
-                            icon: Image.asset('images/edit.png'),
+                            icon: Image.asset('images/edit.png', width: 22, height: 22,),
                             onPressed: () =>
                                 {Navigator.pushNamed(context, "/ui/profile")},
                           )
