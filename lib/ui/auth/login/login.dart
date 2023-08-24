@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:bc_remates/ui/auth/register/success.dart';
+import 'package:bc_remates/ui/components/alert_dialog_email.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -255,9 +256,26 @@ class _LoginState extends State<Login> {
                                     decoration: TextDecoration.underline,
                                   ),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pushNamed(
-                                          context, "/ui/recover_password");
+                                    ..onTap = () async{
+                                      final result = await showModalBottomSheet<dynamic>(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          shape: Styles().styleShapeBottomSheet,
+                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                          builder: (BuildContext context) {
+                                            return EmailAlertDialog();
+                                          });
+                                      if (result == true) {
+                                        Navigator.pushNamed(
+                                          context,
+                                          "/ui/wait",
+                                          /*   arguments: {
+                                      "id_product": response.id,
+                                    }*/
+                                        );
+                                      }
+                                      // Navigator.pushNamed(
+                                      //     context, "/ui/recover_password");
                                     }),
                             ],
                           ),

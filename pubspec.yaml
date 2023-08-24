@@ -121,6 +121,7 @@ flutter:
     - images/gado.png
     - images/terra.png
     - images/arrow_square_right.png
+    - images/security.png
   #    - images/default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

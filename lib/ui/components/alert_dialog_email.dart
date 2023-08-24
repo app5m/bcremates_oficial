@@ -16,16 +16,16 @@ import '../../res/styles.dart';
 import '../../web_service/links.dart';
 import '../../web_service/service_response.dart';
 
-class GetOutAlertDialog extends StatefulWidget {
-  GetOutAlertDialog({Key? key});
+class EmailAlertDialog extends StatefulWidget {
+  EmailAlertDialog({Key? key});
 
   // DialogGeneric({Key? key}) : super(key: key);
 
   @override
-  State<GetOutAlertDialog> createState() => _GetOutAlertDialog();
+  State<EmailAlertDialog> createState() => _EmailAlertDialog();
 }
 
-class _GetOutAlertDialog extends State<GetOutAlertDialog> {
+class _EmailAlertDialog extends State<EmailAlertDialog> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -55,11 +55,11 @@ class _GetOutAlertDialog extends State<GetOutAlertDialog> {
                       },
                     )),
                 // SizedBox(height: Dimens.minMarginApplication),
-                Image.asset("images/notification_important.png", height: 40, width: 40,),
+                Image.asset("images/security.png", height: 40, width: 40,),
                 SizedBox(height: Dimens.marginApplication),
                 Text(
                   textAlign: TextAlign.center,
-                  "Você tem certeza que gostaria de entrar no leilão?",
+                  "Insira seu email para enviarmos um link de recuperação de senha:",
                   style: TextStyle(
                     fontSize: Dimens.textSize6,
                     fontWeight: FontWeight.bold,
@@ -67,9 +67,38 @@ class _GetOutAlertDialog extends State<GetOutAlertDialog> {
                   ),
                 ),
                 SizedBox(height: Dimens.marginApplication),
+                TextField(
+                  // controller: emailController,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: OwnerColors.colorPrimary, width: 1.5),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                    hintText: 'Insira seu e-mail',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                      BorderRadius.circular(Dimens.radiusApplication),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding:
+                    EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: Dimens.textSize5,
+                  ),
+                ),
                 SizedBox(height: Dimens.marginApplication),
-                Row( children: [
-                  Expanded(child:
+
+                SizedBox(height: Dimens.marginApplication),
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -87,32 +116,10 @@ class _GetOutAlertDialog extends State<GetOutAlertDialog> {
                                     strokeWidth: Dimens.buttonIndicatorStrokes,
                                   ))
                                   :*/
-                      Text("Sim", style: Styles().styleDefaultTextButton),
+                      Text("Enviar", style: Styles().styleDefaultTextButton),
                     ),
-                  )),
-                  SizedBox(width: Dimens.marginApplication),
-                  Expanded(child:
-                  Container(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: Styles().styleOutlinedRedButton,
-                      onPressed: () async {
+                  ),
 
-                        Navigator.of(context).pop();
-                      },
-                      child: /* (_isLoading)
-                                  ? const SizedBox(
-                                  width: Dimens.buttonIndicatorWidth,
-                                  height: Dimens.buttonIndicatorHeight,
-                                  child: CircularProgressIndicator(
-                                    color: OwnerColors.colorAccent,
-                                    strokeWidth: Dimens.buttonIndicatorStrokes,
-                                  ))
-                                  :*/
-                      Text("Não", style: Styles().styleOutlinedRedTextButton),
-                    ),
-                  )),
-                ],)
 
               ],
             ),

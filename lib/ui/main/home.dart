@@ -767,6 +767,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return */
+                      SizedBox(height: Dimens.marginApplication),
                   ListView.builder(
                     primary: false,
                     shrinkWrap: true,
@@ -938,12 +939,8 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                    height: Dimens
-                                                        .marginApplication),
-                                                Icon(
-                                                  Icons.access_time,
-                                                  color: OwnerColors.darkGrey,
-                                                )
+                                                    height: 32),
+                                                Image.asset('images/arrow_square_right.png', width: 28, height: 28,)
                                               ])
                                         ],
                                       )),
@@ -992,13 +989,26 @@ class _ContainerHomeState extends State<ContainerHome> {
                       ],
                     ),
                   ),
+                      SizedBox(height: Dimens.marginApplication),
                   ListView.builder(
                     primary: false,
                     shrinkWrap: true,
-                    itemCount: 1,
+                    itemCount: 3,
                     itemBuilder: (context, index) {
                       // final response =
                       // Product.fromJson(snapshot.data![index]);
+
+                      var source = 'images/terra.png';
+
+                      if (index == 0) {
+                        source = 'images/terra.png';
+                      } else if (index == 1) {
+
+                        source = 'images/gado.png';
+                      } else {
+
+                        source = 'images/leilao2.png';
+                      }
 
                       return InkWell(
                           onTap: () => {
@@ -1035,7 +1045,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         errorBuilder:
                                             (context, exception, stackTrack) =>
                                                 Image.asset(
-                                          'images/leilao2.png',
+                                          source,
                                           width: double.infinity,
                                           fit: BoxFit.cover,
                                           height: 140,
@@ -1163,8 +1173,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                    height: Dimens
-                                                        .marginApplication),
+                                                    height: 32),
                                                 Icon(
                                                   Icons.access_time,
                                                   color: OwnerColors.darkGrey,
