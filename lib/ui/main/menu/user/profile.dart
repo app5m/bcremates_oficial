@@ -18,6 +18,7 @@ import '../../../../../../web_service/links.dart';
 import '../../../../../../web_service/service_response.dart';
 import '../../../../res/styles.dart';
 import '../../../components/alert_dialog_pick_files.dart';
+import '../../../components/alert_dialog_pick_images.dart';
 import '../../../components/custom_app_bar.dart';
 
 class Profile extends StatefulWidget {
@@ -329,64 +330,58 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   width: 84,
                                   margin: EdgeInsets.only(
                                       right: Dimens.marginApplication),
-                                  child:
-                                  Stack(alignment: Alignment.center, children: [
-                                    ClipOval(
-                                      child: SizedBox.fromSize(
-                                        size: Size.fromRadius(42),
-                                        // Image radius
-                                        child: Image.network(
-                                            ApplicationConstant
-                                                .URL_AVATAR /*+
+                                  child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        ClipOval(
+                                          child: SizedBox.fromSize(
+                                            size: Size.fromRadius(42),
+                                            // Image radius
+                                            child: Image.network(
+                                                ApplicationConstant
+                                                    .URL_AVATAR /*+
                                               response.avatar.toString()*/
-                                            ,
-                                            fit: BoxFit.cover,
-                                            /*fit: BoxFit.cover*/
-                                            errorBuilder:
-                                                (context, exception, stackTrack) =>
-                                                Image.asset(
-                                                  'images/person.jpg',
-                                                )),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: FloatingActionButton(
-                                        mini: true,
-                                        child: Image.asset('images/edit.png', width: 22, height: 22,),
-                                        backgroundColor: Colors.white,
-                                        onPressed: () {
-                                          // showModalBottomSheet<dynamic>(
-                                          //     isScrollControlled: true,
-                                          //     context: context,
-                                          //     shape: Styles().styleShapeBottomSheet,
-                                          //     clipBehavior:
-                                          //     Clip.antiAliasWithSaveLayer,
-                                          //     builder: (BuildContext context) {
-                                                // return PickImageAlertDialog(
-                                                //     iconCamera: IconButton(
-                                                //         onPressed: () {
-                                                //           pickImageCamera();
-                                                //           Navigator.of(context)
-                                                //               .pop();
-                                                //         },
-                                                //         icon: Icon(Icons.camera_alt,
-                                                //             color: Colors.black),
-                                                //         iconSize: 60),
-                                                //     iconGallery: IconButton(
-                                                //         onPressed: () {
-                                                //           pickImageGallery();
-                                                //           Navigator.of(context)
-                                                //               .pop();
-                                                //         },
-                                                //         icon: Icon(Icons.photo,
-                                                //             color: Colors.black),
-                                                //         iconSize: 60));
-                                              // });
-                                        },
-                                      ),
-                                    )
-                                  ])),
+                                                ,
+                                                fit: BoxFit.cover,
+                                                /*fit: BoxFit.cover*/
+                                                errorBuilder: (context,
+                                                        exception,
+                                                        stackTrack) =>
+                                                    Image.asset(
+                                                      'images/person.jpg',
+                                                    )),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: FloatingActionButton(
+                                            mini: true,
+                                            child: Image.asset(
+                                              'images/edit.png',
+                                              width: 18,
+                                              height: 18,
+                                            ),
+                                            backgroundColor: Colors.white,
+                                            onPressed: () {
+                                              showModalBottomSheet<dynamic>(
+                                                  isScrollControlled: true,
+                                                  context: context,
+                                                  shape: Styles()
+                                                      .styleShapeBottomSheet,
+                                                  clipBehavior: Clip
+                                                      .antiAliasWithSaveLayer,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PickImageAlertDialog(
+                                                        iconCamera: Container(
+                                                            child: Image.asset("images/2.png" ,width: 100, height: 110,)),
+                                                        iconGallery: Container(
+                                                        child: Image.asset("images/1.png",width: 100, height: 140,)));
+                                                  });
+                                            },
+                                          ),
+                                        )
+                                      ])),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -903,8 +898,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 Container(
                                   width: double.infinity,
                                   margin: EdgeInsets.only(
-                                      bottom:
-                                      Dimens.minMarginApplication),
+                                      bottom: Dimens.minMarginApplication),
                                   child: Text(
                                     "Endereço",
                                     textAlign: TextAlign.start,
@@ -947,101 +941,107 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Column(
-                                        children: [
+                                      child: Column(children: [
                                         Container(
-                                        width: double.infinity,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                            Dimens.minMarginApplication),
-                                        child: Text(
-                                          "Bairro",
-                                          textAlign: TextAlign.start,
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Bairro",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          controller: nbhController,
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.text,
                                           style: TextStyle(
+                                            color: Colors.grey,
                                             fontSize: Dimens.textSize5,
-                                            color: Colors.black87,
                                           ),
-                                        ),
-                                      ),
-                                      TextField(
-                                        controller: nbhController,
-                                        decoration: InputDecoration(
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: OwnerColors.colorPrimary,
-                                                width: 1.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey, width: 1.0),
-                                          ),
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimens.radiusApplication),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.all(Dimens
-                                              .textFieldPaddingApplication),
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: Dimens.textSize5,
-                                        ),
-                                      )]),
+                                        )
+                                      ]),
                                     ),
                                     SizedBox(width: Dimens.marginApplication),
                                     Expanded(
-                                      child: Column(
-                                        children: [
+                                      child: Column(children: [
                                         Container(
-                                        width: double.infinity,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                            Dimens.minMarginApplication),
-                                        child: Text(
-                                          "Número",
-                                          textAlign: TextAlign.start,
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Número",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          controller: numberController,
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.number,
                                           style: TextStyle(
+                                            color: Colors.grey,
                                             fontSize: Dimens.textSize5,
-                                            color: Colors.black87,
                                           ),
-                                        ),
-                                      ),
-                                      TextField(
-                                        controller: numberController,
-                                        decoration: InputDecoration(
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: OwnerColors.colorPrimary,
-                                                width: 1.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey, width: 1.0),
-                                          ),
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimens.radiusApplication),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.all(Dimens
-                                              .textFieldPaddingApplication),
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: Dimens.textSize5,
-                                        ),
-                                      )]),
+                                        )
+                                      ]),
                                     ),
                                   ],
                                 ),
@@ -1049,8 +1049,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 Container(
                                   width: double.infinity,
                                   margin: EdgeInsets.only(
-                                      bottom:
-                                      Dimens.minMarginApplication),
+                                      bottom: Dimens.minMarginApplication),
                                   child: Text(
                                     "Complemento",
                                     textAlign: TextAlign.start,
