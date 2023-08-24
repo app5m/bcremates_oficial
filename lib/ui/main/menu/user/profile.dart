@@ -325,27 +325,68 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           child: Row(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(
-                                    right: Dimens.marginApplication),
-                                child: ClipOval(
-                                  child: SizedBox.fromSize(
-                                    size: Size.fromRadius(42),
-                                    // Image radius
-                                    child: Image.network(
-                                        ApplicationConstant
-                                            .URL_AVATAR /*+
+                                  height: 84,
+                                  width: 84,
+                                  margin: EdgeInsets.only(
+                                      right: Dimens.marginApplication),
+                                  child:
+                                  Stack(alignment: Alignment.center, children: [
+                                    ClipOval(
+                                      child: SizedBox.fromSize(
+                                        size: Size.fromRadius(42),
+                                        // Image radius
+                                        child: Image.network(
+                                            ApplicationConstant
+                                                .URL_AVATAR /*+
                                               response.avatar.toString()*/
-                                        ,
-                                        fit: BoxFit.cover,
-                                        /*fit: BoxFit.cover*/
-                                        errorBuilder:
-                                            (context, exception, stackTrack) =>
+                                            ,
+                                            fit: BoxFit.cover,
+                                            /*fit: BoxFit.cover*/
+                                            errorBuilder:
+                                                (context, exception, stackTrack) =>
                                                 Image.asset(
                                                   'images/person.jpg',
                                                 )),
-                                  ),
-                                ),
-                              ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: FloatingActionButton(
+                                        mini: true,
+                                        child: Image.asset('images/edit.png', width: 22, height: 22,),
+                                        backgroundColor: Colors.white,
+                                        onPressed: () {
+                                          // showModalBottomSheet<dynamic>(
+                                          //     isScrollControlled: true,
+                                          //     context: context,
+                                          //     shape: Styles().styleShapeBottomSheet,
+                                          //     clipBehavior:
+                                          //     Clip.antiAliasWithSaveLayer,
+                                          //     builder: (BuildContext context) {
+                                                // return PickImageAlertDialog(
+                                                //     iconCamera: IconButton(
+                                                //         onPressed: () {
+                                                //           pickImageCamera();
+                                                //           Navigator.of(context)
+                                                //               .pop();
+                                                //         },
+                                                //         icon: Icon(Icons.camera_alt,
+                                                //             color: Colors.black),
+                                                //         iconSize: 60),
+                                                //     iconGallery: IconButton(
+                                                //         onPressed: () {
+                                                //           pickImageGallery();
+                                                //           Navigator.of(context)
+                                                //               .pop();
+                                                //         },
+                                                //         icon: Icon(Icons.photo,
+                                                //             color: Colors.black),
+                                                //         iconSize: 60));
+                                              // });
+                                        },
+                                      ),
+                                    )
+                                  ])),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
