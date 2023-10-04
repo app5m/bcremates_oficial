@@ -227,7 +227,7 @@ class _ContainerHomeState extends State<ContainerHome> {
       print('HTTP_BODY: $body');
 
       final json = await postRequest.sendPostRequest(
-          Links.LIST_PRODUCTS_HIGHLIGHTS, body);
+          Links.LIST_BANNERS, body);
 
       List<Map<String, dynamic>> _map = [];
       _map = List<Map<String, dynamic>>.from(jsonDecode(json));
