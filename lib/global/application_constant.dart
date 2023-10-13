@@ -10,6 +10,7 @@ class ApplicationConstant {
   static const String URL_BASE = "http://bcremates.web15f85.uni5.net/apiv3/user/";
   static const String TOKEN = "55G2cXH8";
 
+  static const String fakeid = "1015";
 
   static const int CREDIT_CARD = 1;
   static const int TICKET = 2;

@@ -34,7 +34,7 @@ class _Notifications extends State<Notifications> {
   Future<List<Map<String, dynamic>>> listNotifications() async {
     try {
       final body = {
-        "id": await Preferences.getUserData()!.id,
+        "id_user": /*await Preferences.getUserData()!.id */ ApplicationConstant.fakeid,
         "token": ApplicationConstant.TOKEN
       };
 
@@ -61,19 +61,19 @@ class _Notifications extends State<Notifications> {
       appBar: CustomAppBar(title: "Notificações", isVisibleBackButton: true),
       body: RefreshIndicator(
           onRefresh: _pullRefresh,
-          child: /*FutureBuilder<List<Map<String, dynamic>>>(
+          child: FutureBuilder<List<Map<String, dynamic>>>(
             future: listNotifications(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final responseItem = User.fromJson(snapshot.data![0]);
 
                 if (responseItem.rows != 0) {
-                  return */ListView.builder(
-                    itemCount: 3,
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
 
 
-                      // final response = User.fromJson(snapshot.data![index]);
+                      final response = User.fromJson(snapshot.data![index]);
 
                       return Card(
                         elevation: 0,
@@ -119,7 +119,7 @@ class _Notifications extends State<Notifications> {
                                       .start,
                                   children: [
                                     Text(
-                                      /*response.titulo.toString()*/"Teste",
+                                      response.titulo.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow
                                           .ellipsis,
@@ -134,8 +134,8 @@ class _Notifications extends State<Notifications> {
                                     SizedBox(
                                         height: Dimens
                                             .minMarginApplication),
-                                    Text(/*response
-                                            .descricao.toString()*/ Strings.shortLoremIpsum,
+                                    Text(response
+                                            .descricao.toString(),
                                       maxLines: 2,
                                       overflow: TextOverflow
                                           .ellipsis,
@@ -153,7 +153,7 @@ class _Notifications extends State<Notifications> {
                                       Icon(Icons.calendar_month_outlined, color: OwnerColors.colorPrimary, size: 16),
                                       SizedBox(width: 4,),
                                       Text(
-                                        "00/00 ás 00:00",
+                                        response.data,
                                         style: TextStyle(
                                           fontSize: Dimens
                                               .textSize3,
@@ -170,7 +170,7 @@ class _Notifications extends State<Notifications> {
                         ),
                       );
                     },
-                  )/*
+                  );
                 } else {
                   return Container(
                       padding: EdgeInsets.only(
@@ -203,7 +203,7 @@ class _Notifications extends State<Notifications> {
               }
               return Center(child: CircularProgressIndicator());
             },
-          ),*/
+          ),
         ),
     );
   }
