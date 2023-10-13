@@ -269,12 +269,44 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
 
       final response = User.fromJson(parsedResponse);
 
-      // setState(() {
-      // cityController.text = response.localidade;
-      // stateController.text = response.uf;
-      // nbhController.text = response.bairro;
-      // addressController.text = response.logradouro;
-      // });
+      cityController.text = response.localidade;
+      stateController.text = response.uf;
+      nbhController.text = response.bairro;
+      addressController.text = response.logradouro;
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> updateAddressRequest(String cep, String state, String city,
+      String address, String nbh, String number, String complement) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "cep": cep,
+        "estado": state,
+        "cidade": city,
+        "bairro": nbh,
+        "endereco": address,
+        "numero": number,
+        "complemento": complement,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SAVE_ADDRESS, body);
+      final parsedResponse = jsonDecode(json);
+
+      print('HTTP_RESPONSE: $parsedResponse');
+
+      final response = User.fromJson(parsedResponse);
+
+      if (response.status == "01") {
+        setState(() {});
+      } else {}
+      ApplicationMessages(context: context).showMessage(response.msg);
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -466,7 +498,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 Container(
                                     padding: EdgeInsets.all(
                                         Dimens.paddingApplication),
-                                    height: 700,
+                                    height: 900,
                                     child: Column(
                                       children: [
                                         Container(
@@ -726,6 +758,269 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                 : Text("Alterar",
                                                     style: Styles()
                                                         .styleDefaultTextButton),
+                                          ),
+                                        ),
+                                        SizedBox(height: Dimens.marginApplication),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom: Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Senha",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          onChanged: (value) {
+                                            setState(() {
+                                              hasPasswordCoPassword = false;
+                                              visibileOne = true;
+                                              hasMinLength =
+                                                  passwordController.text.length >= 8;
+                                              hasUppercase = passwordController.text
+                                                  .contains(RegExp(r'[A-Z]'));
+
+                                              hasPasswordCoPassword =
+                                                  coPasswordController.text ==
+                                                      passwordController.text;
+
+                                              if (hasMinLength && hasUppercase) {
+                                                visibileOne = false;
+                                              }
+                                            });
+                                          },
+                                          controller: passwordController,
+                                          decoration: InputDecoration(
+                                            suffixIcon: IconButton(
+                                                icon: Icon(
+                                                  // Based on passwordVisible state choose the icon
+                                                  _passwordVisible
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off,
+                                                  color: OwnerColors.colorPrimary,
+                                                ),
+                                                onPressed: () {
+                                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                                  setState(() {
+                                                    _passwordVisible = !_passwordVisible;
+                                                  });
+                                                }),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey, width: 1.0),
+                                            ),
+                                            hintText: '',
+                                            hintStyle: TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(
+                                                Dimens.textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.visiblePassword,
+                                          obscureText: !_passwordVisible,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        Visibility(
+                                          visible: passwordController.text.isNotEmpty,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                hasMinLength
+                                                    ? Icons.check_circle
+                                                    : Icons.check_circle,
+                                                color: hasMinLength
+                                                    ? Colors.green
+                                                    : OwnerColors.lightGrey,
+                                              ),
+                                              Text(
+                                                'Deve ter no mínimo 8 carácteres',
+                                                style: TextStyle(
+                                                    color: Colors.black87),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: passwordController.text.isNotEmpty,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                hasUppercase
+                                                    ? Icons.check_circle
+                                                    : Icons.check_circle,
+                                                color: hasUppercase
+                                                    ? Colors.green
+                                                    : OwnerColors.lightGrey,
+                                              ),
+                                              Text(
+                                                'Deve ter uma letra maiúscula',
+                                                style: TextStyle(
+                                                    color: Colors.black87),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: Dimens.marginApplication),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom: Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Confirmar Senha",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          onChanged: (value) {
+                                            setState(() {
+                                              visibileTwo = true;
+                                              hasPasswordCoPassword =
+                                                  coPasswordController.text ==
+                                                      passwordController.text;
+
+                                              if (hasPasswordCoPassword) {
+                                                visibileTwo = false;
+                                              }
+                                            });
+                                          },
+                                          controller: coPasswordController,
+                                          decoration: InputDecoration(
+                                            suffixIcon: IconButton(
+                                                icon: Icon(
+                                                  // Based on passwordVisible state choose the icon
+                                                  _passwordVisible2
+                                                      ? Icons.visibility
+                                                      : Icons.visibility_off,
+                                                  color: OwnerColors.colorPrimary,
+                                                ),
+                                                onPressed: () {
+                                                  // Update the state i.e. toogle the state of passwordVisible variable
+                                                  setState(() {
+                                                    _passwordVisible2 = !_passwordVisible2;
+                                                  });
+                                                }),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey, width: 1.0),
+                                            ),
+                                            hintText: '',
+                                            hintStyle: TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(
+                                                Dimens.textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.visiblePassword,
+                                          obscureText: !_passwordVisible2,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4),
+                                        Visibility(
+                                          visible: coPasswordController.text.isNotEmpty,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                hasPasswordCoPassword
+                                                    ? Icons.check_circle
+                                                    : Icons.check_circle,
+                                                color: hasPasswordCoPassword
+                                                    ? Colors.green
+                                                    : OwnerColors.lightGrey,
+                                              ),
+                                              Text(
+                                                'As senhas fornecidas são idênticas',
+                                                style: TextStyle(
+                                                    color: Colors.black87),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        SizedBox(
+                                            height: Dimens.marginApplication),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: Dimens.marginApplication,
+                                              bottom: Dimens.marginApplication),
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            style:
+                                            Styles().styleAlternativeButton,
+                                            onPressed: _isLoading
+                                                ? null
+                                                : () async {
+                                              if (!validator.validatePassword(
+                                                  passwordController.text)) return;
+                                              if (!validator.validateCoPassword(
+                                                  passwordController.text,
+                                                  coPasswordController.text)) return;
+
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+
+                                              await updatePasswordRequest(
+                                                  passwordController.text);
+
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                            },
+                                            child: (_isLoading)
+                                                ? const SizedBox(
+                                                width: Dimens
+                                                    .buttonIndicatorWidth,
+                                                height: Dimens
+                                                    .buttonIndicatorHeight,
+                                                child:
+                                                CircularProgressIndicator(
+                                                  color: OwnerColors
+                                                      .colorAccent,
+                                                  strokeWidth: Dimens
+                                                      .buttonIndicatorStrokes,
+                                                ))
+                                                : Text("Alterar",
+                                                style: Styles()
+                                                    .styleDefaultTextButton),
                                           ),
                                         ),
                                       ],
@@ -1140,14 +1435,14 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                   _isLoading = true;
                                                 });
 
-                                                // await updateAddressRequest(
-                                                //     cepController.text.toString(),
-                                                //     stateController.text.toString(),
-                                                //     cityController.text.toString(),
-                                                //     addressController.text.toString(),
-                                                //     nbhController.text.toString(),
-                                                //     numberController.text.toString(),
-                                                //     complementController.text.toString());
+                                                await updateAddressRequest(
+                                                    cepController.text.toString(),
+                                                    stateController.text.toString(),
+                                                    cityController.text.toString(),
+                                                    addressController.text.toString(),
+                                                    nbhController.text.toString(),
+                                                    numberController.text.toString(),
+                                                    complementController.text.toString());
 
                                                 setState(() {
                                                   _isLoading = false;
