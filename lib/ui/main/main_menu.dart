@@ -148,8 +148,7 @@ class _MainMenu extends State<MainMenu> {
                                         height: 20,
                                       ),
                                       Text(
-                                        /*response.nome*/
-                                        "Nome teste",
+                                        response.nome,
                                         style: TextStyle(
                                           fontSize: Dimens.textSize6,
                                           fontWeight: FontWeight.bold,
@@ -158,8 +157,7 @@ class _MainMenu extends State<MainMenu> {
                                       ),
                                       SizedBox(height: 2),
                                       Text(
-                                        /*response.email*/
-                                        "email@email.com",
+                                        response.email,
                                         style: TextStyle(
                                           fontSize: Dimens.textSize5,
                                           color: Colors.black,

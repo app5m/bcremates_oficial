@@ -67,8 +67,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   final TextEditingController socialReasonController = TextEditingController();
   final TextEditingController documentController = TextEditingController();
   final TextEditingController cellphoneController = TextEditingController();
-  final TextEditingController fantasyNameController = TextEditingController();
-  final TextEditingController ownerNameController = TextEditingController();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cepController = TextEditingController();
@@ -87,8 +85,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     socialReasonController.dispose();
     documentController.dispose();
     cellphoneController.dispose();
-    fantasyNameController.dispose();
-    ownerNameController.dispose();
 
     nameController.dispose();
     cepController.dispose();
@@ -165,17 +161,21 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       print('HTTP_RESPONSE: $parsedResponse');
 
       final response = User.fromJson(parsedResponse);
-      //
-      // _profileResponse = response;
-      //
-      // ownerNameController.text = _profileResponse!.nome.toString();
-      // fantasyNameController.text = _profileResponse!.nome_fantasia.toString();
-      // socialReasonController.text = _profileResponse!.razao_social.toString();
-      // emailController.text = _profileResponse!.email.toString();
-      // documentController.text = Preferences.getUserData()!.tipo == 2
-      //     ? _profileResponse!.cpf.toString()
-      //     : _profileResponse!.cnpj.toString();
-      // cellphoneController.text = _profileResponse!.celular.toString();
+
+      _profileResponse = response;
+
+      nameController.text = _profileResponse!.nome.toString();
+      emailController.text = _profileResponse!.email.toString();
+      documentController.text = _profileResponse!.documento.toString();
+      cellphoneController.text = _profileResponse!.celular.toString();
+
+      cepController.text = _profileResponse!.cep.toString();
+      stateController.text = _profileResponse!.estado.toString();
+      cityController.text = _profileResponse!.cidade.toString();
+      addressController.text = _profileResponse!.endereco.toString();
+      nbhController.text = _profileResponse!.bairro.toString();
+      numberController.text = _profileResponse!.numero.toString();
+      complementController.text = _profileResponse!.complemento.toString();
 
       return parsedResponse;
     } catch (e) {
@@ -188,18 +188,14 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       String document,
       String cellphone,
       String email,
-      String fantasyName,
-      String socialReason) async {
+      String birth,) async {
     try {
       final body = {
         "id": await Preferences.getUserData()!.id,
         "nome": name,
-        // "cpf": document,
+        "documento": document,
         "celular": cellphone,
-        "email": email,
-        "tipo": Preferences.getUserData()!.tipo,
-        "nome_fantasia": fantasyName,
-        "razao_social": socialReason,
+        "data_nascimento": birth,
         "token": ApplicationConstant.TOKEN
       };
 
@@ -388,8 +384,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          /*response.nome*/
-                                          "Nome teste",
+                                          response.nome,
                                           style: TextStyle(
                                             fontSize: Dimens.textSize6,
                                             fontWeight: FontWeight.bold,
@@ -400,8 +395,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             height:
                                                 Dimens.minMarginApplication),
                                         Text(
-                                          /*response.email*/
-                                          "email@email.com",
+                                          response.email,
                                           style: TextStyle(
                                             fontSize: Dimens.textSize5,
                                             color: Colors.black,
@@ -481,7 +475,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         TextField(
-                                          // controller: nameController,
+                                          controller: nameController,
                                           decoration: InputDecoration(
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -531,7 +525,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         TextField(
-                                          // controller: cpfController,
+                                          controller: documentController,
                                           inputFormatters: [Masks().cpfMask()],
                                           decoration: InputDecoration(
                                             focusedBorder: OutlineInputBorder(
@@ -682,12 +676,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             onPressed: _isLoading
                                                 ? null
                                                 : () async {
-                                                    if (!validator
-                                                        .validateGenericTextField(
-                                                            ownerNameController
-                                                                .text,
-                                                            "Nome resposável"))
-                                                      return;
 
                                                     // if (!validator.validateEmail(emailController.text))
                                                     //   return;
@@ -698,39 +686,18 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                             cellphoneController
                                                                 .text)) return;
 
-                                                    if (Preferences
-                                                                .getUserData()!
-                                                            .tipo ==
-                                                        1) {
-                                                      if (!validator
-                                                          .validateGenericTextField(
-                                                              fantasyNameController
-                                                                  .text,
-                                                              "Nome fantasia"))
-                                                        return;
-                                                      if (!validator
-                                                          .validateGenericTextField(
-                                                              socialReasonController
-                                                                  .text,
-                                                              "Razão social"))
-                                                        return;
-                                                    }
 
                                                     setState(() {
                                                       _isLoading = true;
                                                     });
 
                                                     await updateUserDataRequest(
-                                                        ownerNameController
+                                                        nameController
                                                             .text,
                                                         documentController.text,
                                                         cellphoneController
                                                             .text,
-                                                        emailController.text,
-                                                        fantasyNameController
-                                                            .text,
-                                                        socialReasonController
-                                                            .text);
+                                                        emailController.text, "");
 
                                                     setState(() {
                                                       _isLoading = false;
@@ -1129,511 +1096,76 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     SizedBox(height: Dimens.marginApplication),
-                                    // Container(
-                                    //   margin: EdgeInsets.only(
-                                    //       top: Dimens.marginApplication,
-                                    //       bottom: Dimens.marginApplication),
-                                    //   width: double.infinity,
-                                    //   child: ElevatedButton(
-                                    //     style: Styles().styleDefaultButton,
-                                    //     onPressed: _isLoading
-                                    //         ? null
-                                    //         : () async {
-                                    //             if (!validator.validateCEP(
-                                    //                 cepController.text)) return;
-                                    //             if (!validator
-                                    //                 .validateGenericTextField(
-                                    //                     cityController.text,
-                                    //                     "Cidade")) return;
-                                    //             if (!validator
-                                    //                 .validateGenericTextField(
-                                    //                     stateController.text,
-                                    //                     "Estado")) return;
-                                    //             if (!validator
-                                    //                 .validateGenericTextField(
-                                    //                     addressController.text,
-                                    //                     "Endereço")) return;
-                                    //             if (!validator
-                                    //                 .validateGenericTextField(
-                                    //                     nbhController.text,
-                                    //                     "Bairro")) return;
-                                    //             if (!validator
-                                    //                 .validateGenericTextField(
-                                    //                     numberController.text,
-                                    //                     "Número")) return;
-                                    //
-                                    //             setState(() {
-                                    //               _isLoading = true;
-                                    //             });
-                                    //
-                                    //             // await updateAddressRequest(
-                                    //             //     cepController.text.toString(),
-                                    //             //     stateController.text.toString(),
-                                    //             //     cityController.text.toString(),
-                                    //             //     addressController.text.toString(),
-                                    //             //     nbhController.text.toString(),
-                                    //             //     numberController.text.toString(),
-                                    //             //     complementController.text.toString());
-                                    //
-                                    //             setState(() {
-                                    //               _isLoading = false;
-                                    //             });
-                                    //           },
-                                    //     child: (_isLoading)
-                                    //         ? const SizedBox(
-                                    //             width: Dimens.buttonIndicatorWidth,
-                                    //             height:
-                                    //                 Dimens.buttonIndicatorHeight,
-                                    //             child: CircularProgressIndicator(
-                                    //               color: OwnerColors.colorAccent,
-                                    //               strokeWidth:
-                                    //                   Dimens.buttonIndicatorStrokes,
-                                    //             ))
-                                    //         : Text("Atualizar endereço",
-                                    //             style: Styles()
-                                    //                 .styleDefaultTextButton),
-                                    //   ),
-                                    // ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: Dimens.marginApplication,
+                                          bottom: Dimens.marginApplication),
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        style: Styles().styleAlternativeButton,
+                                        onPressed: _isLoading
+                                            ? null
+                                            : () async {
+                                                if (!validator.validateCEP(
+                                                    cepController.text)) return;
+                                                if (!validator
+                                                    .validateGenericTextField(
+                                                        cityController.text,
+                                                        "Cidade")) return;
+                                                if (!validator
+                                                    .validateGenericTextField(
+                                                        stateController.text,
+                                                        "Estado")) return;
+                                                if (!validator
+                                                    .validateGenericTextField(
+                                                        addressController.text,
+                                                        "Endereço")) return;
+                                                if (!validator
+                                                    .validateGenericTextField(
+                                                        nbhController.text,
+                                                        "Bairro")) return;
+                                                if (!validator
+                                                    .validateGenericTextField(
+                                                        numberController.text,
+                                                        "Número")) return;
+
+                                                setState(() {
+                                                  _isLoading = true;
+                                                });
+
+                                                // await updateAddressRequest(
+                                                //     cepController.text.toString(),
+                                                //     stateController.text.toString(),
+                                                //     cityController.text.toString(),
+                                                //     addressController.text.toString(),
+                                                //     nbhController.text.toString(),
+                                                //     numberController.text.toString(),
+                                                //     complementController.text.toString());
+
+                                                setState(() {
+                                                  _isLoading = false;
+                                                });
+                                              },
+                                        child: (_isLoading)
+                                            ? const SizedBox(
+                                                width: Dimens.buttonIndicatorWidth,
+                                                height:
+                                                    Dimens.buttonIndicatorHeight,
+                                                child: CircularProgressIndicator(
+                                                  color: OwnerColors.colorAccent,
+                                                  strokeWidth:
+                                                      Dimens.buttonIndicatorStrokes,
+                                                ))
+                                            : Text("Atualizar endereço",
+                                                style: Styles()
+                                                    .styleDefaultTextButton),
+                                      ),
+                                    ),
                                     SizedBox(height: Dimens.marginApplication),
                                   ]),
                                 )
                               ]),
                         ),
-                        // Container(
-                        //   width: double.infinity,
-                        //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
-                        //   child: Text(
-                        //     "Meus dados",
-                        //     textAlign: TextAlign.start,
-                        //     style: TextStyle(
-                        //       fontSize: Dimens.textSize6,
-                        //       color: Colors.black,
-                        //     ),
-                        //   ),
-                        // ),
-                        // TextField(
-                        //   controller: ownerNameController,
-                        //   decoration: InputDecoration(
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //           BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'Nome responsável',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //           BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.text,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // TextField(
-                        //   readOnly: true,
-                        //   controller: emailController,
-                        //   decoration: InputDecoration(
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //           BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'E-mail',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //           BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.emailAddress,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // TextField(
-                        //   readOnly: true,
-                        //   controller: documentController,
-                        //   // inputFormatters: [Masks().cnpjMask()],
-                        //   decoration: InputDecoration(
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //       BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'Documento',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //       BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //     EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.number,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // TextField(
-                        //   controller: cellphoneController,
-                        //   inputFormatters: [Masks().cellphoneMask()],
-                        //   decoration: InputDecoration(
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //           BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'Celular',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //           BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.number,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // Visibility(
-                        //     visible: Preferences.getUserData()!.tipo == 1,
-                        //     child: Column(children: [
-                        //       TextField(
-                        //         controller: fantasyNameController,
-                        //         decoration: InputDecoration(
-                        //           focusedBorder: OutlineInputBorder(
-                        //             borderSide: BorderSide(
-                        //                 color: OwnerColors.colorPrimary,
-                        //                 width: 1.5),
-                        //           ),
-                        //           enabledBorder: OutlineInputBorder(
-                        //             borderSide:
-                        //                 BorderSide(color: Colors.grey, width: 1.0),
-                        //           ),
-                        //           hintText: 'Nome fantasia',
-                        //           hintStyle: TextStyle(color: Colors.grey),
-                        //           border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(
-                        //                 Dimens.radiusApplication),
-                        //             borderSide: BorderSide.none,
-                        //           ),
-                        //           filled: true,
-                        //           fillColor: Colors.white,
-                        //           contentPadding: EdgeInsets.all(
-                        //               Dimens.textFieldPaddingApplication),
-                        //         ),
-                        //         keyboardType: TextInputType.text,
-                        //         style: TextStyle(
-                        //           color: Colors.grey,
-                        //           fontSize: Dimens.textSize5,
-                        //         ),
-                        //       ),
-                        //       SizedBox(height: Dimens.marginApplication),
-                        //     ])),
-                        // Visibility(
-                        //     visible: Preferences.getUserData()!.tipo == 1,
-                        //     child: Column(
-                        //       children: [
-                        //         TextField(
-                        //           controller: socialReasonController,
-                        //           decoration: InputDecoration(
-                        //             focusedBorder: OutlineInputBorder(
-                        //               borderSide: BorderSide(
-                        //                   color: OwnerColors.colorPrimary,
-                        //                   width: 1.5),
-                        //             ),
-                        //             enabledBorder: OutlineInputBorder(
-                        //               borderSide: BorderSide(
-                        //                   color: Colors.grey, width: 1.0),
-                        //             ),
-                        //             hintText: 'Razão Social',
-                        //             hintStyle: TextStyle(color: Colors.grey),
-                        //             border: OutlineInputBorder(
-                        //               borderRadius: BorderRadius.circular(
-                        //                   Dimens.radiusApplication),
-                        //               borderSide: BorderSide.none,
-                        //             ),
-                        //             filled: true,
-                        //             fillColor: Colors.white,
-                        //             contentPadding: EdgeInsets.all(
-                        //                 Dimens.textFieldPaddingApplication),
-                        //           ),
-                        //           keyboardType: TextInputType.text,
-                        //           style: TextStyle(
-                        //             color: Colors.grey,
-                        //             fontSize: Dimens.textSize5,
-                        //           ),
-                        //         ),
-                        //         SizedBox(height: Dimens.marginApplication),
-                        //       ],
-                        //     )),
-
-                        // Container(
-                        //   width: double.infinity,
-                        //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
-                        //   child: Text(
-                        //     "Alterar Senha",
-                        //     textAlign: TextAlign.start,
-                        //     style: TextStyle(
-                        //       fontSize: Dimens.textSize6,
-                        //       color: Colors.black,
-                        //     ),
-                        //   ),
-                        // ),
-                        // TextField(
-                        //   onChanged: (value) {
-                        //     setState(() {
-                        //       hasPasswordCoPassword = false;
-                        //       visibileOne = true;
-                        //       hasMinLength = passwordController.text.length >= 8;
-                        //       hasUppercase = passwordController.text
-                        //           .contains(RegExp(r'[A-Z]'));
-                        //
-                        //       hasPasswordCoPassword = coPasswordController.text ==
-                        //           passwordController.text;
-                        //
-                        //       if (hasMinLength && hasUppercase) {
-                        //         visibileOne = false;
-                        //       }
-                        //     });
-                        //   },
-                        //   controller: passwordController,
-                        //   decoration: InputDecoration(
-                        //     suffixIcon: IconButton(
-                        //         icon: Icon(
-                        //           // Based on passwordVisible state choose the icon
-                        //           _passwordVisible
-                        //               ? Icons.visibility
-                        //               : Icons.visibility_off,
-                        //           color: OwnerColors.colorPrimary,
-                        //         ),
-                        //         onPressed: () {
-                        //           // Update the state i.e. toogle the state of passwordVisible variable
-                        //           setState(() {
-                        //             _passwordVisible = !_passwordVisible;
-                        //           });
-                        //         }),
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //           BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'Senha',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //           BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.visiblePassword,
-                        //   obscureText: !_passwordVisible,
-                        //   enableSuggestions: false,
-                        //   autocorrect: false,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: 4),
-                        // Visibility(
-                        //   visible: passwordController.text.isNotEmpty,
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         hasMinLength
-                        //             ? Icons.check_circle
-                        //             : Icons.check_circle,
-                        //         color: hasMinLength
-                        //             ? Colors.green
-                        //             : OwnerColors.lightGrey,
-                        //       ),
-                        //       Text(
-                        //         'Deve ter no mínimo 8 carácteres',
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // Visibility(
-                        //   visible: passwordController.text.isNotEmpty,
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         hasUppercase
-                        //             ? Icons.check_circle
-                        //             : Icons.check_circle,
-                        //         color: hasUppercase
-                        //             ? Colors.green
-                        //             : OwnerColors.lightGrey,
-                        //       ),
-                        //       Text(
-                        //         'Deve ter uma letra maiúscula',
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // TextField(
-                        //   onChanged: (value) {
-                        //     setState(() {
-                        //       visibileTwo = true;
-                        //       hasPasswordCoPassword = coPasswordController.text ==
-                        //           passwordController.text;
-                        //
-                        //       if (hasPasswordCoPassword) {
-                        //         visibileTwo = false;
-                        //       }
-                        //     });
-                        //   },
-                        //   controller: coPasswordController,
-                        //   decoration: InputDecoration(
-                        //     suffixIcon: IconButton(
-                        //         icon: Icon(
-                        //           // Based on passwordVisible state choose the icon
-                        //           _passwordVisible2
-                        //               ? Icons.visibility
-                        //               : Icons.visibility_off,
-                        //           color: OwnerColors.colorPrimary,
-                        //         ),
-                        //         onPressed: () {
-                        //           // Update the state i.e. toogle the state of passwordVisible variable
-                        //           setState(() {
-                        //             _passwordVisible2 = !_passwordVisible2;
-                        //           });
-                        //         }),
-                        //     focusedBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //           color: OwnerColors.colorPrimary, width: 1.5),
-                        //     ),
-                        //     enabledBorder: OutlineInputBorder(
-                        //       borderSide:
-                        //           BorderSide(color: Colors.grey, width: 1.0),
-                        //     ),
-                        //     hintText: 'Confirmar Senha',
-                        //     hintStyle: TextStyle(color: Colors.grey),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius:
-                        //           BorderRadius.circular(Dimens.radiusApplication),
-                        //       borderSide: BorderSide.none,
-                        //     ),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     contentPadding:
-                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                        //   ),
-                        //   keyboardType: TextInputType.visiblePassword,
-                        //   obscureText: !_passwordVisible2,
-                        //   enableSuggestions: false,
-                        //   autocorrect: false,
-                        //   style: TextStyle(
-                        //     color: Colors.grey,
-                        //     fontSize: Dimens.textSize5,
-                        //   ),
-                        // ),
-                        // SizedBox(height: 4),
-                        // Visibility(
-                        //   visible: coPasswordController.text.isNotEmpty,
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         hasPasswordCoPassword
-                        //             ? Icons.check_circle
-                        //             : Icons.check_circle,
-                        //         color: hasPasswordCoPassword
-                        //             ? Colors.green
-                        //             : OwnerColors.lightGrey,
-                        //       ),
-                        //       Text(
-                        //         'As senhas fornecidas são idênticas',
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        // SizedBox(height: Dimens.marginApplication),
-                        // Container(
-                        //   margin: EdgeInsets.only(top: Dimens.marginApplication),
-                        //   width: double.infinity,
-                        //   child: ElevatedButton(
-                        //     style: Styles().styleDefaultButton,
-                        //     onPressed: _isLoading
-                        //         ? null
-                        //         : () async {
-                        //             if (!validator.validatePassword(
-                        //                 passwordController.text)) return;
-                        //             if (!validator.validateCoPassword(
-                        //                 passwordController.text,
-                        //                 coPasswordController.text)) return;
-                        //
-                        //             setState(() {
-                        //               _isLoading = true;
-                        //             });
-                        //
-                        //             await updatePasswordRequest(
-                        //                 passwordController.text);
-                        //
-                        //             setState(() {
-                        //               _isLoading = false;
-                        //             });
-                        //           },
-                        //     child: (_isLoading)
-                        //         ? const SizedBox(
-                        //             width: Dimens.buttonIndicatorWidth,
-                        //             height: Dimens.buttonIndicatorHeight,
-                        //             child: CircularProgressIndicator(
-                        //               color: OwnerColors.colorAccent,
-                        //               strokeWidth: Dimens.buttonIndicatorStrokes,
-                        //             ))
-                        //         : Text("Atualizar senha",
-                        //             style: Styles().styleDefaultTextButton),
-                        //   ),
-                        // ),
                       ],
                     ),
                   );
