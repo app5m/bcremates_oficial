@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   Future<Map<String, dynamic>> loadProfileRequest() async {
     try {
       final body = {
-        "id_user": /*await Preferences.getUserData()!.id */ ApplicationConstant.fakeid,
+        "id_user": await Preferences.getUserData()!.id,
         "token": ApplicationConstant.TOKEN
       };
 
@@ -184,11 +184,12 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   }
 
   Future<void> updateUserDataRequest(
-      String name,
-      String document,
-      String cellphone,
-      String email,
-      String birth,) async {
+    String name,
+    String document,
+    String cellphone,
+    String email,
+    String birth,
+  ) async {
     try {
       final body = {
         "id": await Preferences.getUserData()!.id,
@@ -357,22 +358,30 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                       builder: (BuildContext
                                                           context) {
                                                         return PickImageAlertDialog(
-                                                            iconCamera:
-                                                                Container(
-                                                                    child: Image
-                                                                        .asset(
-                                                              "images/2.png",
-                                                              width: 100,
-                                                              height: 110,
-                                                            )),
-                                                            iconGallery:
-                                                                Container(
-                                                                    child: Image
-                                                                        .asset(
-                                                              "images/1.png",
-                                                              width: 100,
-                                                              height: 140,
-                                                            )));
+                                                            iconCamera: Container(
+                                                                child: InkWell(
+                                                                    onTap: () {
+                                                                      pickImageCamera();
+                                                                    },
+                                                                    child: Image.asset(
+                                                                      "images/2.png",
+                                                                      width:
+                                                                          100,
+                                                                      height:
+                                                                          110,
+                                                                    ))),
+                                                            iconGallery: Container(
+                                                                child: InkWell(
+                                                                    onTap: () {
+                                                                      pickImageGallery();
+                                                                    },
+                                                                    child: Image.asset(
+                                                                      "images/1.png",
+                                                                      width:
+                                                                          100,
+                                                                      height:
+                                                                          140,
+                                                                    ))));
                                                       });
                                                 },
                                               ),
@@ -676,7 +685,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             onPressed: _isLoading
                                                 ? null
                                                 : () async {
-
                                                     // if (!validator.validateEmail(emailController.text))
                                                     //   return;
                                                     // if (!validator.validateCNPJ(documentController.text))
@@ -686,18 +694,17 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                             cellphoneController
                                                                 .text)) return;
 
-
                                                     setState(() {
                                                       _isLoading = true;
                                                     });
 
                                                     await updateUserDataRequest(
-                                                        nameController
-                                                            .text,
+                                                        nameController.text,
                                                         documentController.text,
                                                         cellphoneController
                                                             .text,
-                                                        emailController.text, "");
+                                                        emailController.text,
+                                                        "");
 
                                                     setState(() {
                                                       _isLoading = false;
@@ -1148,13 +1155,16 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                               },
                                         child: (_isLoading)
                                             ? const SizedBox(
-                                                width: Dimens.buttonIndicatorWidth,
-                                                height:
-                                                    Dimens.buttonIndicatorHeight,
-                                                child: CircularProgressIndicator(
-                                                  color: OwnerColors.colorAccent,
-                                                  strokeWidth:
-                                                      Dimens.buttonIndicatorStrokes,
+                                                width:
+                                                    Dimens.buttonIndicatorWidth,
+                                                height: Dimens
+                                                    .buttonIndicatorHeight,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color:
+                                                      OwnerColors.colorAccent,
+                                                  strokeWidth: Dimens
+                                                      .buttonIndicatorStrokes,
                                                 ))
                                             : Text("Atualizar endereço",
                                                 style: Styles()

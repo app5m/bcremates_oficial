@@ -63,7 +63,7 @@ class PostRequest {
       print(ApplicationConstant.URL_BASE + requestEndpoint);
 
       var request = http.MultipartRequest("POST", Uri.parse(ApplicationConstant.URL_BASE + requestEndpoint));
-      request.fields['app_users_id'] = idUser;
+      request.fields['id_user'] = idUser;
       request.fields['token'] = ApplicationConstant.TOKEN;
 
       request.files.add(await http.MultipartFile.fromPath('url', file.path));

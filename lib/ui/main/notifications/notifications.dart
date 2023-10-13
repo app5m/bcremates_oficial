@@ -34,7 +34,7 @@ class _Notifications extends State<Notifications> {
   Future<List<Map<String, dynamic>>> listNotifications() async {
     try {
       final body = {
-        "id_user": /*await Preferences.getUserData()!.id */ ApplicationConstant.fakeid,
+        "id_user": await Preferences.getUserData()!.id,
         "token": ApplicationConstant.TOKEN
       };
 

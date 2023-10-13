@@ -286,10 +286,10 @@ class _LoginState extends State<Login> {
                       child: ElevatedButton(
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => Home()),
-                              ModalRoute.withName("/ui/home"));
+                          // Navigator.pushAndRemoveUntil(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => Home()),
+                          //     ModalRoute.withName("/ui/home"));
 
                           if (!validator.validateEmail(emailController.text))
                             return;

@@ -36,7 +36,7 @@ class _MainMenu extends State<MainMenu> {
   Future<Map<String, dynamic>> loadProfileRequest() async {
     try {
       final body = {
-        "id_user": /*await Preferences.getUserData()!.id*/ ApplicationConstant.fakeid,
+        "id_user": await Preferences.getUserData()!.id,
         "token": ApplicationConstant.TOKEN
       };
 
