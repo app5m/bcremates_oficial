@@ -150,47 +150,34 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     }
   }
 
-  Future<List<Map<String, dynamic>>> loadProfileRequest() async {
+  Future<Map<String, dynamic>> loadProfileRequest() async {
     try {
       final body = {
-        "id_usuario": await Preferences.getUserData()!.id,
+        "id_user": /*await Preferences.getUserData()!.id */ "1015",
         "token": ApplicationConstant.TOKEN
       };
 
       print('HTTP_BODY: $body');
 
       final json = await postRequest.sendPostRequest(Links.LOAD_PROFILE, body);
-      List<Map<String, dynamic>> _map = [];
-      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+      final parsedResponse = jsonDecode(json);
 
-      print('HTTP_RESPONSE: $_map');
+      print('HTTP_RESPONSE: $parsedResponse');
 
-      final response = User.fromJson(_map[0]);
+      final response = User.fromJson(parsedResponse);
       //
-      // if (response.status == "01") {
-      // setState(() {
-      _profileResponse = response;
+      // _profileResponse = response;
+      //
+      // ownerNameController.text = _profileResponse!.nome.toString();
+      // fantasyNameController.text = _profileResponse!.nome_fantasia.toString();
+      // socialReasonController.text = _profileResponse!.razao_social.toString();
+      // emailController.text = _profileResponse!.email.toString();
+      // documentController.text = Preferences.getUserData()!.tipo == 2
+      //     ? _profileResponse!.cpf.toString()
+      //     : _profileResponse!.cnpj.toString();
+      // cellphoneController.text = _profileResponse!.celular.toString();
 
-      ownerNameController.text = _profileResponse!.nome.toString();
-      fantasyNameController.text = _profileResponse!.nome_fantasia.toString();
-      socialReasonController.text = _profileResponse!.razao_social.toString();
-      emailController.text = _profileResponse!.email.toString();
-      documentController.text = Preferences.getUserData()!.tipo == 2
-          ? _profileResponse!.cpf.toString()
-          : _profileResponse!.cnpj.toString();
-      cellphoneController.text = _profileResponse!.celular.toString();
-
-      // cepController.text = _profileResponse!.cep;
-      // cityController.text = _profileResponse!.cidade;
-      // stateController.text = _profileResponse!.estado;
-      // addressController.text = _profileResponse!.endereco;
-      // nbhController.text = _profileResponse!.bairro;
-      // numberController.text = _profileResponse!.numero;
-      // complementController.text = _profileResponse!.complemento;
-      // });
-      // } else {}
-
-      return _map;
+      return parsedResponse;
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -304,178 +291,482 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
             CustomAppBar(title: "Edição de Perfil", isVisibleBackButton: true),
         body: Container(
             child: Container(
-          child: Column(children: [
-            Expanded(
-                child: SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: [
-                    // Expanded(
-/*                FutureBuilder<List<Map<String, dynamic>>>(
-                  future: loadProfileRequest(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final response = User.fromJson(snapshot.data![0]);
+                child: Column(children: [
+          Expanded(
+            child: SingleChildScrollView(
+                child: FutureBuilder<Map<String, dynamic>>(
+              future: loadProfileRequest(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final response = User.fromJson(snapshot.data!);
 
-                      return */
-                    Material(
-                        elevation: Dimens.elevationApplication,
-                        child: Container(
-                          padding: EdgeInsets.all(Dimens.maxPaddingApplication),
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Container(
-                                  height: 84,
-                                  width: 84,
-                                  margin: EdgeInsets.only(
-                                      right: Dimens.marginApplication),
-                                  child: Stack(
-                                      alignment: Alignment.center,
+                  return Container(
+                    child: Column(
+                      children: [
+                        // Expanded(
+
+                        Material(
+                            elevation: Dimens.elevationApplication,
+                            child: Container(
+                              padding:
+                                  EdgeInsets.all(Dimens.maxPaddingApplication),
+                              color: Colors.white,
+                              child: Row(
+                                children: [
+                                  Container(
+                                      height: 84,
+                                      width: 84,
+                                      margin: EdgeInsets.only(
+                                          right: Dimens.marginApplication),
+                                      child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            ClipOval(
+                                              child: SizedBox.fromSize(
+                                                size: Size.fromRadius(42),
+                                                // Image radius
+                                                child: Image.network(
+                                                    ApplicationConstant
+                                                            .URL_AVATAR +
+                                                        response.avatar
+                                                            .toString(),
+                                                    fit: BoxFit.cover,
+                                                    /*fit: BoxFit.cover*/
+                                                    errorBuilder: (context,
+                                                            exception,
+                                                            stackTrack) =>
+                                                        Image.asset(
+                                                          'images/person.jpg',
+                                                        )),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: FloatingActionButton(
+                                                mini: true,
+                                                child: Image.asset(
+                                                  'images/edit.png',
+                                                  width: 18,
+                                                  height: 18,
+                                                ),
+                                                backgroundColor: Colors.white,
+                                                onPressed: () {
+                                                  showModalBottomSheet<dynamic>(
+                                                      isScrollControlled: true,
+                                                      context: context,
+                                                      shape: Styles()
+                                                          .styleShapeBottomSheet,
+                                                      clipBehavior: Clip
+                                                          .antiAliasWithSaveLayer,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return PickImageAlertDialog(
+                                                            iconCamera:
+                                                                Container(
+                                                                    child: Image
+                                                                        .asset(
+                                                              "images/2.png",
+                                                              width: 100,
+                                                              height: 110,
+                                                            )),
+                                                            iconGallery:
+                                                                Container(
+                                                                    child: Image
+                                                                        .asset(
+                                                              "images/1.png",
+                                                              width: 100,
+                                                              height: 140,
+                                                            )));
+                                                      });
+                                                },
+                                              ),
+                                            )
+                                          ])),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        ClipOval(
-                                          child: SizedBox.fromSize(
-                                            size: Size.fromRadius(42),
-                                            // Image radius
-                                            child: Image.network(
-                                                ApplicationConstant
-                                                    .URL_AVATAR /*+
-                                              response.avatar.toString()*/
-                                                ,
-                                                fit: BoxFit.cover,
-                                                /*fit: BoxFit.cover*/
-                                                errorBuilder: (context,
-                                                        exception,
-                                                        stackTrack) =>
-                                                    Image.asset(
-                                                      'images/person.jpg',
-                                                    )),
+                                        Text(
+                                          /*response.nome*/
+                                          "Nome teste",
+                                          style: TextStyle(
+                                            fontSize: Dimens.textSize6,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                           ),
                                         ),
-                                        Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: FloatingActionButton(
-                                            mini: true,
-                                            child: Image.asset(
-                                              'images/edit.png',
-                                              width: 18,
-                                              height: 18,
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            onPressed: () {
-                                              showModalBottomSheet<dynamic>(
-                                                  isScrollControlled: true,
-                                                  context: context,
-                                                  shape: Styles()
-                                                      .styleShapeBottomSheet,
-                                                  clipBehavior: Clip
-                                                      .antiAliasWithSaveLayer,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return PickImageAlertDialog(
-                                                        iconCamera: Container(
-                                                            child: Image.asset("images/2.png" ,width: 100, height: 110,)),
-                                                        iconGallery: Container(
-                                                        child: Image.asset("images/1.png",width: 100, height: 140,)));
-                                                  });
-                                            },
+                                        SizedBox(
+                                            height:
+                                                Dimens.minMarginApplication),
+                                        Text(
+                                          /*response.email*/
+                                          "email@email.com",
+                                          style: TextStyle(
+                                            fontSize: Dimens.textSize5,
+                                            color: Colors.black,
                                           ),
-                                        )
-                                      ])),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      /*response.nome*/
-                                      "Nome teste",
-                                      style: TextStyle(
-                                        fontSize: Dimens.textSize6,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                        height: Dimens.minMarginApplication),
-                                    Text(
-                                      /*response.email*/
-                                      "email@email.com",
-                                      style: TextStyle(
-                                        fontSize: Dimens.textSize5,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                            )),
+
+                        Container(
+                          height: 60,
+                          child: TabBar(
+                            tabs: [
+                              Container(
+                                child: Text(
+                                  "Pessoal",
+                                  style: TextStyle(
+                                    fontSize: Dimens.textSize6,
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               ),
+                              Container(
+                                  child: Text(
+                                "Endereço",
+                                style: TextStyle(
+                                  fontSize: Dimens.textSize6,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ))
                             ],
-                          ),
-                        )),
-                    /*;
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),*/
-                    Container(
-                      height: 60,
-                      child: TabBar(
-                        tabs: [
-                          Container(
-                            child: Text(
-                              "Pessoal",
-                              style: TextStyle(
-                                fontSize: Dimens.textSize6,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                          ),
-                          Container(
-                              child: Text(
-                            "Endereço",
-                            style: TextStyle(
-                              fontSize: Dimens.textSize6,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ))
-                        ],
-                        unselectedLabelColor: Colors.grey,
-                        indicatorColor: OwnerColors.colorPrimary,
-                        labelColor: Colors.black,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorWeight: 2.0,
-                        isScrollable: false,
-                        controller: _tabController,
-                        onTap: (value) {
-                          setState(() {
-                            // if (value == 0) {
-                            //   _isChanged = false;
-                            // } else {
-                            //   _isChanged = true;
-                            // }
-                          });
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: OwnerColors.colorPrimary,
+                            labelColor: Colors.black,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            indicatorWeight: 2.0,
+                            isScrollable: false,
+                            controller: _tabController,
+                            onTap: (value) {
+                              setState(() {
+                                // if (value == 0) {
+                                //   _isChanged = false;
+                                // } else {
+                                //   _isChanged = true;
+                                // }
+                              });
 
-                          print(value);
-                        },
-                      ),
-                    ),
-                    Container(
-                      child: AutoScaleTabBarView(
-                          controller: _tabController,
-                          children: <Widget>[
-                            Container(
-                                padding:
-                                    EdgeInsets.all(Dimens.paddingApplication),
-                                height: 700,
-                                child: Column(
-                                  children: [
+                              print(value);
+                            },
+                          ),
+                        ),
+                        Container(
+                          child: AutoScaleTabBarView(
+                              controller: _tabController,
+                              children: <Widget>[
+                                Container(
+                                    padding: EdgeInsets.all(
+                                        Dimens.paddingApplication),
+                                    height: 700,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Nome completo",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          // controller: nameController,
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintText: 'Ex: José Pereira',
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.text,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: Dimens.marginApplication),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "CPF",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          // controller: cpfController,
+                                          inputFormatters: [Masks().cpfMask()],
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintText: '000.000.000-00',
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: Dimens.marginApplication),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "Telefone",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          controller: cellphoneController,
+                                          inputFormatters: [
+                                            Masks().cellphoneMask()
+                                          ],
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintText: '(##)#####-####',
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: Dimens.marginApplication),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  Dimens.minMarginApplication),
+                                          child: Text(
+                                            "E-mail",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: Dimens.textSize5,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        TextField(
+                                          controller: emailController,
+                                          decoration: InputDecoration(
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      OwnerColors.colorPrimary,
+                                                  width: 1.5),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 1.0),
+                                            ),
+                                            hintText: 'exemplo@email.com',
+                                            hintStyle:
+                                                TextStyle(color: Colors.grey),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimens.radiusApplication),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding: EdgeInsets.all(Dimens
+                                                .textFieldPaddingApplication),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: Dimens.textSize5,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height: Dimens.marginApplication),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: Dimens.marginApplication,
+                                              bottom: Dimens.marginApplication),
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            style:
+                                                Styles().styleAlternativeButton,
+                                            onPressed: _isLoading
+                                                ? null
+                                                : () async {
+                                                    if (!validator
+                                                        .validateGenericTextField(
+                                                            ownerNameController
+                                                                .text,
+                                                            "Nome resposável"))
+                                                      return;
+
+                                                    // if (!validator.validateEmail(emailController.text))
+                                                    //   return;
+                                                    // if (!validator.validateCNPJ(documentController.text))
+                                                    //   return;
+                                                    if (!validator
+                                                        .validateCellphone(
+                                                            cellphoneController
+                                                                .text)) return;
+
+                                                    if (Preferences
+                                                                .getUserData()!
+                                                            .tipo ==
+                                                        1) {
+                                                      if (!validator
+                                                          .validateGenericTextField(
+                                                              fantasyNameController
+                                                                  .text,
+                                                              "Nome fantasia"))
+                                                        return;
+                                                      if (!validator
+                                                          .validateGenericTextField(
+                                                              socialReasonController
+                                                                  .text,
+                                                              "Razão social"))
+                                                        return;
+                                                    }
+
+                                                    setState(() {
+                                                      _isLoading = true;
+                                                    });
+
+                                                    await updateUserDataRequest(
+                                                        ownerNameController
+                                                            .text,
+                                                        documentController.text,
+                                                        cellphoneController
+                                                            .text,
+                                                        emailController.text,
+                                                        fantasyNameController
+                                                            .text,
+                                                        socialReasonController
+                                                            .text);
+
+                                                    setState(() {
+                                                      _isLoading = false;
+                                                    });
+                                                  },
+                                            child: (_isLoading)
+                                                ? const SizedBox(
+                                                    width: Dimens
+                                                        .buttonIndicatorWidth,
+                                                    height: Dimens
+                                                        .buttonIndicatorHeight,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: OwnerColors
+                                                          .colorAccent,
+                                                      strokeWidth: Dimens
+                                                          .buttonIndicatorStrokes,
+                                                    ))
+                                                : Text("Alterar",
+                                                    style: Styles()
+                                                        .styleDefaultTextButton),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                Container(
+                                  padding:
+                                      EdgeInsets.all(Dimens.paddingApplication),
+                                  height: /*_hasSchedule ? */ 700 /*: 236*/,
+                                  child: Column(children: [
                                     Container(
                                       width: double.infinity,
                                       margin: EdgeInsets.only(
                                           bottom: Dimens.minMarginApplication),
                                       child: Text(
-                                        "Nome completo",
+                                        "CEP",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                           fontSize: Dimens.textSize5,
@@ -484,7 +775,13 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     TextField(
-                                      // controller: nameController,
+                                      onChanged: (value) {
+                                        if (value.length > 8) {
+                                          getCepInfo(value);
+                                        }
+                                      },
+                                      controller: cepController,
+                                      inputFormatters: [Masks().cepMask()],
                                       decoration: InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -495,7 +792,164 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                           borderSide: BorderSide(
                                               color: Colors.grey, width: 1.0),
                                         ),
-                                        hintText: 'Ex: José Pereira',
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              Dimens.radiusApplication),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding: EdgeInsets.all(
+                                            Dimens.textFieldPaddingApplication),
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: Dimens.textSize5,
+                                      ),
+                                    ),
+                                    SizedBox(height: Dimens.marginApplication),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: Column(
+                                          children: [
+                                            Container(
+                                              width: double.infinity,
+                                              margin: EdgeInsets.only(
+                                                  bottom: Dimens
+                                                      .minMarginApplication),
+                                              child: Text(
+                                                "Cidade",
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  fontSize: Dimens.textSize5,
+                                                  color: Colors.black87,
+                                                ),
+                                              ),
+                                            ),
+                                            TextField(
+                                              readOnly: true,
+                                              controller: cityController,
+                                              decoration: InputDecoration(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: OwnerColors
+                                                          .colorPrimary,
+                                                      width: 1.5),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 1.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimens
+                                                          .radiusApplication),
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                contentPadding: EdgeInsets.all(
+                                                    Dimens
+                                                        .textFieldPaddingApplication),
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: Dimens.textSize5,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                        SizedBox(
+                                            width: Dimens.marginApplication),
+                                        Expanded(
+                                            child: Column(children: [
+                                          Container(
+                                            width: double.infinity,
+                                            margin: EdgeInsets.only(
+                                                bottom: Dimens
+                                                    .minMarginApplication),
+                                            child: Text(
+                                              "Estado",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: Dimens.textSize5,
+                                                color: Colors.black87,
+                                              ),
+                                            ),
+                                          ),
+                                          TextField(
+                                            readOnly: true,
+                                            controller: stateController,
+                                            decoration: InputDecoration(
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: OwnerColors
+                                                        .colorPrimary,
+                                                    width: 1.5),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.grey,
+                                                    width: 1.0),
+                                              ),
+                                              hintStyle:
+                                                  TextStyle(color: Colors.grey),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(Dimens
+                                                        .radiusApplication),
+                                                borderSide: BorderSide.none,
+                                              ),
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              contentPadding: EdgeInsets.all(Dimens
+                                                  .textFieldPaddingApplication),
+                                            ),
+                                            keyboardType: TextInputType.text,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: Dimens.textSize5,
+                                            ),
+                                          ),
+                                        ])),
+                                      ],
+                                    ),
+                                    SizedBox(height: Dimens.marginApplication),
+                                    Container(
+                                      width: double.infinity,
+                                      margin: EdgeInsets.only(
+                                          bottom: Dimens.minMarginApplication),
+                                      child: Text(
+                                        "Endereço",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: Dimens.textSize5,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: addressController,
+                                      decoration: InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: OwnerColors.colorPrimary,
+                                              width: 1.5),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                        ),
                                         hintStyle:
                                             TextStyle(color: Colors.grey),
                                         border: OutlineInputBorder(
@@ -515,1090 +969,681 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     SizedBox(height: Dimens.marginApplication),
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          bottom: Dimens.minMarginApplication),
-                                      child: Text(
-                                        "CPF",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: Dimens.textSize5,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
-                                    TextField(
-                                      // controller: cpfController,
-                                      inputFormatters: [Masks().cpfMask()],
-                                      decoration: InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: OwnerColors.colorPrimary,
-                                              width: 1.5),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
-                                        ),
-                                        hintText: '000.000.000-00',
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimens.radiusApplication),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: EdgeInsets.all(
-                                            Dimens.textFieldPaddingApplication),
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Dimens.textSize5,
-                                      ),
-                                    ),
-                                    SizedBox(height: Dimens.marginApplication),
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          bottom: Dimens.minMarginApplication),
-                                      child: Text(
-                                        "Telefone",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: Dimens.textSize5,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
-                                    TextField(
-                                      controller: cellphoneController,
-                                      inputFormatters: [
-                                        Masks().cellphoneMask()
-                                      ],
-                                      decoration: InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: OwnerColors.colorPrimary,
-                                              width: 1.5),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
-                                        ),
-                                        hintText: '(##)#####-####',
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimens.radiusApplication),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: EdgeInsets.all(
-                                            Dimens.textFieldPaddingApplication),
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Dimens.textSize5,
-                                      ),
-                                    ),
-                                    SizedBox(height: Dimens.marginApplication),
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          bottom: Dimens.minMarginApplication),
-                                      child: Text(
-                                        "E-mail",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: Dimens.textSize5,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
-                                    TextField(
-                                      controller: emailController,
-                                      decoration: InputDecoration(
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: OwnerColors.colorPrimary,
-                                              width: 1.5),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey, width: 1.0),
-                                        ),
-                                        hintText: 'exemplo@email.com',
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimens.radiusApplication),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: EdgeInsets.all(
-                                            Dimens.textFieldPaddingApplication),
-                                      ),
-                                      keyboardType: TextInputType.emailAddress,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: Dimens.textSize5,
-                                      ),
-                                    ),
-                                    SizedBox(height: Dimens.marginApplication),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: Dimens.marginApplication,
-                                          bottom: Dimens.marginApplication),
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        style: Styles().styleAlternativeButton,
-                                        onPressed: _isLoading
-                                            ? null
-                                            : () async {
-                                                if (!validator
-                                                    .validateGenericTextField(
-                                                        ownerNameController
-                                                            .text,
-                                                        "Nome resposável"))
-                                                  return;
-
-                                                // if (!validator.validateEmail(emailController.text))
-                                                //   return;
-                                                // if (!validator.validateCNPJ(documentController.text))
-                                                //   return;
-                                                if (!validator
-                                                    .validateCellphone(
-                                                        cellphoneController
-                                                            .text)) return;
-
-                                                if (Preferences.getUserData()!
-                                                        .tipo ==
-                                                    1) {
-                                                  if (!validator
-                                                      .validateGenericTextField(
-                                                          fantasyNameController
-                                                              .text,
-                                                          "Nome fantasia"))
-                                                    return;
-                                                  if (!validator
-                                                      .validateGenericTextField(
-                                                          socialReasonController
-                                                              .text,
-                                                          "Razão social"))
-                                                    return;
-                                                }
-
-                                                setState(() {
-                                                  _isLoading = true;
-                                                });
-
-                                                await updateUserDataRequest(
-                                                    ownerNameController.text,
-                                                    documentController.text,
-                                                    cellphoneController.text,
-                                                    emailController.text,
-                                                    fantasyNameController.text,
-                                                    socialReasonController
-                                                        .text);
-
-                                                setState(() {
-                                                  _isLoading = false;
-                                                });
-                                              },
-                                        child: (_isLoading)
-                                            ? const SizedBox(
-                                                width:
-                                                    Dimens.buttonIndicatorWidth,
-                                                height: Dimens
-                                                    .buttonIndicatorHeight,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color:
-                                                      OwnerColors.colorAccent,
-                                                  strokeWidth: Dimens
-                                                      .buttonIndicatorStrokes,
-                                                ))
-                                            : Text("Alterar",
-                                                style: Styles()
-                                                    .styleDefaultTextButton),
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                            Container(
-                              padding:
-                                  EdgeInsets.all(Dimens.paddingApplication),
-                              height: /*_hasSchedule ? */ 700 /*: 236*/,
-                              child: Column(children: [
-                                Container(
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(
-                                      bottom: Dimens.minMarginApplication),
-                                  child: Text(
-                                    "CEP",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: Dimens.textSize5,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ),
-                                TextField(
-                                  onChanged: (value) {
-                                    if (value.length > 8) {
-                                      getCepInfo(value);
-                                    }
-                                  },
-                                  controller: cepController,
-                                  inputFormatters: [Masks().cepMask()],
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: OwnerColors.colorPrimary,
-                                          width: 1.5),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 1.0),
-                                    ),
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimens.radiusApplication),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.all(
-                                        Dimens.textFieldPaddingApplication),
-                                  ),
-                                  keyboardType: TextInputType.number,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: Dimens.textSize5,
-                                  ),
-                                ),
-                                SizedBox(height: Dimens.marginApplication),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: Column(
+                                    Row(
                                       children: [
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.only(
-                                              bottom:
-                                                  Dimens.minMarginApplication),
-                                          child: Text(
-                                            "Cidade",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: Dimens.textSize5,
-                                              color: Colors.black87,
+                                        Expanded(
+                                          child: Column(children: [
+                                            Container(
+                                              width: double.infinity,
+                                              margin: EdgeInsets.only(
+                                                  bottom: Dimens
+                                                      .minMarginApplication),
+                                              child: Text(
+                                                "Bairro",
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  fontSize: Dimens.textSize5,
+                                                  color: Colors.black87,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            TextField(
+                                              controller: nbhController,
+                                              decoration: InputDecoration(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: OwnerColors
+                                                          .colorPrimary,
+                                                      width: 1.5),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 1.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimens
+                                                          .radiusApplication),
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                contentPadding: EdgeInsets.all(
+                                                    Dimens
+                                                        .textFieldPaddingApplication),
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: Dimens.textSize5,
+                                              ),
+                                            )
+                                          ]),
                                         ),
-                                        TextField(
-                                          readOnly: true,
-                                          controller: cityController,
-                                          decoration: InputDecoration(
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color:
-                                                      OwnerColors.colorPrimary,
-                                                  width: 1.5),
+                                        SizedBox(
+                                            width: Dimens.marginApplication),
+                                        Expanded(
+                                          child: Column(children: [
+                                            Container(
+                                              width: double.infinity,
+                                              margin: EdgeInsets.only(
+                                                  bottom: Dimens
+                                                      .minMarginApplication),
+                                              child: Text(
+                                                "Número",
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  fontSize: Dimens.textSize5,
+                                                  color: Colors.black87,
+                                                ),
+                                              ),
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey,
-                                                  width: 1.0),
-                                            ),
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      Dimens.radiusApplication),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding: EdgeInsets.all(Dimens
-                                                .textFieldPaddingApplication),
-                                          ),
-                                          keyboardType: TextInputType.text,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: Dimens.textSize5,
-                                          ),
+                                            TextField(
+                                              controller: numberController,
+                                              decoration: InputDecoration(
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: OwnerColors
+                                                          .colorPrimary,
+                                                      width: 1.5),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 1.0),
+                                                ),
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimens
+                                                          .radiusApplication),
+                                                  borderSide: BorderSide.none,
+                                                ),
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                contentPadding: EdgeInsets.all(
+                                                    Dimens
+                                                        .textFieldPaddingApplication),
+                                              ),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: Dimens.textSize5,
+                                              ),
+                                            )
+                                          ]),
                                         ),
                                       ],
-                                    )),
-                                    SizedBox(width: Dimens.marginApplication),
-                                    Expanded(
-                                        child: Column(children: [
-                                      Container(
-                                        width: double.infinity,
-                                        margin: EdgeInsets.only(
-                                            bottom:
-                                                Dimens.minMarginApplication),
-                                        child: Text(
-                                          "Estado",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: Dimens.textSize5,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                      ),
-                                      TextField(
-                                        readOnly: true,
-                                        controller: stateController,
-                                        decoration: InputDecoration(
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: OwnerColors.colorPrimary,
-                                                width: 1.5),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey, width: 1.0),
-                                          ),
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                Dimens.radiusApplication),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.all(Dimens
-                                              .textFieldPaddingApplication),
-                                        ),
-                                        keyboardType: TextInputType.text,
+                                    ),
+                                    SizedBox(height: Dimens.marginApplication),
+                                    Container(
+                                      width: double.infinity,
+                                      margin: EdgeInsets.only(
+                                          bottom: Dimens.minMarginApplication),
+                                      child: Text(
+                                        "Complemento",
+                                        textAlign: TextAlign.start,
                                         style: TextStyle(
-                                          color: Colors.grey,
                                           fontSize: Dimens.textSize5,
+                                          color: Colors.black87,
                                         ),
                                       ),
-                                    ])),
-                                  ],
-                                ),
-                                SizedBox(height: Dimens.marginApplication),
-                                Container(
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(
-                                      bottom: Dimens.minMarginApplication),
-                                  child: Text(
-                                    "Endereço",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: Dimens.textSize5,
-                                      color: Colors.black87,
                                     ),
-                                  ),
-                                ),
-                                TextField(
-                                  controller: addressController,
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: OwnerColors.colorPrimary,
-                                          width: 1.5),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 1.0),
-                                    ),
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimens.radiusApplication),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.all(
-                                        Dimens.textFieldPaddingApplication),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: Dimens.textSize5,
-                                  ),
-                                ),
-                                SizedBox(height: Dimens.marginApplication),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(children: [
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.only(
-                                              bottom:
-                                                  Dimens.minMarginApplication),
-                                          child: Text(
-                                            "Bairro",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: Dimens.textSize5,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
+                                    TextField(
+                                      controller: complementController,
+                                      decoration: InputDecoration(
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: OwnerColors.colorPrimary,
+                                              width: 1.5),
                                         ),
-                                        TextField(
-                                          controller: nbhController,
-                                          decoration: InputDecoration(
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color:
-                                                      OwnerColors.colorPrimary,
-                                                  width: 1.5),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey,
-                                                  width: 1.0),
-                                            ),
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      Dimens.radiusApplication),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding: EdgeInsets.all(Dimens
-                                                .textFieldPaddingApplication),
-                                          ),
-                                          keyboardType: TextInputType.text,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: Dimens.textSize5,
-                                          ),
-                                        )
-                                      ]),
-                                    ),
-                                    SizedBox(width: Dimens.marginApplication),
-                                    Expanded(
-                                      child: Column(children: [
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.only(
-                                              bottom:
-                                                  Dimens.minMarginApplication),
-                                          child: Text(
-                                            "Número",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: Dimens.textSize5,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 1.0),
                                         ),
-                                        TextField(
-                                          controller: numberController,
-                                          decoration: InputDecoration(
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color:
-                                                      OwnerColors.colorPrimary,
-                                                  width: 1.5),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey,
-                                                  width: 1.0),
-                                            ),
-                                            hintStyle:
-                                                TextStyle(color: Colors.grey),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      Dimens.radiusApplication),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding: EdgeInsets.all(Dimens
-                                                .textFieldPaddingApplication),
-                                          ),
-                                          keyboardType: TextInputType.number,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: Dimens.textSize5,
-                                          ),
-                                        )
-                                      ]),
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              Dimens.radiusApplication),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding: EdgeInsets.all(
+                                            Dimens.textFieldPaddingApplication),
+                                      ),
+                                      keyboardType: TextInputType.text,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: Dimens.textSize5,
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: Dimens.marginApplication),
-                                Container(
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(
-                                      bottom: Dimens.minMarginApplication),
-                                  child: Text(
-                                    "Complemento",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: Dimens.textSize5,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ),
-                                TextField(
-                                  controller: complementController,
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: OwnerColors.colorPrimary,
-                                          width: 1.5),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.grey, width: 1.0),
-                                    ),
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimens.radiusApplication),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.all(
-                                        Dimens.textFieldPaddingApplication),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: Dimens.textSize5,
-                                  ),
-                                ),
-                                SizedBox(height: Dimens.marginApplication),
-                                // Container(
-                                //   margin: EdgeInsets.only(
-                                //       top: Dimens.marginApplication,
-                                //       bottom: Dimens.marginApplication),
-                                //   width: double.infinity,
-                                //   child: ElevatedButton(
-                                //     style: Styles().styleDefaultButton,
-                                //     onPressed: _isLoading
-                                //         ? null
-                                //         : () async {
-                                //             if (!validator.validateCEP(
-                                //                 cepController.text)) return;
-                                //             if (!validator
-                                //                 .validateGenericTextField(
-                                //                     cityController.text,
-                                //                     "Cidade")) return;
-                                //             if (!validator
-                                //                 .validateGenericTextField(
-                                //                     stateController.text,
-                                //                     "Estado")) return;
-                                //             if (!validator
-                                //                 .validateGenericTextField(
-                                //                     addressController.text,
-                                //                     "Endereço")) return;
-                                //             if (!validator
-                                //                 .validateGenericTextField(
-                                //                     nbhController.text,
-                                //                     "Bairro")) return;
-                                //             if (!validator
-                                //                 .validateGenericTextField(
-                                //                     numberController.text,
-                                //                     "Número")) return;
-                                //
-                                //             setState(() {
-                                //               _isLoading = true;
-                                //             });
-                                //
-                                //             // await updateAddressRequest(
-                                //             //     cepController.text.toString(),
-                                //             //     stateController.text.toString(),
-                                //             //     cityController.text.toString(),
-                                //             //     addressController.text.toString(),
-                                //             //     nbhController.text.toString(),
-                                //             //     numberController.text.toString(),
-                                //             //     complementController.text.toString());
-                                //
-                                //             setState(() {
-                                //               _isLoading = false;
-                                //             });
-                                //           },
-                                //     child: (_isLoading)
-                                //         ? const SizedBox(
-                                //             width: Dimens.buttonIndicatorWidth,
-                                //             height:
-                                //                 Dimens.buttonIndicatorHeight,
-                                //             child: CircularProgressIndicator(
-                                //               color: OwnerColors.colorAccent,
-                                //               strokeWidth:
-                                //                   Dimens.buttonIndicatorStrokes,
-                                //             ))
-                                //         : Text("Atualizar endereço",
-                                //             style: Styles()
-                                //                 .styleDefaultTextButton),
-                                //   ),
-                                // ),
-                                SizedBox(height: Dimens.marginApplication),
+                                    SizedBox(height: Dimens.marginApplication),
+                                    // Container(
+                                    //   margin: EdgeInsets.only(
+                                    //       top: Dimens.marginApplication,
+                                    //       bottom: Dimens.marginApplication),
+                                    //   width: double.infinity,
+                                    //   child: ElevatedButton(
+                                    //     style: Styles().styleDefaultButton,
+                                    //     onPressed: _isLoading
+                                    //         ? null
+                                    //         : () async {
+                                    //             if (!validator.validateCEP(
+                                    //                 cepController.text)) return;
+                                    //             if (!validator
+                                    //                 .validateGenericTextField(
+                                    //                     cityController.text,
+                                    //                     "Cidade")) return;
+                                    //             if (!validator
+                                    //                 .validateGenericTextField(
+                                    //                     stateController.text,
+                                    //                     "Estado")) return;
+                                    //             if (!validator
+                                    //                 .validateGenericTextField(
+                                    //                     addressController.text,
+                                    //                     "Endereço")) return;
+                                    //             if (!validator
+                                    //                 .validateGenericTextField(
+                                    //                     nbhController.text,
+                                    //                     "Bairro")) return;
+                                    //             if (!validator
+                                    //                 .validateGenericTextField(
+                                    //                     numberController.text,
+                                    //                     "Número")) return;
+                                    //
+                                    //             setState(() {
+                                    //               _isLoading = true;
+                                    //             });
+                                    //
+                                    //             // await updateAddressRequest(
+                                    //             //     cepController.text.toString(),
+                                    //             //     stateController.text.toString(),
+                                    //             //     cityController.text.toString(),
+                                    //             //     addressController.text.toString(),
+                                    //             //     nbhController.text.toString(),
+                                    //             //     numberController.text.toString(),
+                                    //             //     complementController.text.toString());
+                                    //
+                                    //             setState(() {
+                                    //               _isLoading = false;
+                                    //             });
+                                    //           },
+                                    //     child: (_isLoading)
+                                    //         ? const SizedBox(
+                                    //             width: Dimens.buttonIndicatorWidth,
+                                    //             height:
+                                    //                 Dimens.buttonIndicatorHeight,
+                                    //             child: CircularProgressIndicator(
+                                    //               color: OwnerColors.colorAccent,
+                                    //               strokeWidth:
+                                    //                   Dimens.buttonIndicatorStrokes,
+                                    //             ))
+                                    //         : Text("Atualizar endereço",
+                                    //             style: Styles()
+                                    //                 .styleDefaultTextButton),
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: Dimens.marginApplication),
+                                  ]),
+                                )
                               ]),
-                            )
-                          ]),
-                    ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
-                    //   child: Text(
-                    //     "Meus dados",
-                    //     textAlign: TextAlign.start,
-                    //     style: TextStyle(
-                    //       fontSize: Dimens.textSize6,
-                    //       color: Colors.black,
-                    //     ),
-                    //   ),
-                    // ),
-                    // TextField(
-                    //   controller: ownerNameController,
-                    //   decoration: InputDecoration(
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //           BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'Nome responsável',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //           BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.text,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // TextField(
-                    //   readOnly: true,
-                    //   controller: emailController,
-                    //   decoration: InputDecoration(
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //           BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'E-mail',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //           BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // TextField(
-                    //   readOnly: true,
-                    //   controller: documentController,
-                    //   // inputFormatters: [Masks().cnpjMask()],
-                    //   decoration: InputDecoration(
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //       BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'Documento',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //       BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //     EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.number,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // TextField(
-                    //   controller: cellphoneController,
-                    //   inputFormatters: [Masks().cellphoneMask()],
-                    //   decoration: InputDecoration(
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //           BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'Celular',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //           BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.number,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // Visibility(
-                    //     visible: Preferences.getUserData()!.tipo == 1,
-                    //     child: Column(children: [
-                    //       TextField(
-                    //         controller: fantasyNameController,
-                    //         decoration: InputDecoration(
-                    //           focusedBorder: OutlineInputBorder(
-                    //             borderSide: BorderSide(
-                    //                 color: OwnerColors.colorPrimary,
-                    //                 width: 1.5),
-                    //           ),
-                    //           enabledBorder: OutlineInputBorder(
-                    //             borderSide:
-                    //                 BorderSide(color: Colors.grey, width: 1.0),
-                    //           ),
-                    //           hintText: 'Nome fantasia',
-                    //           hintStyle: TextStyle(color: Colors.grey),
-                    //           border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(
-                    //                 Dimens.radiusApplication),
-                    //             borderSide: BorderSide.none,
-                    //           ),
-                    //           filled: true,
-                    //           fillColor: Colors.white,
-                    //           contentPadding: EdgeInsets.all(
-                    //               Dimens.textFieldPaddingApplication),
-                    //         ),
-                    //         keyboardType: TextInputType.text,
-                    //         style: TextStyle(
-                    //           color: Colors.grey,
-                    //           fontSize: Dimens.textSize5,
-                    //         ),
-                    //       ),
-                    //       SizedBox(height: Dimens.marginApplication),
-                    //     ])),
-                    // Visibility(
-                    //     visible: Preferences.getUserData()!.tipo == 1,
-                    //     child: Column(
-                    //       children: [
-                    //         TextField(
-                    //           controller: socialReasonController,
-                    //           decoration: InputDecoration(
-                    //             focusedBorder: OutlineInputBorder(
-                    //               borderSide: BorderSide(
-                    //                   color: OwnerColors.colorPrimary,
-                    //                   width: 1.5),
-                    //             ),
-                    //             enabledBorder: OutlineInputBorder(
-                    //               borderSide: BorderSide(
-                    //                   color: Colors.grey, width: 1.0),
-                    //             ),
-                    //             hintText: 'Razão Social',
-                    //             hintStyle: TextStyle(color: Colors.grey),
-                    //             border: OutlineInputBorder(
-                    //               borderRadius: BorderRadius.circular(
-                    //                   Dimens.radiusApplication),
-                    //               borderSide: BorderSide.none,
-                    //             ),
-                    //             filled: true,
-                    //             fillColor: Colors.white,
-                    //             contentPadding: EdgeInsets.all(
-                    //                 Dimens.textFieldPaddingApplication),
-                    //           ),
-                    //           keyboardType: TextInputType.text,
-                    //           style: TextStyle(
-                    //             color: Colors.grey,
-                    //             fontSize: Dimens.textSize5,
-                    //           ),
-                    //         ),
-                    //         SizedBox(height: Dimens.marginApplication),
-                    //       ],
-                    //     )),
+                        ),
+                        // Container(
+                        //   width: double.infinity,
+                        //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
+                        //   child: Text(
+                        //     "Meus dados",
+                        //     textAlign: TextAlign.start,
+                        //     style: TextStyle(
+                        //       fontSize: Dimens.textSize6,
+                        //       color: Colors.black,
+                        //     ),
+                        //   ),
+                        // ),
+                        // TextField(
+                        //   controller: ownerNameController,
+                        //   decoration: InputDecoration(
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //           BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'Nome responsável',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //           BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.text,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // TextField(
+                        //   readOnly: true,
+                        //   controller: emailController,
+                        //   decoration: InputDecoration(
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //           BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'E-mail',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //           BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.emailAddress,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // TextField(
+                        //   readOnly: true,
+                        //   controller: documentController,
+                        //   // inputFormatters: [Masks().cnpjMask()],
+                        //   decoration: InputDecoration(
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //       BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'Documento',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //       BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //     EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.number,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // TextField(
+                        //   controller: cellphoneController,
+                        //   inputFormatters: [Masks().cellphoneMask()],
+                        //   decoration: InputDecoration(
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //           BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'Celular',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //           BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.number,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // Visibility(
+                        //     visible: Preferences.getUserData()!.tipo == 1,
+                        //     child: Column(children: [
+                        //       TextField(
+                        //         controller: fantasyNameController,
+                        //         decoration: InputDecoration(
+                        //           focusedBorder: OutlineInputBorder(
+                        //             borderSide: BorderSide(
+                        //                 color: OwnerColors.colorPrimary,
+                        //                 width: 1.5),
+                        //           ),
+                        //           enabledBorder: OutlineInputBorder(
+                        //             borderSide:
+                        //                 BorderSide(color: Colors.grey, width: 1.0),
+                        //           ),
+                        //           hintText: 'Nome fantasia',
+                        //           hintStyle: TextStyle(color: Colors.grey),
+                        //           border: OutlineInputBorder(
+                        //             borderRadius: BorderRadius.circular(
+                        //                 Dimens.radiusApplication),
+                        //             borderSide: BorderSide.none,
+                        //           ),
+                        //           filled: true,
+                        //           fillColor: Colors.white,
+                        //           contentPadding: EdgeInsets.all(
+                        //               Dimens.textFieldPaddingApplication),
+                        //         ),
+                        //         keyboardType: TextInputType.text,
+                        //         style: TextStyle(
+                        //           color: Colors.grey,
+                        //           fontSize: Dimens.textSize5,
+                        //         ),
+                        //       ),
+                        //       SizedBox(height: Dimens.marginApplication),
+                        //     ])),
+                        // Visibility(
+                        //     visible: Preferences.getUserData()!.tipo == 1,
+                        //     child: Column(
+                        //       children: [
+                        //         TextField(
+                        //           controller: socialReasonController,
+                        //           decoration: InputDecoration(
+                        //             focusedBorder: OutlineInputBorder(
+                        //               borderSide: BorderSide(
+                        //                   color: OwnerColors.colorPrimary,
+                        //                   width: 1.5),
+                        //             ),
+                        //             enabledBorder: OutlineInputBorder(
+                        //               borderSide: BorderSide(
+                        //                   color: Colors.grey, width: 1.0),
+                        //             ),
+                        //             hintText: 'Razão Social',
+                        //             hintStyle: TextStyle(color: Colors.grey),
+                        //             border: OutlineInputBorder(
+                        //               borderRadius: BorderRadius.circular(
+                        //                   Dimens.radiusApplication),
+                        //               borderSide: BorderSide.none,
+                        //             ),
+                        //             filled: true,
+                        //             fillColor: Colors.white,
+                        //             contentPadding: EdgeInsets.all(
+                        //                 Dimens.textFieldPaddingApplication),
+                        //           ),
+                        //           keyboardType: TextInputType.text,
+                        //           style: TextStyle(
+                        //             color: Colors.grey,
+                        //             fontSize: Dimens.textSize5,
+                        //           ),
+                        //         ),
+                        //         SizedBox(height: Dimens.marginApplication),
+                        //       ],
+                        //     )),
 
-                    // Container(
-                    //   width: double.infinity,
-                    //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
-                    //   child: Text(
-                    //     "Alterar Senha",
-                    //     textAlign: TextAlign.start,
-                    //     style: TextStyle(
-                    //       fontSize: Dimens.textSize6,
-                    //       color: Colors.black,
-                    //     ),
-                    //   ),
-                    // ),
-                    // TextField(
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       hasPasswordCoPassword = false;
-                    //       visibileOne = true;
-                    //       hasMinLength = passwordController.text.length >= 8;
-                    //       hasUppercase = passwordController.text
-                    //           .contains(RegExp(r'[A-Z]'));
-                    //
-                    //       hasPasswordCoPassword = coPasswordController.text ==
-                    //           passwordController.text;
-                    //
-                    //       if (hasMinLength && hasUppercase) {
-                    //         visibileOne = false;
-                    //       }
-                    //     });
-                    //   },
-                    //   controller: passwordController,
-                    //   decoration: InputDecoration(
-                    //     suffixIcon: IconButton(
-                    //         icon: Icon(
-                    //           // Based on passwordVisible state choose the icon
-                    //           _passwordVisible
-                    //               ? Icons.visibility
-                    //               : Icons.visibility_off,
-                    //           color: OwnerColors.colorPrimary,
-                    //         ),
-                    //         onPressed: () {
-                    //           // Update the state i.e. toogle the state of passwordVisible variable
-                    //           setState(() {
-                    //             _passwordVisible = !_passwordVisible;
-                    //           });
-                    //         }),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //           BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'Senha',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //           BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.visiblePassword,
-                    //   obscureText: !_passwordVisible,
-                    //   enableSuggestions: false,
-                    //   autocorrect: false,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: 4),
-                    // Visibility(
-                    //   visible: passwordController.text.isNotEmpty,
-                    //   child: Row(
-                    //     children: [
-                    //       Icon(
-                    //         hasMinLength
-                    //             ? Icons.check_circle
-                    //             : Icons.check_circle,
-                    //         color: hasMinLength
-                    //             ? Colors.green
-                    //             : OwnerColors.lightGrey,
-                    //       ),
-                    //       Text(
-                    //         'Deve ter no mínimo 8 carácteres',
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // Visibility(
-                    //   visible: passwordController.text.isNotEmpty,
-                    //   child: Row(
-                    //     children: [
-                    //       Icon(
-                    //         hasUppercase
-                    //             ? Icons.check_circle
-                    //             : Icons.check_circle,
-                    //         color: hasUppercase
-                    //             ? Colors.green
-                    //             : OwnerColors.lightGrey,
-                    //       ),
-                    //       Text(
-                    //         'Deve ter uma letra maiúscula',
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // TextField(
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       visibileTwo = true;
-                    //       hasPasswordCoPassword = coPasswordController.text ==
-                    //           passwordController.text;
-                    //
-                    //       if (hasPasswordCoPassword) {
-                    //         visibileTwo = false;
-                    //       }
-                    //     });
-                    //   },
-                    //   controller: coPasswordController,
-                    //   decoration: InputDecoration(
-                    //     suffixIcon: IconButton(
-                    //         icon: Icon(
-                    //           // Based on passwordVisible state choose the icon
-                    //           _passwordVisible2
-                    //               ? Icons.visibility
-                    //               : Icons.visibility_off,
-                    //           color: OwnerColors.colorPrimary,
-                    //         ),
-                    //         onPressed: () {
-                    //           // Update the state i.e. toogle the state of passwordVisible variable
-                    //           setState(() {
-                    //             _passwordVisible2 = !_passwordVisible2;
-                    //           });
-                    //         }),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(
-                    //           color: OwnerColors.colorPrimary, width: 1.5),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide:
-                    //           BorderSide(color: Colors.grey, width: 1.0),
-                    //     ),
-                    //     hintText: 'Confirmar Senha',
-                    //     hintStyle: TextStyle(color: Colors.grey),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius:
-                    //           BorderRadius.circular(Dimens.radiusApplication),
-                    //       borderSide: BorderSide.none,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding:
-                    //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
-                    //   ),
-                    //   keyboardType: TextInputType.visiblePassword,
-                    //   obscureText: !_passwordVisible2,
-                    //   enableSuggestions: false,
-                    //   autocorrect: false,
-                    //   style: TextStyle(
-                    //     color: Colors.grey,
-                    //     fontSize: Dimens.textSize5,
-                    //   ),
-                    // ),
-                    // SizedBox(height: 4),
-                    // Visibility(
-                    //   visible: coPasswordController.text.isNotEmpty,
-                    //   child: Row(
-                    //     children: [
-                    //       Icon(
-                    //         hasPasswordCoPassword
-                    //             ? Icons.check_circle
-                    //             : Icons.check_circle,
-                    //         color: hasPasswordCoPassword
-                    //             ? Colors.green
-                    //             : OwnerColors.lightGrey,
-                    //       ),
-                    //       Text(
-                    //         'As senhas fornecidas são idênticas',
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: Dimens.marginApplication),
-                    // Container(
-                    //   margin: EdgeInsets.only(top: Dimens.marginApplication),
-                    //   width: double.infinity,
-                    //   child: ElevatedButton(
-                    //     style: Styles().styleDefaultButton,
-                    //     onPressed: _isLoading
-                    //         ? null
-                    //         : () async {
-                    //             if (!validator.validatePassword(
-                    //                 passwordController.text)) return;
-                    //             if (!validator.validateCoPassword(
-                    //                 passwordController.text,
-                    //                 coPasswordController.text)) return;
-                    //
-                    //             setState(() {
-                    //               _isLoading = true;
-                    //             });
-                    //
-                    //             await updatePasswordRequest(
-                    //                 passwordController.text);
-                    //
-                    //             setState(() {
-                    //               _isLoading = false;
-                    //             });
-                    //           },
-                    //     child: (_isLoading)
-                    //         ? const SizedBox(
-                    //             width: Dimens.buttonIndicatorWidth,
-                    //             height: Dimens.buttonIndicatorHeight,
-                    //             child: CircularProgressIndicator(
-                    //               color: OwnerColors.colorAccent,
-                    //               strokeWidth: Dimens.buttonIndicatorStrokes,
-                    //             ))
-                    //         : Text("Atualizar senha",
-                    //             style: Styles().styleDefaultTextButton),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
+                        // Container(
+                        //   width: double.infinity,
+                        //   margin: EdgeInsets.only(bottom: Dimens.marginApplication),
+                        //   child: Text(
+                        //     "Alterar Senha",
+                        //     textAlign: TextAlign.start,
+                        //     style: TextStyle(
+                        //       fontSize: Dimens.textSize6,
+                        //       color: Colors.black,
+                        //     ),
+                        //   ),
+                        // ),
+                        // TextField(
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       hasPasswordCoPassword = false;
+                        //       visibileOne = true;
+                        //       hasMinLength = passwordController.text.length >= 8;
+                        //       hasUppercase = passwordController.text
+                        //           .contains(RegExp(r'[A-Z]'));
+                        //
+                        //       hasPasswordCoPassword = coPasswordController.text ==
+                        //           passwordController.text;
+                        //
+                        //       if (hasMinLength && hasUppercase) {
+                        //         visibileOne = false;
+                        //       }
+                        //     });
+                        //   },
+                        //   controller: passwordController,
+                        //   decoration: InputDecoration(
+                        //     suffixIcon: IconButton(
+                        //         icon: Icon(
+                        //           // Based on passwordVisible state choose the icon
+                        //           _passwordVisible
+                        //               ? Icons.visibility
+                        //               : Icons.visibility_off,
+                        //           color: OwnerColors.colorPrimary,
+                        //         ),
+                        //         onPressed: () {
+                        //           // Update the state i.e. toogle the state of passwordVisible variable
+                        //           setState(() {
+                        //             _passwordVisible = !_passwordVisible;
+                        //           });
+                        //         }),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //           BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'Senha',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //           BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.visiblePassword,
+                        //   obscureText: !_passwordVisible,
+                        //   enableSuggestions: false,
+                        //   autocorrect: false,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: 4),
+                        // Visibility(
+                        //   visible: passwordController.text.isNotEmpty,
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         hasMinLength
+                        //             ? Icons.check_circle
+                        //             : Icons.check_circle,
+                        //         color: hasMinLength
+                        //             ? Colors.green
+                        //             : OwnerColors.lightGrey,
+                        //       ),
+                        //       Text(
+                        //         'Deve ter no mínimo 8 carácteres',
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // Visibility(
+                        //   visible: passwordController.text.isNotEmpty,
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         hasUppercase
+                        //             ? Icons.check_circle
+                        //             : Icons.check_circle,
+                        //         color: hasUppercase
+                        //             ? Colors.green
+                        //             : OwnerColors.lightGrey,
+                        //       ),
+                        //       Text(
+                        //         'Deve ter uma letra maiúscula',
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // TextField(
+                        //   onChanged: (value) {
+                        //     setState(() {
+                        //       visibileTwo = true;
+                        //       hasPasswordCoPassword = coPasswordController.text ==
+                        //           passwordController.text;
+                        //
+                        //       if (hasPasswordCoPassword) {
+                        //         visibileTwo = false;
+                        //       }
+                        //     });
+                        //   },
+                        //   controller: coPasswordController,
+                        //   decoration: InputDecoration(
+                        //     suffixIcon: IconButton(
+                        //         icon: Icon(
+                        //           // Based on passwordVisible state choose the icon
+                        //           _passwordVisible2
+                        //               ? Icons.visibility
+                        //               : Icons.visibility_off,
+                        //           color: OwnerColors.colorPrimary,
+                        //         ),
+                        //         onPressed: () {
+                        //           // Update the state i.e. toogle the state of passwordVisible variable
+                        //           setState(() {
+                        //             _passwordVisible2 = !_passwordVisible2;
+                        //           });
+                        //         }),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: BorderSide(
+                        //           color: OwnerColors.colorPrimary, width: 1.5),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderSide:
+                        //           BorderSide(color: Colors.grey, width: 1.0),
+                        //     ),
+                        //     hintText: 'Confirmar Senha',
+                        //     hintStyle: TextStyle(color: Colors.grey),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius:
+                        //           BorderRadius.circular(Dimens.radiusApplication),
+                        //       borderSide: BorderSide.none,
+                        //     ),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     contentPadding:
+                        //         EdgeInsets.all(Dimens.textFieldPaddingApplication),
+                        //   ),
+                        //   keyboardType: TextInputType.visiblePassword,
+                        //   obscureText: !_passwordVisible2,
+                        //   enableSuggestions: false,
+                        //   autocorrect: false,
+                        //   style: TextStyle(
+                        //     color: Colors.grey,
+                        //     fontSize: Dimens.textSize5,
+                        //   ),
+                        // ),
+                        // SizedBox(height: 4),
+                        // Visibility(
+                        //   visible: coPasswordController.text.isNotEmpty,
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         hasPasswordCoPassword
+                        //             ? Icons.check_circle
+                        //             : Icons.check_circle,
+                        //         color: hasPasswordCoPassword
+                        //             ? Colors.green
+                        //             : OwnerColors.lightGrey,
+                        //       ),
+                        //       Text(
+                        //         'As senhas fornecidas são idênticas',
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: Dimens.marginApplication),
+                        // Container(
+                        //   margin: EdgeInsets.only(top: Dimens.marginApplication),
+                        //   width: double.infinity,
+                        //   child: ElevatedButton(
+                        //     style: Styles().styleDefaultButton,
+                        //     onPressed: _isLoading
+                        //         ? null
+                        //         : () async {
+                        //             if (!validator.validatePassword(
+                        //                 passwordController.text)) return;
+                        //             if (!validator.validateCoPassword(
+                        //                 passwordController.text,
+                        //                 coPasswordController.text)) return;
+                        //
+                        //             setState(() {
+                        //               _isLoading = true;
+                        //             });
+                        //
+                        //             await updatePasswordRequest(
+                        //                 passwordController.text);
+                        //
+                        //             setState(() {
+                        //               _isLoading = false;
+                        //             });
+                        //           },
+                        //     child: (_isLoading)
+                        //         ? const SizedBox(
+                        //             width: Dimens.buttonIndicatorWidth,
+                        //             height: Dimens.buttonIndicatorHeight,
+                        //             child: CircularProgressIndicator(
+                        //               color: OwnerColors.colorAccent,
+                        //               strokeWidth: Dimens.buttonIndicatorStrokes,
+                        //             ))
+                        //         : Text("Atualizar senha",
+                        //             style: Styles().styleDefaultTextButton),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return Styles().defaultLoading;
+              },
             )),
-          ]),
-        )));
+          )
+        ]))));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ApplicationMessages {
   BuildContext context;
@@ -6,8 +7,13 @@ class ApplicationMessages {
   ApplicationMessages({Key? key, required this.context});
 
   void showMessage(String message) {
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //   content: Text(message),
-    // ));
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 }

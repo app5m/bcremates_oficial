@@ -33,24 +33,23 @@ class _MainMenu extends State<MainMenu> {
     super.initState();
   }
 
-  Future<List<Map<String, dynamic>>> loadProfileRequest() async {
+  Future<Map<String, dynamic>> loadProfileRequest() async {
     try {
       final body = {
-        "id_usuario": await Preferences.getUserData()!.id,
+        "id_user": /*await Preferences.getUserData()!.id*/ "1015",
         "token": ApplicationConstant.TOKEN
       };
 
       print('HTTP_BODY: $body');
 
       final json = await postRequest.sendPostRequest(Links.LOAD_PROFILE, body);
-      List<Map<String, dynamic>> _map = [];
-      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+      final parsedResponse = jsonDecode(json);
 
-      print('HTTP_RESPONSE: $_map');
+      print('HTTP_RESPONSE: $parsedResponse');
 
-      final response = User.fromJson(_map[0]);
+      final response = User.fromJson(parsedResponse);
 
-      return _map;
+      return parsedResponse;
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -59,7 +58,7 @@ class _MainMenu extends State<MainMenu> {
   Future<void> disableAccount() async {
     try {
       final body = {
-        "id": await Preferences.getUserData()!.id,
+        "id_user": await Preferences.getUserData()!.id,
         "token": ApplicationConstant.TOKEN
       };
 
@@ -104,85 +103,90 @@ class _MainMenu extends State<MainMenu> {
             child: Column(
               children: [
                 // Expanded(
-/*                FutureBuilder<List<Map<String, dynamic>>>(
+                FutureBuilder<Map<String, dynamic>>(
                   future: loadProfileRequest(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final response = User.fromJson(snapshot.data![0]);
+                      final response = User.fromJson(snapshot.data!);
 
-                      return */
-                Material(
-                    elevation: Dimens.elevationApplication,
-                    child: Container(
-                      padding: EdgeInsets.all(Dimens.maxPaddingApplication),
-                      color: Colors.white,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                right: Dimens.marginApplication),
-                            child: ClipOval(
-                              child: SizedBox.fromSize(
-                                size: Size.fromRadius(42),
-                                // Image radius
-                                child: Image.network(
-                                    ApplicationConstant
-                                        .URL_AVATAR /*+
-                                              response.avatar.toString()*/
-                                    ,
-                                    fit: BoxFit.cover,
-                                    /*fit: BoxFit.cover*/
-                                    errorBuilder:
-                                        (context, exception, stackTrack) =>
-                                            Image.asset(
-                                              'images/person.jpg',
-                                            )),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
+                      return Material(
+                          elevation: Dimens.elevationApplication,
+                          child: Container(
+                            padding:
+                                EdgeInsets.all(Dimens.maxPaddingApplication),
+                            color: Colors.white,
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SizedBox(height: 20,),
-                                Text(
-                                  /*response.nome*/
-                                  "Nome teste",
-                                  style: TextStyle(
-                                    fontSize: Dimens.textSize6,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: Dimens.marginApplication),
+                                  child: ClipOval(
+                                    child: SizedBox.fromSize(
+                                      size: Size.fromRadius(42),
+                                      // Image radius
+                                      child: Image.network(
+                                          ApplicationConstant.URL_AVATAR +
+                                              response.avatar.toString(),
+                                          fit: BoxFit.cover,
+                                          /*fit: BoxFit.cover*/
+                                          errorBuilder: (context, exception,
+                                                  stackTrack) =>
+                                              Image.asset(
+                                                'images/person.jpg',
+                                              )),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 2),
-                                Text(
-                                  /*response.email*/
-                                  "email@email.com",
-                                  style: TextStyle(
-                                    fontSize: Dimens.textSize5,
-                                    color: Colors.black,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        /*response.nome*/
+                                        "Nome teste",
+                                        style: TextStyle(
+                                          fontSize: Dimens.textSize6,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        /*response.email*/
+                                        "email@email.com",
+                                        style: TextStyle(
+                                          fontSize: Dimens.textSize5,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                IconButton(
+                                  icon: Image.asset(
+                                    'images/edit.png',
+                                    width: 22,
+                                    height: 22,
+                                  ),
+                                  onPressed: () => {
+                                    Navigator.pushNamed(context, "/ui/profile")
+                                  },
+                                )
                               ],
                             ),
-                          ),
-
-                          IconButton(
-                            icon: Image.asset('images/edit.png', width: 22, height: 22,),
-                            onPressed: () =>
-                                {Navigator.pushNamed(context, "/ui/profile")},
-                          )
-                        ],
-                      ),
-                    )),
-                /*;
+                          ));
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     }
-                    return Center(child: CircularProgressIndicator());
+                    return Styles().defaultLoading;
                   },
-                ),*/
+                ),
 
                 // Styles().div_horizontal,
 
@@ -205,8 +209,11 @@ class _MainMenu extends State<MainMenu> {
                               ],
                             ),
                           ),
-                          Image.asset('images/zap.png', height: 22, width: 22,),
-
+                          Image.asset(
+                            'images/zap.png',
+                            height: 22,
+                            width: 22,
+                          ),
                         ],
                       ),
                     ),
@@ -303,51 +310,53 @@ class _MainMenu extends State<MainMenu> {
                   margin: EdgeInsets.all(Dimens.marginApplication),
                   width: double.infinity,
                   child: OutlinedButton(
-                    style: Styles().styleOutlinedRedButton,
-                    onPressed: () async {
-                      showModalBottomSheet<dynamic>(
-                        isScrollControlled: true,
-                        context: context,
-                        shape: Styles().styleShapeBottomSheet,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        builder: (BuildContext context) {
-                          return GenericAlertDialog(
-                              title: Strings.attention,
-                              content: Strings.logout,
-                              btnBack: TextButton(
-                                  child: Text(
-                                    Strings.no,
-                                    style: TextStyle(
-                                      color: Colors.black54,
+                      style: Styles().styleOutlinedRedButton,
+                      onPressed: () async {
+                        showModalBottomSheet<dynamic>(
+                          isScrollControlled: true,
+                          context: context,
+                          shape: Styles().styleShapeBottomSheet,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          builder: (BuildContext context) {
+                            return GenericAlertDialog(
+                                title: Strings.attention,
+                                content: Strings.logout,
+                                btnBack: TextButton(
+                                    child: Text(
+                                      Strings.no,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                      ),
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  }),
-                              btnConfirm: TextButton(
-                                  child: Text(Strings.yes),
-                                  onPressed: () async {
-                                    await Preferences.init();
-                                    Preferences.clearUserData();
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    }),
+                                btnConfirm: TextButton(
+                                    child: Text(Strings.yes),
+                                    onPressed: () async {
+                                      await Preferences.init();
+                                      Preferences.clearUserData();
 
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()),
-                                        ModalRoute.withName("/ui/login"));
-                                  }));
-                        },
-                      );
-                    },
-                    child: Row (mainAxisAlignment: MainAxisAlignment.center ,children: [
-                      Icon(Icons.login_outlined, color: Colors.red),
-                      SizedBox(width: 10),
-                      Text(
-                        "Sair",
-                        style: Styles().styleOutlinedRedTextButton,
-                      ),
-                    ],)
-                  ),
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Login()),
+                                          ModalRoute.withName("/ui/login"));
+                                    }));
+                          },
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.login_outlined, color: Colors.red),
+                          SizedBox(width: 10),
+                          Text(
+                            "Sair",
+                            style: Styles().styleOutlinedRedTextButton,
+                          ),
+                        ],
+                      )),
                 ),
               ],
             ),
