@@ -26,6 +26,52 @@ class EmailAlertDialog extends StatefulWidget {
 }
 
 class _EmailAlertDialog extends State<EmailAlertDialog> {
+
+  late bool _isLoading = false;
+
+  final postRequest = PostRequest();
+
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  Future<List<Map<String, dynamic>>> recoverPasswordByEmail(String email) async {
+    try {
+      final body = {
+        "email": email,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.RECOVER_PASSWORD_TOKEN, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      final response = User.fromJson(_map[0]);
+
+      if (response.status == "01") {
+
+        Navigator.of(context).pop();
+      } else {
+
+      }
+
+      ApplicationMessages(context: context).showMessage(response.msg);
+      return _map;
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -68,7 +114,7 @@ class _EmailAlertDialog extends State<EmailAlertDialog> {
                 ),
                 SizedBox(height: Dimens.marginApplication),
                 TextField(
-                  // controller: emailController,
+                  controller: emailController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -105,9 +151,17 @@ class _EmailAlertDialog extends State<EmailAlertDialog> {
                       style: Styles().styleDefaultButton,
                       onPressed: () async {
 
-                        Navigator.of(context).pop(true);
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        await recoverPasswordByEmail(emailController.text.toString());
+
+                        setState(() {
+                          _isLoading = false;
+                        });
                       },
-                      child: /* (_isLoading)
+                      child:  (_isLoading)
                                   ? const SizedBox(
                                   width: Dimens.buttonIndicatorWidth,
                                   height: Dimens.buttonIndicatorHeight,
@@ -115,7 +169,7 @@ class _EmailAlertDialog extends State<EmailAlertDialog> {
                                     color: OwnerColors.colorAccent,
                                     strokeWidth: Dimens.buttonIndicatorStrokes,
                                   ))
-                                  :*/
+                                  :
                       Text("Enviar", style: Styles().styleDefaultTextButton),
                     ),
                   ),
