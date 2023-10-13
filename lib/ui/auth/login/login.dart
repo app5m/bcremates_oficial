@@ -59,12 +59,14 @@ class _LoginState extends State<Login> {
       final body = {
         "email": email,
         "password": password,
+        "latitude": "",
+        "longitude": "",
         "token": ApplicationConstant.TOKEN
       };
 
       print('HTTP_BODY: $body');
 
-      final json = await postRequest.sendPostRequest(Links.LOGIN, body);
+      final json = await postRequest.sendPostRequest(Links.VERIFY_TWO_FACTORS, body);
       // final parsedResponse = jsonDecode(json); // pegar um objeto so
 
       List<Map<String, dynamic>> _map = [];
@@ -75,15 +77,11 @@ class _LoginState extends State<Login> {
       final response = User.fromJson(_map[0]);
 
       if (response.status == "01") {
-        _loginResponse = response;
 
-        await Preferences.setUserData(_loginResponse);
-        await Preferences.setLogin(true);
-
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-            ModalRoute.withName("/ui/home"));
+        Navigator.pushNamed(context, "/ui/validation_code", arguments: {
+          "email": email,
+          "password": password,
+        });
       } else {}
       ApplicationMessages(context: context).showMessage(response.msg);
     } catch (e) {

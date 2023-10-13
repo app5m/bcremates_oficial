@@ -6,9 +6,9 @@ class ApplicationConstant {
 
   static const String URL_VIA_CEP = "https://viacep.com.br/ws/";
 
-  static const String URL = "https://www.safetyglassesapp.com.br/";
-  static const String URL_BASE = "https://www.safetyglassesapp.com.br/apiv3/user/";
-  static const String TOKEN = "wX2IsO37";
+  static const String URL = "http://bcremates.web15f85.uni5.net/";
+  static const String URL_BASE = "http://bcremates.web15f85.uni5.net/apiv3/user/";
+  static const String TOKEN = "55G2cXH8";
 
 
   static const int CREDIT_CARD = 1;
