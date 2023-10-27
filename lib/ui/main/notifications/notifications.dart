@@ -54,6 +54,246 @@ class _Notifications extends State<Notifications> {
     }
   }
 
+  Future<void> saveBid(String idAllotment, String idAuction, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_lote": idAllotment,
+        "id_leilao": idAuction,
+        "valor": value,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SAVE_BID, body);
+      final parsedResponse = jsonDecode(json);
+
+      print('HTTP_RESPONSE: $parsedResponse');
+
+      // final response = User.fromJson(parsedResponse);
+      //
+      // if (response.status == "01") {
+      //   setState(() {});
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> listBids() async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_BIDS, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> sendRequest(String idAuction, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_leilao": idAuction,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SEND_REQUEST, body);
+      final parsedResponse = jsonDecode(json);
+
+      print('HTTP_RESPONSE: $parsedResponse');
+
+      // final response = User.fromJson(parsedResponse);
+      //
+      // if (response.status == "01") {
+      //   setState(() {});
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> listAllotmentDetails(String idAuction, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_leilao": idAuction,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_ALLOTMENT_DETAILS, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> runSimpleFilter(String name, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "nome": name,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_SIMPLE_FILTER, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> runAdvancedFilter(String name, String idAuction, String city, String value, String dateFrom, String dateTo, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_leilao": idAuction,
+        "nome": name,
+        "cidade": city,
+        "data_de": dateFrom,
+        "data_ate": dateTo,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_ADVANCED_FILTER, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> listCategories() async {
+    try {
+      final body = {
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_CATEGORIES, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> searchCities(String city) async {
+    try {
+      final body = {
+        "cidade": city,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SEARCH_CITIES, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
