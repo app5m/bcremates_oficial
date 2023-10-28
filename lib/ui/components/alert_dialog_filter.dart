@@ -26,6 +26,73 @@ class FilterAlertDialog extends StatefulWidget {
 }
 
 class _FilterAlertDialog extends State<FilterAlertDialog> {
+
+  final postRequest = PostRequest();
+
+  Future<void> runAdvancedFilter(String name, String idAuction, String city, String value, String dateFrom, String dateTo, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_leilao": idAuction,
+        "nome": name,
+        "cidade": city,
+        "data_de": dateFrom,
+        "data_ate": dateTo,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_ADVANCED_FILTER, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+
+  Future<void> searchCities(String city) async {
+    try {
+      final body = {
+        "cidade": city,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SEARCH_CITIES, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

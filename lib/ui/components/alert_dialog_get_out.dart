@@ -26,6 +26,39 @@ class GetOutAlertDialog extends StatefulWidget {
 }
 
 class _GetOutAlertDialog extends State<GetOutAlertDialog> {
+
+  final postRequest = PostRequest();
+
+  Future<void> sendRequest(String idAuction, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "id_leilao": idAuction,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.SEND_REQUEST, body);
+      final parsedResponse = jsonDecode(json);
+
+      print('HTTP_RESPONSE: $parsedResponse');
+
+      // final response = User.fromJson(parsedResponse);
+      //
+      // if (response.status == "01") {
+      //   setState(() {});
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

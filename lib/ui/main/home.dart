@@ -217,17 +217,13 @@ class _ContainerHomeState extends State<ContainerHome> {
     }
   }
 
-  Future<List<Map<String, dynamic>>> listProducts() async {
+  Future<List<Map<String, dynamic>>> listBanners() async {
     try {
-      final body = {
-        // "id_usuario": await Preferences.getUserData()!.id,
-        "token": ApplicationConstant.TOKEN
-      };
+      final body = {"token": ApplicationConstant.TOKEN};
 
       print('HTTP_BODY: $body');
 
-      final json = await postRequest.sendPostRequest(
-          Links.LIST_BANNERS, body);
+      final json = await postRequest.sendPostRequest(Links.LIST_BANNERS, body);
 
       List<Map<String, dynamic>> _map = [];
       _map = List<Map<String, dynamic>>.from(jsonDecode(json));
@@ -235,6 +231,64 @@ class _ContainerHomeState extends State<ContainerHome> {
       print('HTTP_RESPONSE: $_map');
 
       return _map;
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> listCategories() async {
+    try {
+      final body = {"token": ApplicationConstant.TOKEN};
+
+      print('HTTP_BODY: $body');
+
+      final json =
+          await postRequest.sendPostRequest(Links.LIST_CATEGORIES, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+
+      return _map;
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
+  Future<void> runSimpleFilter(String name, String value, String lat, String long) async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "nome": name,
+        "latitude": lat,
+        "longitude": long,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_SIMPLE_FILTER, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -385,7 +439,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                     height: Dimens.marginApplication,
                   ),
                   FutureBuilder<List<Map<String, dynamic>>>(
-                      future: listProducts(),
+                      future: listCategories(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           var gridItems = <Widget>[];
@@ -400,12 +454,10 @@ class _ContainerHomeState extends State<ContainerHome> {
                             if (i == 0) {
                               source = 'images/cow.png';
                               source2 = 'Gado';
-                            } else if (i == 1){
-
+                            } else if (i == 1) {
                               source = 'images/map.png';
                               source2 = 'Terras';
                             } else {
-
                               source = 'images/gavel.png';
                               source2 = 'Outros';
                             }
@@ -432,8 +484,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Image.asset(source,
-                                              width: 24, height: 24, color: OwnerColors.colorPrimary,),
+                                          Image.asset(
+                                            source,
+                                            width: 24,
+                                            height: 24,
+                                            color: OwnerColors.colorPrimary,
+                                          ),
                                           SizedBox(
                                             width: Dimens.minMarginApplication,
                                           ),
@@ -467,18 +523,52 @@ class _ContainerHomeState extends State<ContainerHome> {
                       }),
                   SizedBox(height: Dimens.marginApplication),
                   SizedBox(height: Dimens.marginApplication),
-                  CarouselSlider(
-                    items: carouselItems,
-                    options: CarouselOptions(
-                      height: 100,
-                      autoPlay: false,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _pageIndex = index;
-                        });
-                      },
-                    ),
-                  ),
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                      future: listCategories(),
+                      builder: (context, snapshot) {
+                        var bannerList = <Widget>[];
+
+                        for (var i = 0; i < snapshot.data!.length; i++) {
+                          final response = User.fromJson(snapshot.data![i]);
+
+                          bannerList.add(Scaffold(
+                            body: Container(
+                              padding: EdgeInsets.all(23),
+                              margin: EdgeInsets.only(right: 6, left: 6),
+                              width: double.infinity,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        OwnerColors.gradientFirstColor,
+                                        OwnerColors.gradientSecondaryColor,
+                                        OwnerColors.gradientThirdColor
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimens.minRadiusApplication)),
+                              /*width: MediaQuery.of(context).size.width * 0.90,*/
+                              child: Image.network(
+                                ApplicationConstant.URL_BANNER + response.url,
+                              ),
+                            ),
+                          ));
+                        }
+
+                        return CarouselSlider(
+                          items: bannerList,
+                          options: CarouselOptions(
+                            height: 100,
+                            autoPlay: false,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _pageIndex = index;
+                              });
+                            },
+                          ),
+                        );
+                      }),
                   SizedBox(height: Dimens.marginApplication),
                   SizedBox(height: Dimens.marginApplication),
                   Container(
@@ -767,7 +857,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return */
-                      SizedBox(height: Dimens.marginApplication),
+                  SizedBox(height: Dimens.marginApplication),
                   ListView.builder(
                     primary: false,
                     shrinkWrap: true,
@@ -938,9 +1028,12 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
-                                                    height: 32),
-                                                Image.asset('images/arrow_square_right.png', width: 28, height: 28,)
+                                                SizedBox(height: 32),
+                                                Image.asset(
+                                                  'images/arrow_square_right.png',
+                                                  width: 28,
+                                                  height: 28,
+                                                )
                                               ])
                                         ],
                                       )),
@@ -989,7 +1082,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                       ],
                     ),
                   ),
-                      SizedBox(height: Dimens.marginApplication),
+                  SizedBox(height: Dimens.marginApplication),
                   ListView.builder(
                     primary: false,
                     shrinkWrap: true,
@@ -1003,10 +1096,8 @@ class _ContainerHomeState extends State<ContainerHome> {
                       if (index == 0) {
                         source = 'images/terra.png';
                       } else if (index == 1) {
-
                         source = 'images/gado.png';
                       } else {
-
                         source = 'images/leilao2.png';
                       }
 
@@ -1172,8 +1263,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
-                                                    height: 32),
+                                                SizedBox(height: 32),
                                                 Icon(
                                                   Icons.access_time,
                                                   color: OwnerColors.darkGrey,
@@ -1195,11 +1285,6 @@ class _ContainerHomeState extends State<ContainerHome> {
                 ])))));
   }
 }
-
-final List<Widget> carouselItems = [
-  CarouselItemBuilder(image: 'images/generic.png'),
-  CarouselItemBuilder(image: 'images/generic.png'),
-];
 
 class CarouselItemBuilder extends StatelessWidget {
   final String image;

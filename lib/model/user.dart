@@ -43,6 +43,7 @@ class User extends GlobalWSModel{
   final int dias;
   final String obs;
   final String expiracao_validade;
+  final String url;
 
 
 
@@ -89,7 +90,8 @@ class User extends GlobalWSModel{
     required this.razao_social,
     required this.dias,
     required this.obs,
-    required this.expiracao_validade, required super.status, required super.msg, required super.id, required super.rows,
+    required this.expiracao_validade,
+    required this.url,  required super.status, required super.msg, required super.id, required super.rows,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -135,6 +137,7 @@ class User extends GlobalWSModel{
       dias: json['dias']?? 0,
       obs: json['obs']?? "",
       expiracao_validade: json['expiracao_validade']?? "",
+      url: json['url']?? "",
       status: json['status']?? "",
       msg: json['msg']?? "",
       id: json['id']?? "",

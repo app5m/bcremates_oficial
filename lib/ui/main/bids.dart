@@ -44,6 +44,34 @@ class _BidsState extends State<Bids> {
     super.initState();
   }
 
+  Future<void> listBids() async {
+    try {
+      final body = {
+        "id_user": await Preferences.getUserData()!.id,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      print('HTTP_BODY: $body');
+
+      final json =
+      await postRequest.sendPostRequest(Links.LIST_BIDS, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      // final response = User.fromJson(_map[0]);
+      //
+      // if (response.status == "01") {
+      //
+      // } else {}
+      // ApplicationMessages(context: context).showMessage(response.msg);
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
+
   Future<void> _pullRefresh() async {
     setState(() {
       _isLoading = true;
