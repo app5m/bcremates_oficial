@@ -138,6 +138,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                         style: Styles().styleDefaultButton,
                         onPressed: () {
                           Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                         },
                         child: Text("Ok",
                             style: Styles().styleDefaultTextButton))));

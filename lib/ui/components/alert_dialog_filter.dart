@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 import '../../config/application_messages.dart';
@@ -12,6 +13,7 @@ import '../../global/application_constant.dart';
 import '../../model/user.dart';
 import '../../res/dimens.dart';
 import '../../res/owner_colors.dart';
+import '../../res/strings.dart';
 import '../../res/styles.dart';
 import '../../web_service/links.dart';
 import '../../web_service/service_response.dart';
@@ -27,9 +29,33 @@ class FilterAlertDialog extends StatefulWidget {
 
 class _FilterAlertDialog extends State<FilterAlertDialog> {
 
+  String? _currentAddress;
+  Position? _currentPosition;
+
   final postRequest = PostRequest();
 
-  Future<void> runAdvancedFilter(String name, String idAuction, String city, String value, String dateFrom, String dateTo, String lat, String long) async {
+  final TextEditingController dateFromController = TextEditingController();
+  final TextEditingController dateToController = TextEditingController();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+
+  @override
+  void initState() {
+    _handleLocationPermission();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    dateFromController.dispose();
+    dateToController.dispose();
+    nameController.dispose();
+    cityController.dispose();
+    super.dispose();
+  }
+
+  Future<void> runAdvancedFilter(String name, String idAuction, String city, String dateFrom, String dateTo, String lat, String long) async {
     try {
       final body = {
         "id_user": await Preferences.getUserData()!.id,
@@ -93,6 +119,43 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
     }
   }
 
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_description);
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -144,7 +207,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                   ),
                 ),
                 TextField(
-                  // controller: nameController,
+                  controller: nameController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -186,7 +249,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                 ),
                 TextField(
                   readOnly: true,
-                  // controller: cityController,
+                  controller: cityController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -233,7 +296,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           ),
                         ),
                         TextField(
-                          // controller: cityController,
+                          controller: dateFromController,
                           onTap: () {
                             DatePicker.showDatePicker(
                               context,
@@ -250,16 +313,15 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                                 DateTime selectdate =
                                     dateTime;
                                 final selIOS = DateFormat(
-                                    'dd/MM/yyyy HH:mm')
+                                    'dd/MM/yyyy')
                                     .format(selectdate);
                                 print(selIOS);
 
-                                // updateTask(
-                                //     idTask:
-                                //     _id.toString(),
-                                //     idFleet: _idFleet
-                                //         .toString(),
-                                //     dateOut: selIOS);
+                                setState(() {
+
+                                  dateFromController.text = selIOS;
+                                });
+
                               },
                             );
                           },
@@ -325,6 +387,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                         ),
                       ),
                       TextField(
+                        controller: dateToController,
                         onTap: () {
                           DatePicker.showDatePicker(
                             context,
@@ -341,16 +404,16 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                               DateTime selectdate =
                                   dateTime;
                               final selIOS = DateFormat(
-                                  'dd/MM/yyyy HH:mm')
+                                  'dd/MM/yyyy')
                                   .format(selectdate);
                               print(selIOS);
 
-                              // updateTask(
-                              //     idTask:
-                              //     _id.toString(),
-                              //     idFleet: _idFleet
-                              //         .toString(),
-                              //     dateOut: selIOS);
+
+                              setState(() {
+
+                                dateToController.text = selIOS;
+                              });
+
                             },
                           );
                         },
@@ -391,7 +454,20 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: Styles().styleDefaultButton,
-                    onPressed: () async {},
+                    onPressed: () async {
+
+                      await _getCurrentPosition();
+
+                      await runAdvancedFilter(
+                          nameController.text,
+                          "",
+                          cityController.text,
+                          dateFromController.text,
+                          dateToController.text,
+                          _currentPosition!.latitude.toString(),
+                          _currentPosition!.longitude.toString());
+                      
+                    },
                     child: /* (_isLoading)
                                   ? const SizedBox(
                                   width: Dimens.buttonIndicatorWidth,
@@ -410,7 +486,16 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: Styles().styleOutlinedButton,
-                    onPressed: () async {},
+                    onPressed: () async {
+
+                      setState(() {
+                        nameController.text = "";
+                        cityController.text = "";
+                        dateFromController.text = "";
+                        dateToController.text = "";
+                      });
+
+                    },
                     child: /* (_isLoading)
                                   ? const SizedBox(
                                   width: Dimens.buttonIndicatorWidth,

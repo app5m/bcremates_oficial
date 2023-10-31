@@ -7,8 +7,7 @@ alterar foto dialog pick xv
 fazer alteracao contagem leilao (whats zap)
 mudar bgl no bc remates valor
 
-
-        ApplicationMessages(context: context).showMessage("É necessário ativar a permissão de localização nas configurações do aplicativo.");
+pedir caminho pastas fotos
 
 
 
