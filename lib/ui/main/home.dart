@@ -445,8 +445,8 @@ class _ContainerHomeState extends State<ContainerHome> {
                           var gridItems = <Widget>[];
 
                           for (var i = 0; i < 3; i++) {
-                            final response =
-                                Product.fromJson(snapshot.data![i]);
+                            // final response =
+                            //     Product.fromJson(snapshot.data![i]);
 
                             var source = 'images/cow.png';
                             var source2 = 'images/cow.png';

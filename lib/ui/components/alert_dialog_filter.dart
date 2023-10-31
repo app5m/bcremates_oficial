@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:bc_remates/model/city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,6 +34,8 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
   String? _currentAddress;
   Position? _currentPosition;
 
+  List<String> _cities = [];
+
   final postRequest = PostRequest();
 
   final TextEditingController dateFromController = TextEditingController();
@@ -40,9 +44,13 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
 
+  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
+
   @override
   void initState() {
     _handleLocationPermission();
+
+    searchCities("");
     super.initState();
   }
 
@@ -108,12 +116,21 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
 
       print('HTTP_RESPONSE: $_map');
 
-      // final response = User.fromJson(_map[0]);
       //
       // if (response.status == "01") {
       //
       // } else {}
       // ApplicationMessages(context: context).showMessage(response.msg);
+
+      _cities.clear();
+      for (var i = 0; i < _map.length; i += 1) {
+
+        final response = City.fromJson(_map[i]);
+
+        _cities.add(response.cidade);
+        print(i);
+      }
+
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -247,8 +264,9 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                     ),
                   ),
                 ),
-                TextField(
-                  readOnly: true,
+                SimpleAutoCompleteTextField(
+                  key: key,
+                  suggestions: _cities,
                   controller: cityController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
