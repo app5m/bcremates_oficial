@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:bc_remates/res/strings.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,9 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
   late PageController _pageController;
   int _pageIndex = 0;
 
+  String? _currentAddress;
+  Position? _currentPosition;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController coPasswordController = TextEditingController();
@@ -62,6 +66,8 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
 
     _passwordVisible = false;
     _passwordVisible2 = false;
+
+    _handleLocationPermission();
   }
 
   @override
@@ -132,7 +138,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                         style: Styles().styleDefaultButton,
                         onPressed: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
                         },
                         child: Text("Ok",
                             style: Styles().styleDefaultTextButton))));
@@ -150,6 +155,43 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
     final prefs = await SharedPreferences.getInstance();
     final userData = user.toJson();
     await prefs.setString('user', jsonEncode(userData));
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_description);
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 
   @override
@@ -662,6 +704,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
 
+                          _getCurrentPosition();
 
                           if (!validator.validateGenericTextField(
                               nameController.text, "Nome")) return;
@@ -690,8 +733,8 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                               cellphoneController.text,
                               cpfController.text,
                               passwordController.text,
-                              "0.0",
-                              "0.0");
+                              _currentPosition!.latitude.toString(),
+                              _currentPosition!.longitude.toString());
 
                           setState(() {
                             _isLoading = false;

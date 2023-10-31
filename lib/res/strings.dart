@@ -10,6 +10,7 @@ abstract class Strings {
   static const String cancel = "Cancelar";
   static const String disable_gps = "GPS desativado!";
   static const String disable_gps_description = "Seu GPS parece estar desativado, é necessário ativá-lo para prosseguir.";
+  static const String disable_gps_forever = "É necessário ativar a permissão de localização nas configurações do aplicativo.";
   static const String enable = "Ativar";
   static const String exit = "Sair";
   static const String logout = "Você tem certeza que deseja realizar seu logout?";
