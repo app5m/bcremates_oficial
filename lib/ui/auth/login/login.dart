@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:bc_remates/ui/auth/register/success.dart';
 import 'package:bc_remates/ui/components/alert_dialog_email.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +91,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: Stack(fit: StackFit.expand, children: [
           /*Expanded(
           child: */Image.asset(
@@ -337,7 +336,7 @@ class _LoginState extends State<Login> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(context, '/ui/register');
                                 }),
                         ],
                       ),

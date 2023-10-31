@@ -125,7 +125,7 @@ flutter:
     - images/security.png
     - images/1.png
     - images/2.png
-  #    - images/default.png
+    - images/success.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

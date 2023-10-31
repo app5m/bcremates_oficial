@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> {
       if (await Preferences.getLogin()) {
         Navigator.pushReplacementNamed(context, '/ui/home');
       } else {
-        Navigator.pushReplacementNamed(context, '/ui/register');
+        Navigator.pushReplacementNamed(context, '/ui/login');
       }
     });
   }

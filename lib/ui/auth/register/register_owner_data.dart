@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:bc_remates/ui/auth/register/success.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +20,7 @@ import '../../components/alert_dialog_sucess.dart';
 import '../../components/custom_app_bar.dart';
 import '../../components/dot_indicator.dart';
 import '../../main/home.dart';
+import 'package:geolocator/geolocator.dart';
 
 class RegisterOwnerData extends StatefulWidget {
   const RegisterOwnerData({Key? key}) : super(key: key);
@@ -85,30 +85,22 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
   User? _registerResponse;
 
   Future<void> registerRequest(
-      /*String ie,*/
+      String name,
       String email,
-      String password,
-      String fantasyName,
-      String socialReason,
-      String document,
       String cellphone,
+      String document,
+      String password,
       String latitude,
-      String longitude,
-      String typePerson) async {
+      String longitude) async {
     try {
       final body = {
-        "tipo_pessoa": typePerson,
-        "nome": fantasyName,
-        "nome_fantasia": fantasyName,
-        "razao_social": socialReason,
+        "nome": name,
         "email": email,
-        "password": password,
-        "documento": document,
-        "telefone": cellphone,
         "celular": cellphone,
-        "data_nascimento": "00/00/0000",
-        "lat": latitude,
-        "long": longitude,
+        "documento": document,
+        "password": password,
+        "latitude": latitude,
+        "longitude": longitude,
         "token": ApplicationConstant.TOKEN
       };
 
@@ -160,26 +152,12 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
     await prefs.setString('user', jsonEncode(userData));
   }
 
-  // Future<Position?> determinePosition() async {
-  //   LocationPermission permission;
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.deniedForever) {
-  //       return Future.error('Location Not Available');
-  //     }
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  //   return await Geolocator.getCurrentPosition();
-  // }
-
   @override
   Widget build(BuildContext context) {
     validator = Validator(context: context);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       // appBar: CustomAppBar(isVisibleIcon: true, isVisibleBackButton: true),
       body: Stack(fit: StackFit.expand, children: [
         /*Expanded(
@@ -327,7 +305,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                               margin: EdgeInsets.only(
                                   bottom: Dimens.minMarginApplication),
                               child: Text(
-                                "Telefone",
+                                "Celular",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: Dimens.textSize5,
@@ -348,7 +326,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                   borderSide: BorderSide(
                                       color: Colors.grey, width: 1.0),
                                 ),
-                                hintText: '(##)#####-####',
+                                hintText: '(##) #####-####',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(
@@ -510,7 +488,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                   ),
                                   Text(
                                     'Deve ter no mínimo 8 carácteres',
-                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -529,7 +506,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                   ),
                                   Text(
                                     'Deve ter uma letra maiúscula',
-                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -622,7 +598,6 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                   ),
                                   Text(
                                     'As senhas fornecidas são idênticas',
-                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ],
                               ),
@@ -687,27 +662,16 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                         style: Styles().styleDefaultButton,
                         onPressed: () async {
 
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => SucessRegister()),
-                              ModalRoute.withName("/ui/success"));
-
-                          var _document = "";
-                          var _typePerson = "";
-                          var _socialReason = "";
-
-                          if (!validator.validateCPF(cpfController.text))
-                            return;
-
-                          _document = cpfController.text.toString();
-                          _typePerson = 1.toString();
-                          _socialReason = "";
 
                           if (!validator.validateGenericTextField(
                               nameController.text, "Nome")) return;
 
+                          if (!validator.validateCPF(cpfController.text))
+                            return;
+
                           if (!validator.validateCellphone(
                               cellphoneController.text)) return;
+
                           if (!validator.validateEmail(emailController.text))
                             return;
                           if (!validator.validatePassword(
@@ -720,19 +684,14 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                             _isLoading = true;
                           });
 
-                          // var position = await determinePosition();
-
                           await registerRequest(
-                              // iEController.text,
+                            nameController.text,
                               emailController.text,
-                              passwordController.text,
-                              nameController.text,
-                              socialReasonController.text,
-                              _document,
                               cellphoneController.text,
-                              "",
-                              "",
-                              _typePerson);
+                              cpfController.text,
+                              passwordController.text,
+                              "0.0",
+                              "0.0");
 
                           setState(() {
                             _isLoading = false;
@@ -769,7 +728,7 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushNamed(context, "/ui/login");
+                                  Navigator.pop(context);
                                 }),
                         ],
                       ),

@@ -80,7 +80,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: CustomAppBar(isVisibleBackButton: true),
         body: Stack(fit: StackFit.expand, children: [
           /*Expanded(

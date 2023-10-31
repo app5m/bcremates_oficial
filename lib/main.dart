@@ -4,7 +4,6 @@ import 'package:bc_remates/res/owner_colors.dart';
 import 'package:bc_remates/ui/auth/login/login.dart';
 import 'package:bc_remates/ui/auth/recover_password/recover_password.dart';
 import 'package:bc_remates/ui/auth/register/register_owner_data.dart';
-import 'package:bc_remates/ui/auth/register/success.dart';
 import 'package:bc_remates/ui/auth/validation_code.dart';
 import 'package:bc_remates/ui/intro/splash.dart';
 import 'package:bc_remates/ui/main/auction_details.dart';
@@ -94,7 +93,6 @@ void main() async {
       '/ui/register': (context) => RegisterOwnerData(),
       '/ui/home': (context) => Home(),
       '/ui/profile': (context) => Profile(),
-      '/ui/success': (context) => SucessRegister(),
       '/ui/auction_details': (context) => AuctionDetails(),
       // '/ui/pdf_viewer': (context) => PdfViewer(),
       '/ui/notifications': (context) => Notifications(),
