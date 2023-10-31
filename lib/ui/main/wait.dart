@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,13 +16,16 @@ class WaitAdmin extends StatefulWidget {
 
 class _WaitAdminState extends State<WaitAdmin> {
 
+  Timer? _timer;
+
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () async {
-
-        Navigator.pushReplacementNamed(context, '/ui/auction_details');
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      // Coloque a função que você deseja executar repetidamente aqui
 
     });
+
+    // Navigator.pushReplacementNamed(context, '/ui/auction_details');
   }
 
   @override

@@ -1,19 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bc_remates/model/auction.dart';
 import 'package:bc_remates/ui/components/alert_dialog_filter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../config/application_messages.dart';
 import '../../config/preferences.dart';
 import '../../config/validator.dart';
 import '../../global/application_constant.dart';
-import '../../model/product.dart';
 import '../../model/user.dart';
 import '../../res/dimens.dart';
 import '../../res/owner_colors.dart';
@@ -148,6 +149,8 @@ class _ContainerHomeState extends State<ContainerHome> {
   late Validator validator;
   final postRequest = PostRequest();
 
+  Position? _currentPosition;
+
   @override
   void initState() {
     validator = Validator(context: context);
@@ -160,8 +163,11 @@ class _ContainerHomeState extends State<ContainerHome> {
   final TextEditingController descController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
 
+  final TextEditingController searchController = TextEditingController();
+
   @override
   void dispose() {
+    searchController.dispose();
     categoryController.dispose();
     titleController.dispose();
     descController.dispose();
@@ -263,7 +269,7 @@ class _ContainerHomeState extends State<ContainerHome> {
     }
   }
 
-  Future<void> runSimpleFilter(String name, String value, String lat, String long) async {
+  Future<void> runSimpleFilter(String name, String lat, String long) async {
     try {
       final body = {
         "id_user": await Preferences.getUserData()!.id,
@@ -292,6 +298,43 @@ class _ContainerHomeState extends State<ContainerHome> {
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_description);
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 
   Future<void> _pullRefresh() async {
@@ -330,11 +373,20 @@ class _ContainerHomeState extends State<ContainerHome> {
                                   child: Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+
+                                        await _getCurrentPosition();
+
+                                        await runSimpleFilter(searchController.text,
+                                            _currentPosition!.latitude.toString(),
+                                            _currentPosition!.longitude.toString());
+                                        
+                                      },
                                       icon: Image.asset('images/search.png',
                                           width: 20, height: 20)),
                                   Expanded(
                                     child: TextField(
+                                      controller: searchController,
                                       decoration: InputDecoration(
                                         hintText: 'Pesquisar...',
                                         hintStyle:
@@ -445,22 +497,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                           var gridItems = <Widget>[];
 
                           for (var i = 0; i < 3; i++) {
-                            // final response =
-                            //     Product.fromJson(snapshot.data![i]);
-
-                            var source = 'images/cow.png';
-                            var source2 = 'images/cow.png';
-
-                            if (i == 0) {
-                              source = 'images/cow.png';
-                              source2 = 'Gado';
-                            } else if (i == 1) {
-                              source = 'images/map.png';
-                              source2 = 'Terras';
-                            } else {
-                              source = 'images/gavel.png';
-                              source2 = 'Outros';
-                            }
+                            final response = Auction.fromJson(snapshot.data![i]);
 
                             gridItems.add(InkWell(
                                 onTap: () => {
@@ -484,8 +521,8 @@ class _ContainerHomeState extends State<ContainerHome> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Image.asset(
-                                            source,
+                                          Image.network(
+                                            response.url,
                                             width: 24,
                                             height: 24,
                                             color: OwnerColors.colorPrimary,
@@ -494,7 +531,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                             width: Dimens.minMarginApplication,
                                           ),
                                           Text(
-                                            source2,
+                                            response.nome,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
