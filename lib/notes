@@ -2,16 +2,21 @@
 > pedir pacote fcm
 
 
->fazer alteracao contagem leilao (whats zap)
-mudar bgl no bc remates valor
-
 >pedir caminho pastas fotos
-
->como verificar se eu entrei no leilao apos enviar participacao
 
 >pra q serve list categorias
 
->listconfig é para live?
+
+1 - sempre vai ter um leilao atual
+2 - detalhe leilao (sempre ter o lote ativo para poder dar lance) colocar no topp, ter refresh automatico
+
+3 - para dar lance (pegar o lance atual do lote e adicionar mais 50 ou pode digitar), confirmar clicando no martelo
+
+- pra ver se pode participar status_participante 1 = participando 2 = não esta(enviar o id do leilao e id user)
+
+- status leilao 2 = desativado (usar pra ver qual leilao atual)
+
+- list lances (é o historico)
 
 
 
