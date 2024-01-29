@@ -6,8 +6,8 @@ class ApplicationConstant {
 
   static const String URL_VIA_CEP = "https://viacep.com.br/ws/";
 
-  static const String URL = "http://bcremates.web15f85.uni5.net/";
-  static const String URL_BASE = "http://bcremates.web15f85.uni5.net/apiv3/user/";
+  static const String URL = "https://www.bcremates.app.br/";
+  static const String URL_BASE = "https://www.bcremates.app.br/apiv3/user/";
   static const String TOKEN = "55G2cXH8";
 
   static const String fakeid = "1015";
@@ -19,6 +19,7 @@ class ApplicationConstant {
 
   static const String URL_AVATAR = URL + "uploads/avatar/";
   static const String URL_BANNER = URL + "uploads/banners/";
+  static const String URL_CATEGORYS = URL + "uploads/categorias/";
 
 
 }

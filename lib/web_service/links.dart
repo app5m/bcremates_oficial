@@ -23,12 +23,13 @@ abstract class Links {
   //leiloes
 
   static const String SAVE_BID = "leiloes/saveLance/";
-  static const String LIST_BIDS = "eiloes/listAllLances/";
+  static const String LIST_BIDS = "leiloes/listAllLances/";
   static const String SEND_REQUEST = "leiloes/participarLeilao/";
   static const String LIST_ALLOTMENT_DETAILS = "leiloes/listAllLotes/";
   static const String LIST_ADVANCED_FILTER = "leiloes/listAllLeiloes/";
   static const String LIST_SIMPLE_FILTER = "leiloes/listNomeLeiloes/";
   static const String LIST_CATEGORIES = "usuarios/listCategorias/";
+  static const String LIST_AO_VIVO = "usuarios/listConfig/";
   static const String SEARCH_CITIES = "leiloes/buscarCidades/";
 
 }

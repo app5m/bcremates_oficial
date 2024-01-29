@@ -671,6 +671,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                         ),
                                         TextField(
                                           controller: emailController,
+                                          enabled: false,
                                           decoration: InputDecoration(
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(

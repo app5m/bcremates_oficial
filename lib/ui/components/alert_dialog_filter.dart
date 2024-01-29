@@ -21,7 +21,9 @@ import '../../web_service/links.dart';
 import '../../web_service/service_response.dart';
 
 class FilterAlertDialog extends StatefulWidget {
-  FilterAlertDialog({Key? key});
+  final Function(String, String, String, String) onContainer;
+
+  FilterAlertDialog({Key? key, required this.onContainer});
 
   // DialogGeneric({Key? key}) : super(key: key);
 
@@ -30,7 +32,6 @@ class FilterAlertDialog extends StatefulWidget {
 }
 
 class _FilterAlertDialog extends State<FilterAlertDialog> {
-
   String? _currentAddress;
   Position? _currentPosition;
 
@@ -63,7 +64,8 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
     super.dispose();
   }
 
-  Future<void> runAdvancedFilter(String name, String idAuction, String city, String dateFrom, String dateTo, String lat, String long) async {
+  Future<void> runAdvancedFilter(String name, String idAuction, String city,
+      String dateFrom, String dateTo, String lat, String long) async {
     try {
       final body = {
         "id_user": await Preferences.getUserData()!.id,
@@ -80,7 +82,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
       print('HTTP_BODY: $body');
 
       final json =
-      await postRequest.sendPostRequest(Links.LIST_ADVANCED_FILTER, body);
+          await postRequest.sendPostRequest(Links.LIST_ADVANCED_FILTER, body);
 
       List<Map<String, dynamic>> _map = [];
       _map = List<Map<String, dynamic>>.from(jsonDecode(json));
@@ -98,18 +100,13 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
     }
   }
 
-
   Future<void> searchCities(String city) async {
     try {
-      final body = {
-        "cidade": city,
-        "token": ApplicationConstant.TOKEN
-      };
+      final body = {"cidade": city, "token": ApplicationConstant.TOKEN};
 
       print('HTTP_BODY: $body');
 
-      final json =
-      await postRequest.sendPostRequest(Links.SEARCH_CITIES, body);
+      final json = await postRequest.sendPostRequest(Links.SEARCH_CITIES, body);
 
       List<Map<String, dynamic>> _map = [];
       _map = List<Map<String, dynamic>>.from(jsonDecode(json));
@@ -124,13 +121,11 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
 
       _cities.clear();
       for (var i = 0; i < _map.length; i += 1) {
-
         final response = City.fromJson(_map[i]);
 
         _cities.add(response.cidade);
         print(i);
       }
-
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -142,20 +137,22 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-
-      ApplicationMessages(context: context).showMessage(Strings.disable_gps_description);
+      ApplicationMessages(context: context)
+          .showMessage(Strings.disable_gps_description);
       return false;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+        ApplicationMessages(context: context)
+            .showMessage(Strings.disable_gps_forever);
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ApplicationMessages(context: context).showMessage(Strings.disable_gps_forever);
+      ApplicationMessages(context: context)
+          .showMessage(Strings.disable_gps_forever);
       return false;
     }
     return true;
@@ -164,8 +161,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
       setState(() => _currentPosition = position);
     }).catchError((e) {
@@ -318,28 +314,21 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                           onTap: () {
                             DatePicker.showDatePicker(
                               context,
-                              dateFormat:
-                              'dd MMMM yyyy HH:mm',
-                              initialDateTime:
-                              DateTime.now(),
+                              dateFormat: 'dd MMMM yyyy',
+                              initialDateTime: DateTime.now(),
                               minDateTime: DateTime(2000),
                               maxDateTime: DateTime(3000),
-                              onMonthChangeStartWithFirstDate:
-                              true,
-                              onConfirm: (dateTime,
-                                  List<int> index) {
-                                DateTime selectdate =
-                                    dateTime;
-                                final selIOS = DateFormat(
-                                    'dd/MM/yyyy')
-                                    .format(selectdate);
+                              pickerTheme: DateTimePickerTheme(confirm: Text("CONFIRMAR")),
+                              onMonthChangeStartWithFirstDate: true,
+                              onConfirm: (dateTime, List<int> index) {
+                                DateTime selectdate = dateTime;
+                                final selIOS =
+                                    DateFormat('dd/MM/yyyy').format(selectdate);
                                 print(selIOS);
 
                                 setState(() {
-
                                   dateFromController.text = selIOS;
                                 });
-
                               },
                             );
                           },
@@ -409,29 +398,21 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                         onTap: () {
                           DatePicker.showDatePicker(
                             context,
-                            dateFormat:
-                            'dd MMMM yyyy HH:mm',
-                            initialDateTime:
-                            DateTime.now(),
+                            dateFormat: 'dd MMMM yyyy',
+                            initialDateTime: DateTime.now(),
                             minDateTime: DateTime(2000),
                             maxDateTime: DateTime(3000),
-                            onMonthChangeStartWithFirstDate:
-                            true,
-                            onConfirm: (dateTime,
-                                List<int> index) {
-                              DateTime selectdate =
-                                  dateTime;
-                              final selIOS = DateFormat(
-                                  'dd/MM/yyyy')
-                                  .format(selectdate);
+                            pickerTheme: DateTimePickerTheme(confirm: Text("CONFIRMAR")),
+                            onMonthChangeStartWithFirstDate: true,
+                            onConfirm: (dateTime, List<int> index) {
+                              DateTime selectdate = dateTime;
+                              final selIOS =
+                                  DateFormat('dd/MM/yyyy').format(selectdate);
                               print(selIOS);
 
-
                               setState(() {
-
                                 dateToController.text = selIOS;
                               });
-
                             },
                           );
                         },
@@ -473,18 +454,12 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                   child: ElevatedButton(
                     style: Styles().styleDefaultButton,
                     onPressed: () async {
-
-                      await _getCurrentPosition();
-
-                      await runAdvancedFilter(
+                      widget.onContainer(
                           nameController.text,
-                          "",
                           cityController.text,
                           dateFromController.text,
-                          dateToController.text,
-                          _currentPosition!.latitude.toString(),
-                          _currentPosition!.longitude.toString());
-                      
+                          dateToController.text);
+                      Navigator.pop(context);
                     },
                     child: /* (_isLoading)
                                   ? const SizedBox(
@@ -505,14 +480,12 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                   child: ElevatedButton(
                     style: Styles().styleOutlinedButton,
                     onPressed: () async {
-
                       setState(() {
                         nameController.text = "";
                         cityController.text = "";
                         dateFromController.text = "";
                         dateToController.text = "";
                       });
-
                     },
                     child: /* (_isLoading)
                                   ? const SizedBox(
@@ -523,7 +496,7 @@ class _FilterAlertDialog extends State<FilterAlertDialog> {
                                     strokeWidth: Dimens.buttonIndicatorStrokes,
                                   ))
                                   :*/
-                    Text("Limpar", style: Styles().styleBlackTextButton),
+                        Text("Limpar", style: Styles().styleBlackTextButton),
                   ),
                 ),
               ],

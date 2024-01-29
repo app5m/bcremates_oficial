@@ -20,73 +20,128 @@ import 'package:flutter/material.dart';
 import 'config/notification_helper.dart';
 import 'config/preferences.dart';
 import 'config/useful.dart';
+import 'configJ/notification_config.dart';
 
-// @pragma('vm:entry-point')
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   LocalNotification.showNotification(message);
-//   print("Handling a background message: $message");
-// }
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  LocalNotification1().showNotification(message);
+  print("Handling a background message: $message");
+}
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  //
-  // await Preferences.init();
-  //
-  // if (Platform.isAndroid) {
-  //   await Firebase.initializeApp();
-  // } else if (Platform.isIOS){
-  //   await Firebase.initializeApp(
-  //     /*options: FirebaseOptions(
-  //     apiKey: WSConstants.API_KEY,
-  //     appId: WSConstants.APP_ID,
-  //     messagingSenderId: WSConstants.MESSGING_SENDER_ID,
-  //     projectId: WSConstants.PROJECT_ID,
-  //   )*/);
-  // }
-  //
-  // LocalNotification.initialize();
-  //
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-  // NotificationSettings settings = await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: false,
-  //   provisional: false,
-  //   sound: true,
-  // );
-  //
-  // if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-  //   print('User granted permission');
-  // } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-  //   print('User granted provisional permission');
-  // } else {
-  //   print('User declined or has not accepted permission');
-  // }
-  //
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   LocalNotification.showNotification(message);
-  //   print('Mensagem recebida: ${message.data}');
-  // });
-  //
-  // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-  //   print('Mensagem abertaaaaaaaaa: ${message.data}');
-  //
-  // });
-  //
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+   WidgetsFlutterBinding.ensureInitialized();
+
+  await Preferences.init();
+
+  if (Platform.isAndroid) {
+   await Firebase.initializeApp(
+       options: FirebaseOptions(
+         apiKey: "AIzaSyDJymYcY5KfhoD6AcWeZsHS58xnyLCoEks",
+         appId: "1:1010287627328:android:f48c1ac431930a18eda3a5",
+         messagingSenderId: "1010287627328",
+         projectId: "bc-remates",
+       ));
+
+  } else if (Platform.isIOS){
+  await Firebase.initializeApp(
+  options: FirebaseOptions(
+  apiKey: "AIzaSyAgQr9Ek1zQ0TSQ2g6U82jcTXtrTMPlC1M",
+  appId: "1:1010287627328:ios:354a680fdac534e3eda3a5",
+  messagingSenderId: "1010287627328",
+  projectId: "bc-remates",
+   ));
+ }
+
+
+   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+     LocalNotification1().showNotification(message);
+     // LocalNotification().getNotification(message);
+
+
+     /*
+     if(Platform.isIOS){
+       if(type == "anuncio"){
+         await Navigator.of(navigatorKey.currentContext!).push(
+           MaterialPageRoute(
+             builder: (context) => DetailRecebedor(
+               idAd: id_anuncio,
+               veio: '0',
+             ),
+           ),
+         );
+       }else if(type == "chat"){
+         await Navigator.of(navigatorKey.currentContext!)..push(
+           MaterialPageRoute(
+             builder: (context) => ChatDoadorRecebedor(
+               type: 3,
+               id_de: id_de,
+               id_para: userId,
+               idAnuncio: id_anuncio,
+               nameUser: "",
+             ),
+           ),
+         );
+       }
+       FlutterAppBadger.removeBadge();
+     }
+
+      */
+
+   });
+
+
+
+   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+     print('Mensagem abertaaaaaaaaa: ${message.data}');
+     LocalNotification1().showNotification(message);
+/*
+     if(Platform.isIOS){
+       if(type == "anuncio"){
+         await Navigator.of(navigatorKey.currentContext!).push(
+           MaterialPageRoute(
+             builder: (context) => DetailRecebedor(
+               idAd: id_anuncio,
+               veio: '0',
+             ),
+           ),
+         );
+       }else if(type == "chat"){
+         await Navigator.of(navigatorKey.currentContext!)..push(
+           MaterialPageRoute(
+             builder: (context) => ChatDoadorRecebedor(
+               type: 3,
+               id_de: id_de,
+               id_para: userId,
+               idAnuncio: id_anuncio,
+               nameUser: "",
+             ),
+           ),
+         );
+       }
+
+     }
+
+
+
+ */
+
+   });
+
+
+   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
 
   runApp(MaterialApp(
     theme: ThemeData(
       scaffoldBackgroundColor: Colors.white, //fundo de todo app
       primarySwatch: Useful().getMaterialColor(OwnerColors.colorPrimary),
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: Useful().getMaterialColor(OwnerColors.colorPrimary)),
+      colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Useful().getMaterialColor(OwnerColors.colorPrimary)),
       fontFamily: 'MontSerrat',
     ),
     debugShowCheckedModeBanner: false,
     title: "BC Remates",
-    initialRoute:'/ui/splash',
+    initialRoute: '/ui/splash',
     color: OwnerColors.colorPrimary,
     routes: {
       '/ui/splash': (context) => Splash(),
@@ -94,7 +149,6 @@ void main() async {
       '/ui/register': (context) => RegisterOwnerData(),
       '/ui/home': (context) => Home(),
       '/ui/profile': (context) => Profile(),
-      '/ui/auction_details': (context) => AuctionDetails(),
       // '/ui/pdf_viewer': (context) => PdfViewer(),
       '/ui/notifications': (context) => Notifications(),
       '/ui/recover_password': (context) => RecoverPassword(),
@@ -102,8 +156,6 @@ void main() async {
       '/ui/wait': (context) => WaitAdmin(),
       '/ui/validation_code': (context) => ValidationCode(),
       '/ui/sucess': (context) => SucessRegister(),
-
-
     },
   ));
 }

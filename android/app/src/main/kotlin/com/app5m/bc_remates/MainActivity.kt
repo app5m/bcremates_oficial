@@ -1,4 +1,4 @@
-package com.app5m.bc_remates
+package com.bcremates
 
 import io.flutter.embedding.android.FlutterActivity
 

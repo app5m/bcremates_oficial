@@ -81,8 +81,11 @@ class _LoginState extends State<Login> {
           "email": email,
           "password": password,
         });
-      } else {}
-      ApplicationMessages(context: context).showMessage(response.msg);
+        ApplicationMessages(context: context).showMessage(response.msg);
+      } else {
+        _showModalBottomSheet(context, response.msg);
+      }
+
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
@@ -347,5 +350,56 @@ class _LoginState extends State<Login> {
             ]),
           )))
         ]));
+  }
+
+  void _showModalBottomSheet(BuildContext context, String msg) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Atenção",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+
+                  color: Colors.black,
+                  fontSize: Dimens.textSize6,
+                  fontWeight: FontWeight.w500,
+
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                msg,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+
+                    color: OwnerColors.darkGrey,
+                    fontSize: Dimens.textSize6,
+                    fontWeight: FontWeight.w500,
+
+                  ),
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Fecha a Bottom Sheet
+                    },
+                    child: Text('Fechar'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

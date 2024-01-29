@@ -5,6 +5,7 @@ import '../../../res/dimens.dart';
 import '../../../res/owner_colors.dart';
 import '../../../res/styles.dart';
 import '../../main/home.dart';
+import '../login/login.dart';
 
 class SucessRegister extends StatefulWidget {
   const SucessRegister({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class _SucessRegisterState extends State<SucessRegister> {
                     onPressed: () async {
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => Home()),
+                          MaterialPageRoute(builder: (context) => Login()),
                           ModalRoute.withName("/ui/login"));
                     },
                     child: Text("Sair", style: Styles().styleDefaultTextButton),

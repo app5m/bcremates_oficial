@@ -36,7 +36,7 @@ class LocalNotification {
 
     final NotificationDetails notiDetails = NotificationDetails(
       android: AndroidNotificationDetails(
-        'com.aguadaserra.app.push_notification',
+        'com.bcremates.push_notification',
         'push_notification',
         importance: Importance.max,
         priority: Priority.high,

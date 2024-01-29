@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import '../../config/application_messages.dart';
 import '../../config/preferences.dart';
 import '../../config/validator.dart';
+import '../../configJ/constants.dart';
+import '../../configJ/requests.dart';
 import '../../global/application_constant.dart';
+import '../../model/mylotes.dart';
 import '../../model/user.dart';
 import '../../res/dimens.dart';
 import '../../res/owner_colors.dart';
@@ -36,11 +39,49 @@ class _BidsState extends State<Bids> {
 
   late Validator validator;
   final postRequest = PostRequest();
-
+  final requestsWebServices = RequestsWebServices(WSConstantes.URLBASE);
+  List<MyLotes> lotes = [];
   User? _profileResponse;
+
+  Future<void> listMyLotes() async {
+    setState(() {
+      lotes.clear();
+    });
+    try {
+      await Preferences.init();
+      int userId = Preferences.getUserData()!.id;
+      final body = {
+        'id_user': userId,
+        "token": ApplicationConstant.TOKEN
+      };
+
+      final List<dynamic> decodedResponse = await requestsWebServices
+          .sendPostRequestList(Links.LIST_BIDS, body);
+
+      if (decodedResponse.isNotEmpty) {
+        if (decodedResponse[0]['rows'] != 0) {
+          for (final itens in decodedResponse) {
+              MyLotes lote = MyLotes.fromJson(itens);
+
+              setState(() {
+                lotes.add(lote);
+              });
+
+          }
+
+        }
+      } else {
+        print('NULO');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   @override
   void initState() {
+    listMyLotes();
     super.initState();
   }
 
@@ -75,9 +116,35 @@ class _BidsState extends State<Bids> {
   Future<void> _pullRefresh() async {
     setState(() {
       _isLoading = true;
-      // listHighlightsRequest();
+
       _isLoading = false;
     });
+    listMyLotes();
+  }
+
+  String getStatusString(String status) {
+    switch (status) {
+      case "1":
+        return 'Ganhou';
+      case "2":
+        return 'Em andamento';
+      case "3":
+        return 'Perdeu';
+      default:
+        return 'Desconhecido';
+    }
+  }
+  Color getStatusColor(String status) {
+    switch (status) {
+      case "1":
+        return OwnerColors.colorPrimaryDark;
+      case "2":
+        return Colors.yellow;
+      case "3":
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 
   @override
@@ -140,7 +207,7 @@ class _BidsState extends State<Bids> {
                           ListView.builder(
                             primary: false,
                             shrinkWrap: true,
-                            itemCount: 2,
+                            itemCount: lotes.length,
                             itemBuilder: (context, index) {
                               // final response =
                               // Product.fromJson(snapshot.data![index]);
@@ -207,7 +274,7 @@ class _BidsState extends State<Bids> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              "Nome teste",
+                                                              lotes[index].nomeLeilao!,
                                                               style: TextStyle(
                                                                 fontSize: Dimens
                                                                     .textSize6,
@@ -236,7 +303,7 @@ class _BidsState extends State<Bids> {
                                                                 ),
                                                               ),
                                                               Text(
-                                                                "00/00/0000",
+                                                                lotes[index].dataLance!,
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize: Dimens
@@ -265,7 +332,7 @@ class _BidsState extends State<Bids> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              "Cuiabá - MT",
+                                                              "${lotes[index].cidadeLeilao!} - ${lotes[index].estadoLeilao!}",
                                                               style: TextStyle(
                                                                 fontSize: Dimens
                                                                     .textSize5,
@@ -280,7 +347,7 @@ class _BidsState extends State<Bids> {
                                               height: Dimens.marginApplication),
                                           Container(
                                             decoration: BoxDecoration(
-                                              color: OwnerColors.colorPrimaryDark,
+                                              color: getStatusColor(lotes[index].statusVencedor![0].status!),
                                               borderRadius: !isVisible || oldIndex != index ? BorderRadius.only(bottomLeft: Radius.circular(Dimens.minRadiusApplication),
                                                   bottomRight: Radius.circular(Dimens.minRadiusApplication)) : null),
                                             padding: EdgeInsets.only(
@@ -292,7 +359,7 @@ class _BidsState extends State<Bids> {
                                               children: [
                                                 Expanded(
                                                   child: Text(
-                                                    "Lote 20 | ganhou",
+                                                    "Lote ${lotes[index].numeroLote!} | ${getStatusString(lotes[index].statusVencedor![0].status!)}",
                                                     style: TextStyle(
                                                       fontSize:
                                                           Dimens.textSize6,
@@ -340,8 +407,8 @@ class _BidsState extends State<Bids> {
                                             Row(children: [
                                               Expanded(
 
-                                                  child: Image.network(
-                                                    "",
+                                                  child: lotes[index].urlLote != null ?  Image.network(
+                                                    WSConstantes.URL_LEILAO + lotes[index].urlLote!,
                                                     fit: BoxFit.cover,
                                                     errorBuilder: (context,
                                                         exception,
@@ -351,7 +418,11 @@ class _BidsState extends State<Bids> {
                                                           fit: BoxFit.cover,
                                                           height: 140,
                                                         ),
-                                                  )),
+                                                  ): Image.asset(
+                                                    'images/leilao.png',
+                                                    fit: BoxFit.cover,
+                                                    height: 140,
+                                                  ), ),
                                               SizedBox(width: Dimens.marginApplication,),
                                               Expanded(
                                                 child: Container (margin: EdgeInsets.only(left: Dimens.marginApplication),
@@ -372,7 +443,7 @@ class _BidsState extends State<Bids> {
                                                             )),
                                                         SizedBox(height: 2),
                                                         Text(
-                                                            "Ganhou",
+                                                            "${getStatusString(lotes[index].statusVencedor![0].status!)}",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
@@ -380,7 +451,7 @@ class _BidsState extends State<Bids> {
                                                               fontWeight:
                                                               FontWeight
                                                                   .bold,
-                                                              color: OwnerColors.colorPrimaryDark,
+                                                              color: getStatusColor(lotes[index].statusVencedor![0].status!),
                                                             )),
 
                                                         SizedBox(height: Dimens.marginApplication),
@@ -397,7 +468,7 @@ class _BidsState extends State<Bids> {
                                                             )),
                                                         SizedBox(height: 2),
                                                         Text(
-                                                            "R\$ 700,00",
+                                                            "${lotes[index].valorLance}",
                                                             style:
                                                             TextStyle(
                                                               fontSize: Dimens
@@ -442,7 +513,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "20",
+                                                                  lotes[index].numeroLote!,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -475,7 +546,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "Lorem",
+                                                                  lotes[index].nomeCategoria!,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -522,7 +593,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "10 kg",
+                                                                  lotes[index].pesoLote!,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
@@ -555,7 +626,7 @@ class _BidsState extends State<Bids> {
                                                                           .black,
                                                                     )),
                                                                 Text(
-                                                                  "teste",
+                                                                  lotes[index].racaoPelo!,
                                                                   style:
                                                                   TextStyle(
                                                                     fontSize: Dimens
