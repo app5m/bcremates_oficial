@@ -24,7 +24,7 @@ import 'configJ/notification_config.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  LocalNotification1().showNotification(message);
+  LocalNotification.showNotification(message);
   print("Handling a background message: $message");
 }
 
@@ -51,82 +51,35 @@ void main() async {
   projectId: "bc-remates",
    ));
  }
+   LocalNotification.initialize();
+   FirebaseMessaging messaging = FirebaseMessaging.instance;
+   NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
 
-
-   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-     LocalNotification1().showNotification(message);
+   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+     LocalNotification.showNotification(message);
      // LocalNotification().getNotification(message);
-
-
-     /*
-     if(Platform.isIOS){
-       if(type == "anuncio"){
-         await Navigator.of(navigatorKey.currentContext!).push(
-           MaterialPageRoute(
-             builder: (context) => DetailRecebedor(
-               idAd: id_anuncio,
-               veio: '0',
-             ),
-           ),
-         );
-       }else if(type == "chat"){
-         await Navigator.of(navigatorKey.currentContext!)..push(
-           MaterialPageRoute(
-             builder: (context) => ChatDoadorRecebedor(
-               type: 3,
-               id_de: id_de,
-               id_para: userId,
-               idAnuncio: id_anuncio,
-               nameUser: "",
-             ),
-           ),
-         );
-       }
-       FlutterAppBadger.removeBadge();
-     }
-
-      */
-
+     print('Mensagem recebida: ${message.data}');
    });
 
-
-
-   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
      print('Mensagem abertaaaaaaaaa: ${message.data}');
-     LocalNotification1().showNotification(message);
-/*
-     if(Platform.isIOS){
-       if(type == "anuncio"){
-         await Navigator.of(navigatorKey.currentContext!).push(
-           MaterialPageRoute(
-             builder: (context) => DetailRecebedor(
-               idAd: id_anuncio,
-               veio: '0',
-             ),
-           ),
-         );
-       }else if(type == "chat"){
-         await Navigator.of(navigatorKey.currentContext!)..push(
-           MaterialPageRoute(
-             builder: (context) => ChatDoadorRecebedor(
-               type: 3,
-               id_de: id_de,
-               id_para: userId,
-               idAnuncio: id_anuncio,
-               nameUser: "",
-             ),
-           ),
-         );
-       }
-
-     }
-
-
-
- */
 
    });
-
 
    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

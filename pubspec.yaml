@@ -67,6 +67,7 @@ dependencies:
 #  autocomplete_textfield: ^2.0.1
   fluttertoast: ^8.2.2
   autocomplete_textfield: ^2.0.1
+  url_launcher: ^6.2.4
 
 dev_dependencies:
   flutter_test:

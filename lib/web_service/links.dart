@@ -25,6 +25,7 @@ abstract class Links {
   static const String SAVE_BID = "leiloes/saveLance/";
   static const String LIST_BIDS = "leiloes/listAllLances/";
   static const String SEND_REQUEST = "leiloes/participarLeilao/";
+  static const String STATUS_OPEN_LEILAO = "leiloes/statusLeilao/";
   static const String LIST_ALLOTMENT_DETAILS = "leiloes/listAllLotes/";
   static const String LIST_ADVANCED_FILTER = "leiloes/listAllLeiloes/";
   static const String LIST_SIMPLE_FILTER = "leiloes/listNomeLeiloes/";

@@ -115,13 +115,13 @@ class StatusVencedor {
 
   StatusVencedor.fromJson(Map<String, dynamic> json) {
     valorDado = json['valor_dado'];
-    status = json['status'];
+    status = json['status_leilao'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['valor_dado'] = this.valorDado;
-    data['status'] = this.status;
+    data['status_leilao'] = this.status;
     return data;
   }
 }

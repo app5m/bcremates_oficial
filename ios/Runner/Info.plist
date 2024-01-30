@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1010287627328-354a680fdac534e3eda3a5</string>
+				<string>com.googleusercontent.apps.1010287627328-1t5chiq8d8p17pfn39juqnv1ptpfpogt</string>
 			</array>
 		</dict>
 	</array>
@@ -37,6 +37,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Para oferecer a melhor experiência musical, nosso aplicativo solicita acesso à sua biblioteca de músicas da Apple Music. Essa permissão é essencial para que você possa reproduzir suas músicas favoritas diretamente no aplicativo, garantindo uma experiência sonora envolvente e personalizada. Suas informações são tratadas com segurança e privacidade.</string>
 	<key>NSCameraUsageDescription</key>
@@ -55,6 +57,10 @@
 	<string>Receber notificações é essencial para mantê-lo atualizado sobre novas mensagens e eventos no aplicativo.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

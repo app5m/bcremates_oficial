@@ -139,7 +139,7 @@ class _BidsState extends State<Bids> {
       case "1":
         return OwnerColors.colorPrimaryDark;
       case "2":
-        return Colors.yellow;
+        return Colors.yellow.shade700;
       case "3":
         return Colors.red;
       default:
@@ -199,12 +199,8 @@ class _BidsState extends State<Bids> {
                                 ),
                               )),
                           SizedBox(height: Dimens.marginApplication,),
-                          /*FutureBuilder<List<Map<String, dynamic>>>(
-                          future: listProducts(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return */
-                          ListView.builder(
+
+                        lotes.isNotEmpty ?  ListView.builder(
                             primary: false,
                             shrinkWrap: true,
                             itemCount: lotes.length,
@@ -646,12 +642,36 @@ class _BidsState extends State<Bids> {
                                     ),
                                   ));
                             },
-                          ) /*;
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-                            return Center(*/ /*child: CircularProgressIndicator()*/ /*);
-                          }),*/
-                        ])))));
+                          ) : Container(
+                          height: 275,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.hourglass_empty_rounded),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Nenhum lance encontrado.",
+                                    style: TextStyle(
+                                      fontSize: Dimens.textSize5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        ])
+
+                ))));
   }
 }

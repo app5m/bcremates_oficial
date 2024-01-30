@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/application_messages.dart';
 import '../../config/preferences.dart';
@@ -51,7 +52,7 @@ class _HomeState extends State<Home> {
   bool isLoggedIn = false;
   final requestsWebServices = RequestsWebServices(WSConstantes.URLBASE);
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -134,7 +135,7 @@ class ContainerHome extends StatefulWidget {
   State<ContainerHome> createState() => _ContainerHomeState();
 }
 
-GlobalKey globalKey = GlobalKey(debugLabel: 'btm_app_bar');
+
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -189,7 +190,6 @@ class BottomNavBar extends StatelessWidget {
       label: Strings.menu,
     ));
     return BottomNavigationBar(
-        key: globalKey,
         elevation: Dimens.elevationApplication,
         currentIndex: currentIndex,
         onTap: onTap,
@@ -222,6 +222,12 @@ class _ContainerHomeState extends State<ContainerHome> {
     listAoVivo();
 
     super.initState();
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   final TextEditingController titleController = TextEditingController();
@@ -766,28 +772,33 @@ class _ContainerHomeState extends State<ContainerHome> {
                         scrollDirection: Axis.horizontal,
                         itemCount: banners.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(right: 6, left: 6),
-                            height: 100,
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                      OwnerColors.gradientFirstColor,
-                                      OwnerColors.gradientSecondaryColor,
-                                      OwnerColors.gradientThirdColor
-                                    ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight),
+                          return GestureDetector(
+                            onTap: (){
+                              _launchUrl(banners[index].url!);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 6, left: 6),
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        OwnerColors.gradientFirstColor,
+                                        OwnerColors.gradientSecondaryColor,
+                                        OwnerColors.gradientThirdColor
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimens.minRadiusApplication)),
+                              /*width: MediaQuery.of(context).size.width * 0.90,*/
+                              child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
-                                    Dimens.minRadiusApplication)),
-                            /*width: MediaQuery.of(context).size.width * 0.90,*/
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  Dimens.minRadiusApplication),
-                              child: Image.network(
-                                ApplicationConstant.URL_BANNER +
-                                    banners[index].url!,
-                                fit: BoxFit.fill,
+                                    Dimens.minRadiusApplication),
+                                child: Image.network(
+                                  ApplicationConstant.URL_BANNER +
+                                      banners[index].url!,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
                           );
@@ -1106,7 +1117,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                         .statusParticipante!,
                                                     idLeilao: leilaoNow[index]
                                                         .id
-                                                        .toString(),
+                                                        .toString(), leilao: leilaoNow[index],
                                                   )));
                                     }
                                   },
@@ -1390,7 +1401,7 @@ class _ContainerHomeState extends State<ContainerHome> {
                                                         .statusParticipante!,
                                                     idLeilao: leilaoNext[index]
                                                         .id
-                                                        .toString(),
+                                                        .toString(), leilao: leilaoNext[index],
                                                   )));
                                     }
                                   },

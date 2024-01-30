@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:bc_remates/model/leilao.dart';
 import 'package:bc_remates/ui/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,13 +18,15 @@ import '../../global/application_constant.dart';
 import '../../res/strings.dart';
 import '../../web_service/links.dart';
 import '../components/alert_dialog_sucess.dart';
+import 'auction_details.dart';
 import 'home.dart';
 
 class OpenFaileLeilao extends StatefulWidget {
   int status;
+  Leilao leilao;
   String idLeilao;
 
-  OpenFaileLeilao({Key? key, required this.status, required this.idLeilao})
+  OpenFaileLeilao({Key? key, required this.status, required this.leilao, required this.idLeilao})
       : super(key: key);
 
   @override
@@ -32,7 +36,8 @@ class OpenFaileLeilao extends StatefulWidget {
 class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
   Position? _currentPosition;
   final requestsWebServices = RequestsWebServices(WSConstantes.URLBASE);
-
+  String statusParticipar = "04";
+  late Timer _timer;
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -71,6 +76,10 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
     });
   }
 
+  bool isLoading = false;
+
+
+
   Future<void> participarLeilao(String idLeilao) async {
     try {
       await Preferences.init();
@@ -92,60 +101,65 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
         String status = darLike["status"];
         String msg = darLike["msg"];
         if (status == "01") {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return Dialog(
-                elevation: 0,
-                shadowColor: OwnerColors.colorPrimaryDark,
-                backgroundColor: OwnerColors.colorPrimaryDark,
-                // Defina a forma do diálogo
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                // Conteúdo do diálogo
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        msg,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Fecha o diálogo quando o botão é pressionado
-                          Navigator.of(context).pop();
+          _showModalBottomSheet(context, msg);
+        }else{
+          _showModalBottomSheet(context, msg);
+        }
+      } else {
+        print('NULO');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => Home()),
-                              ModalRoute.withName("/ui/home"));
-                        },
-                        child: Text(
-                          'Fechar',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: OwnerColors.colorPrimaryDark,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-              ;
-            },
-          );
+  Future<void> participarLeilaoStatus(String idLeilao) async {
+    try {
+      await Preferences.init();
+      int userId = Preferences.getUserData()!.id;
+      final body = {
+        "id_user": userId.toString(),
+        "id_leilao": idLeilao,
+        "latitude": _currentPosition!.latitude.toString(),
+        "longitude": _currentPosition!.longitude.toString(),
+        "token": ApplicationConstant.TOKEN
+      };
+
+      final dynamic response = await requestsWebServices.sendPostRequest(
+          Links.STATUS_OPEN_LEILAO, body);
+
+      final decodedResponse = jsonDecode(response);
+      if (decodedResponse != null) {
+        final darLike = decodedResponse;
+        String status = darLike["status"];
+        if (status == "01") {
+          setState(() {
+            statusParticipar = status;
+            isLoading = false;
+          });
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      AuctionDetails(
+                        leilao: widget.leilao,
+                        lat: _currentPosition!
+                            .latitude
+                            .toString(),
+                        long: _currentPosition!
+                            .longitude
+                            .toString(),
+                      )));
+          _timer.cancel();
+        } else if (status == "02") {
+          setState(() {
+            statusParticipar = status;
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            statusParticipar = status;
+          });
         }
       } else {
         print('NULO');
@@ -157,9 +171,22 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
 
   @override
   void initState() {
+    participarLeilaoStatus(widget.idLeilao);
     _getCurrentPosition();
-
+    _startTimer();
     super.initState();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      participarLeilaoStatus(widget.idLeilao);
+      print('Função chamada a cada 3 segundos');
+    });
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -191,7 +218,7 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
           fit: BoxFit.fitWidth,
         ),
         // ),
-        Container(
+        statusParticipar != "04" ? Container(
             padding: EdgeInsets.all(Dimens.paddingApplication),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -208,7 +235,7 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
                       SizedBox(height: Dimens.minMarginApplication),
                       Container(
                         width: double.infinity,
-                        child: widget.status == 3
+                        child: statusParticipar == "03"
                             ? Text(
                                 textAlign: TextAlign.center,
                                 "Solicitar Participação",
@@ -229,7 +256,7 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
                       SizedBox(height: Dimens.minMarginApplication),
                       Container(
                         width: double.infinity,
-                        child: widget.status == 3
+                        child: statusParticipar == "03"
                             ? Text(
                                 textAlign: TextAlign.center,
                                 "Para participar do leilão, é essencial solicitar sua entrada, garantindo assim a oportunidade de envolvimento nas negociações.",
@@ -255,7 +282,10 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
                     style: Styles().styleDefaultButton,
                     onPressed: () async {
                       print(widget.status);
-                      if (widget.status == 3) {
+                      if (statusParticipar == "03") {
+                        setState(() {
+                          isLoading = true;
+                        });
                         participarLeilao(widget.idLeilao);
                       } else {
                         Navigator.pushAndRemoveUntil(
@@ -264,16 +294,81 @@ class _OpenFaileLeilaoState extends State<OpenFaileLeilao> {
                             ModalRoute.withName("/ui/home"));
                       }
                     },
-                    child: widget.status == 2
-                        ? Text("Voltar", style: Styles().styleDefaultTextButton)
-                        : Text("Solicitar",
-                            style: Styles().styleDefaultTextButton),
+                    child: !isLoading
+                        ? statusParticipar != "03"
+                            ? Text("Voltar",
+                                style: Styles().styleDefaultTextButton)
+                            : Text("Solicitar",
+                                style: Styles().styleDefaultTextButton)
+                        : const SizedBox(
+                            width: Dimens.buttonIndicatorWidth,
+                            height: Dimens.buttonIndicatorHeight,
+                            child: CircularProgressIndicator(
+                              color: OwnerColors.colorAccent,
+                              strokeWidth: Dimens.buttonIndicatorStrokes,
+                            )),
                   ),
                 ),
                 SizedBox(height: 40),
               ],
-            ))
+            )) : const Center(
+              child: SizedBox(
+              width: Dimens.buttonIndicatorWidth,
+              height: Dimens.buttonIndicatorHeight,
+              child: CircularProgressIndicator(
+                color: OwnerColors.colorAccent,
+                strokeWidth: Dimens.buttonIndicatorStrokes,
+              )),
+            )
       ]),
+    );
+  }
+
+  void _showModalBottomSheet(BuildContext context, String msg) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Atenção",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Dimens.textSize6,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                msg,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: OwnerColors.darkGrey,
+                  fontSize: Dimens.textSize6,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      // Fecha a Bottom Sheet
+                    },
+                    child: Text('Fechar'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
