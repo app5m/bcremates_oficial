@@ -365,7 +365,10 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 contentPadding: EdgeInsets.all(
                                     Dimens.textFieldPaddingApplication),
                               ),
-                              keyboardType: TextInputType.number,
+                              keyboardType:  TextInputType.numberWithOptions(
+                                decimal: true,
+                                signed: true,
+                              ),
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: Dimens.textSize5,
@@ -410,7 +413,10 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
                                 contentPadding: EdgeInsets.all(
                                     Dimens.textFieldPaddingApplication),
                               ),
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
+                                signed: true,
+                              ),
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: Dimens.textSize5,
