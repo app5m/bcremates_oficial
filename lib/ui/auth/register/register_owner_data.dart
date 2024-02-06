@@ -244,15 +244,28 @@ class _RegisterOwnerDataState extends State<RegisterOwnerData> {
               Container(
                   margin: EdgeInsets.all(Dimens.marginApplication),
                   child: Column(children: [
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        "Cadastro",
-                        style: TextStyle(
-                          fontSize: Dimens.textSize8,
-                          color: Colors.black87,
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            if(_pageController.page == 0){
+                              Navigator.pop(context);
+                            }else{
+                              _pageController.previousPage(duration: Duration(milliseconds: 400), curve: Curves.linear);
+                            }
+
+                          },
+                            child: Icon(Icons.arrow_back_ios)),
+                        Container(
+                          child: Text(
+                            "Cadastro",
+                            style: TextStyle(
+                              fontSize: Dimens.textSize8,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     SizedBox(height: Dimens.minMarginApplication),
                     Container(
