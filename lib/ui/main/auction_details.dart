@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bc_remates/model/leilao.dart';
+import 'package:bc_remates/ui/main/playVideo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,6 +17,7 @@ import '../../configJ/requests.dart';
 import '../../global/application_constant.dart';
 import '../../model/lotes.dart';
 import '../../model/user.dart';
+import '../../model/videoAPI.dart';
 import '../../res/dimens.dart';
 import '../../res/owner_colors.dart';
 import '../../res/strings.dart';
@@ -51,11 +53,30 @@ class _AuctionDetailsState extends State<AuctionDetails> {
   Position? _currentPosition;
   late Validator validator;
   final postRequest = PostRequest();
-
+  VideoAPI videoAPI = VideoAPI();
   User? _profileResponse;
   List<TextEditingController> textControllersAtual = [];
   List<TextEditingController> textControllersMeu = [];
+  Future<List<Map<String, dynamic>>> listAoVivo() async {
+    try {
+      final body = {"token": ApplicationConstant.TOKEN};
 
+      print('HTTP_BODY: $body');
+
+      final json = await postRequest.sendPostRequest(Links.LIST_AO_VIVO, body);
+
+      List<Map<String, dynamic>> _map = [];
+      _map = List<Map<String, dynamic>>.from(jsonDecode(json));
+
+      print('HTTP_RESPONSE: $_map');
+
+      videoAPI = VideoAPI.fromJson(_map[0]);
+
+      return _map;
+    } catch (e) {
+      throw Exception('HTTP_ERROR: $e');
+    }
+  }
   Future<void> listLeilao({
     required String lat,
     required String long,
@@ -160,6 +181,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
 
   @override
   void initState() {
+    listAoVivo();
     listLeilao(
         lat: widget.lat,
         long: widget.long,
@@ -442,10 +464,86 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                             right: Dimens.marginApplication,
                           ),
                           child: Styles().div_horizontal),
+                      SizedBox(
+                        height: Dimens.marginApplication,
+                      ),
+                      if (videoAPI.live != null)
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: Dimens.marginApplication,
+                              right: Dimens.marginApplication),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Assista agora!",
+                                  style: TextStyle(
+                                    fontSize: Dimens.textSize5,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (videoAPI.live != null)
+                        InkWell(
+                            onTap: () async {
+                              /*
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.black,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    height: 420,
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20.0),
+                                        topRight: Radius.circular(20.0),
+                                      ),
+                                    ),
+                                    child: VideoPlayerScreen(
+                                      video: videoAPI,
+                                    ),
+                                  );
+                                },
+                              );
+
+                               */
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return VideoPlayerScreen(
+                                      video: videoAPI,
+                                    );
+                                  });
+
+                            },
+                            child: Container(
+                                margin: EdgeInsets.all(Dimens.marginApplication),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.all(Radius.circular(
+                                        Dimens.minRadiusApplication)),
+                                    child: Image.network(
+                                      "",
+                                      height: 200,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, exception, stackTrack) =>
+                                          Image.asset(
+                                            'images/leilo.png',
+                                            fit: BoxFit.cover,
+                                            height: 200,
+                                          ),
+                                    )))),
+
                       RefreshIndicator(
                         onRefresh: _pullRefresh,
                         child: Container(
-                          height: 510 * lotesNow.length.toDouble(),
+                          height: 530 * lotesNow.length.toDouble(),
                           child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: lotesNow.length,
@@ -461,7 +559,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                         margin: EdgeInsets.symmetric(
                                             horizontal:
                                             Dimens.marginApplication,
-                                            vertical: 16),
+                                            vertical: 8),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                             BorderRadius.circular(Dimens
@@ -1314,12 +1412,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                     ])),
                               );
                             },
-                          )) /*;
-                                } else if (snapshot.hasError) {
-                                  return Text('${snapshot.error}');
-                                }
-                                return Center(*/ /*child: CircularProgressIndicator()*/ /*);
-                              }),*/
+                          ))
                     ]),
               )),
         ));
