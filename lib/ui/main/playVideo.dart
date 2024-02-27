@@ -28,17 +28,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     print(widget.video.live);
 
     return Center(
-      child: Card(
-        child: Container(
-          child: YoutubePlayer(
-            controller: _controller,
-            progressColors: ProgressBarColors(
-                playedColor: Color(0xff3a3e46),
-                bufferedColor: Color(0xff797c81),
-                handleColor: OwnerColors.colorPrimary),
-            progressIndicatorColor: OwnerColors.colorPrimary,
-            showVideoProgressIndicator: true,
-          ),
+      child: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).orientation.name == "portrait" ? 250 : double.infinity,
+        child: YoutubePlayer(
+          controller: _controller,
+          progressColors: ProgressBarColors(
+              playedColor: Color(0xff3a3e46),
+              bufferedColor: Color(0xff797c81),
+              handleColor: OwnerColors.colorPrimary),
+          progressIndicatorColor: OwnerColors.colorPrimary,
+          showVideoProgressIndicator: true,
         ),
       ),
     );
