@@ -366,7 +366,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                               height: 200,
                             ),
                       ),
-                      Align(
+                      MediaQuery.of(context).orientation.name == "portrait" ?     Align(
                         alignment: Alignment.topLeft,
                         child: Container(
                             margin: EdgeInsets.only(top: 36, left: 20),
@@ -384,7 +384,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                     ModalRoute.withName("/ui/home"));
                               },
                             )),
-                      ),
+                      ) : Container(),
                     ],
                   ),
                 ),
