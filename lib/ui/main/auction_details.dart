@@ -896,9 +896,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                                           valor: textControllersAtual[
                                                                           index]
                                                                               .text
-                                                                              .replaceAll(
-                                                                              "R\$",
-                                                                              ""),
+                                                                              ,
                                                                         );
                                                                       },
                                                                       icon: Image.asset(
@@ -1012,10 +1010,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                                                               .toString(),
                                                                           valor: textControllersMeu[
                                                                           index]
-                                                                              .text
-                                                                              .replaceAll(
-                                                                              "R\$",
-                                                                              ""),
+                                                                              .text,
                                                                         );
                                                                       },
                                                                       icon: Image.asset(
