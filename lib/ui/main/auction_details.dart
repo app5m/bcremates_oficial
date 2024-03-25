@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bc_remates/model/leilao.dart';
@@ -47,6 +48,8 @@ class _AuctionDetailsState extends State<AuctionDetails> {
   bool _isLoadingDialog = false;
   final requestsWebServices = RequestsWebServices(WSConstantes.URLBASE);
   List<Lotes> lotesNow = [];
+  List<Lotes> lotesNowFull = [];
+  List<Lotes> lotesNextFull = [];
   List<Lotes> lotesNext = [];
   var isVisible = false;
   var oldIndex = 99999999999;
@@ -57,6 +60,34 @@ class _AuctionDetailsState extends State<AuctionDetails> {
   User? _profileResponse;
   List<TextEditingController> textControllersAtual = [];
   List<TextEditingController> textControllersMeu = [];
+
+  bool listEquals(List<Lotes> list1, List<Lotes> list2) {
+    if (list1 == null && list2 == null) {
+      print("Aqui 1");
+      return true;
+    }
+    if (list1 == null || list2 == null) {
+      print("Aqui 2");
+      return false;
+    }
+    if (list1.length != list2.length) {
+      print("Aqui 2.5 ${list1.length}");
+      print("Aqui 2.6 ${list2.length}");
+      return false;
+    }
+
+
+    for (int i = 0; i < list1.length; i++) {
+      print(list1[i].maiorLance);
+      print(list2[i].maiorLance);
+      if (list1[i].maiorLance != list2[i].maiorLance) {
+        print("Aqui 4");
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   Future<List<Map<String, dynamic>>> listAoVivo() async {
     try {
@@ -85,10 +116,8 @@ class _AuctionDetailsState extends State<AuctionDetails> {
     required String idLeilao,
   }) async {
     setState(() {
-      textControllersAtual.clear();
-      textControllersMeu.clear();
-      lotesNow.clear();
-      lotesNext.clear();
+      lotesNowFull.clear();
+      lotesNextFull.clear();
     });
     try {
       await Preferences.init();
@@ -110,21 +139,73 @@ class _AuctionDetailsState extends State<AuctionDetails> {
             if (itens['status_lote'] == 1) {
               Lotes lotes = Lotes.fromJson(itens);
               setState(() {
-                lotesNow.add(lotes);
-              });
-            } else {
-              Lotes lotes = Lotes.fromJson(itens);
-              setState(() {
-                lotesNext.add(lotes);
+                lotesNowFull.add(lotes);
               });
             }
+            else {
+              Lotes lotes = Lotes.fromJson(itens);
+              setState(() {
+                lotesNextFull.add(lotes);
+              });
+
+            }
           }
-          for (int i = 0; i < lotesNow.length; i++) {
+          if (!listEquals(lotesNowFull, lotesNow)) {
             setState(() {
-              textControllersAtual.add(TextEditingController());
-              textControllersMeu.add(TextEditingController());
+              lotesNow.clear();
             });
+            for(Lotes l in lotesNowFull ){
+              setState(() {
+                lotesNow.add(l);
+              });
+            }
+            print('As listas são diferentes. lotesNow foi atualizado.');
+
+            setState(() {
+              textControllersAtual.clear();
+              textControllersMeu.clear();
+            });
+            for (int i = 0; i < lotesNow.length; i++) {
+              setState(() {
+                textControllersAtual.add(TextEditingController());
+                textControllersMeu.add(TextEditingController());
+              });
+            }
+
+            for (int i = 0; i < lotesNow.length; i++) {
+              setState(() {
+                textControllersMeu[i].text =
+                "${formatarValor(converterStringParaDouble(lotesNow[i].maiorLance!) + 50)}";
+              });
+
+            }
+          } else {
+            // Se forem iguais, não há necessidade de fazer nada
+            print('As listas são iguais. Nenhuma atualização é necessária.');
           }
+          if (!listEquals(lotesNextFull, lotesNext)) {
+            // Se as listas forem diferentes, atualize lotesNow
+
+            setState(() {
+              lotesNext.clear();
+            });
+            for(Lotes l in lotesNextFull ){
+              setState(() {
+                lotesNext.add(l);
+              });
+            }
+            setState(() {
+              lotesNext = List.from(lotesNextFull);
+            });
+            print('As listas são diferentes. lotesNext foi atualizado.');
+          } else {
+            // Se forem iguais, não há necessidade de fazer nada
+            print('As listas são iguais. Nenhuma atualização é necessária.');
+          }
+
+
+
+
           print("Tamanho da lista de Lotes 1: ${lotesNow.length}");
           print("Tamanho da lista de Lotes 2: ${lotesNext.length}");
         }
@@ -180,6 +261,19 @@ class _AuctionDetailsState extends State<AuctionDetails> {
       print(e);
     }
   }
+  late Timer _timer;
+  void startTimer() {
+    setState(() {
+      _timer = Timer.periodic(Duration(seconds: 4), (timer) {
+        listLeilao(
+            lat: widget.lat,
+            long: widget.long,
+            idLeilao: widget.leilao.id.toString());
+        print('Função chamada a cada 2 segundos');
+      });
+    });
+
+  }
 
   @override
   void initState() {
@@ -188,11 +282,13 @@ class _AuctionDetailsState extends State<AuctionDetails> {
         lat: widget.lat,
         long: widget.long,
         idLeilao: widget.leilao.id.toString());
+    startTimer();
     super.initState();
   }
 
   @override
   void dispose() {
+    _timer.cancel();
     // Dispose todos os controladores de texto para evitar vazamentos de memória
     for (var controller in textControllersAtual) {
       controller.dispose();
@@ -509,14 +605,13 @@ class _AuctionDetailsState extends State<AuctionDetails> {
 
                           RefreshIndicator(
                             onRefresh: _pullRefresh,
-                            child: Container(
+                            child: lotesNow.isNotEmpty ? Container(
                               height: 530 * lotesNow.length.toDouble(),
                               child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: lotesNow.length,
                                   itemBuilder: (context, index) {
-                                    textControllersMeu[index].text =
-                                    "${formatarValor(converterStringParaDouble(lotesNow[index].maiorLance!) + 50)}";
+
 
                                     return Container(
                                       child: Column(
@@ -1044,7 +1139,7 @@ class _AuctionDetailsState extends State<AuctionDetails> {
                                       ),
                                     );
                                   }),
-                            ),
+                            ) : Center(child: CircularProgressIndicator(),),
                           ),
                           Container(
                               margin: EdgeInsets.symmetric(
