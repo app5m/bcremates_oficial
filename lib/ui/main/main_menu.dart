@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/application_messages.dart';
 import '../../config/preferences.dart';
@@ -88,6 +89,23 @@ class _MainMenu extends State<MainMenu> {
     } catch (e) {
       throw Exception('HTTP_ERROR: $e');
     }
+  }
+  abrirWhatsApp() async {
+    //Número de telefone do WhatsApp
+    String phoneNumber = "+5555999751533";
+    // Adicione uma mensagem inicial, se desejar
+    String message = "Olá!";
+
+    // O link que será aberto no WhatsApp
+    String whatsappUrl =
+        "https://wa.me/$phoneNumber/?text=${Uri.encodeFull(message)}";
+    await launchUrl(Uri.parse(whatsappUrl));
+    // Verifica se o URL pode ser lançado
+    // if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
+    //   await launchUrl(Uri.parse(whatsappUrl));
+    // } else {
+    //   throw 'Não foi possível abrir $whatsappUrl';
+    // }
   }
 
   @override
@@ -189,6 +207,7 @@ class _MainMenu extends State<MainMenu> {
                 // Styles().div_horizontal,
 
                 InkWell(
+
                     child: Container(
                       padding: EdgeInsets.all(Dimens.paddingApplication),
                       child: Row(
@@ -215,7 +234,9 @@ class _MainMenu extends State<MainMenu> {
                         ],
                       ),
                     ),
-                    onTap: () {}),
+                    onTap: () {
+                      abrirWhatsApp();
+                    }),
 
                 InkWell(
                     child: Container(

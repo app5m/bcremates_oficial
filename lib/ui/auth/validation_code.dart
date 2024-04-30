@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../config/application_messages.dart';
 import '../../../config/preferences.dart';
@@ -37,6 +38,43 @@ class _ValidationCodeState extends State<ValidationCode> {
   User? _loginResponse;
 
   final postRequest = PostRequest();
+
+  Future<void> _determinePositionAndNavigate() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled, show a message and return.
+      print('Location services are disabled.');
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, handle it accordingly.
+        print('Location permissions are denied');
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle it accordingly.
+      print('Location permissions are permanently denied.');
+      return;
+    }
+
+    // When we reach here, permissions are granted.
+    final position = await Geolocator.getCurrentPosition();
+    await Preferences.init();
+    //await Preferences.setEnteringFirstTime(true);
+    // Now navigate to the desired screen.
+    //_getLocation();
+  }
 
   Future<void> resendCode(String email, String password) async {
     try {
@@ -118,6 +156,11 @@ class _ValidationCodeState extends State<ValidationCode> {
     return code;
   }
 
+  @override
+  void initState() {
+    _determinePositionAndNavigate();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
